@@ -4,71 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Image Generator</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        body { background-color: #f8f9fa; }
-        .container { max-width: 700px; }
-        .image-grid img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
-    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-
-<div class="container text-center mt-4">
-    <h2 class="mb-4">AI Image Generator</h2>
-
-    <!-- Prompt Input -->
-    <div class="input-group mb-3">
-        <input type="text" id="prompt" class="form-control" placeholder="Enter your prompt">
-        <button class="btn btn-primary" onclick="generateImage()">Generate</button>
-    </div>
-
-    <!-- Loading Indicator -->
-    <div id="loading" style="display: none;">
-        <p>Generating image... Please wait.</p>
-    </div>
-
-    <!-- Generated Image -->
-    <div id="generated-image" class="mt-3"></div>
-
-    <h3 class="mt-4">Previous Images</h3>
-    <div class="row image-grid">
-        {% for image in images %}
-            <div class="col-md-4">
-                <img src="{{ url_for('serve_image', filename=image) }}" alt="Generated Image">
+    <div class="container">
+        <h1 class="mt-5">AI Image Generator</h1>
+        <form id="image-form" class="mt-3">
+            <div class="form-group">
+                <label for="prompt">Enter your prompt:</label>
+                <input type="text" id="prompt" class="form-control" required>
             </div>
-        {% endfor %}
+            <button type="submit" class="btn btn-primary">Generate Image</button>
+        </form>
+        <hr>
+        <h2 class="mt-5">Generated Images</h2>
+        <div id="images" class="row mt-4">
+            {% for image in images %}
+            <div class="col-md-4">
+                <img src="{{ image }}" class="img-fluid" alt="Generated Image">
+            </div>
+            {% endfor %}
+        </div>
     </div>
-</div>
 
-<script>
-    function generateImage() {
-        const prompt = document.getElementById("prompt").value;
-        if (!prompt) {
-            alert("Please enter a prompt.");
-            return;
-        }
+    <script>
+        document.getElementById("image-form").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const prompt = document.getElementById("prompt").value;
 
-        document.getElementById("loading").style.display = "block";
-        document.getElementById("generated-image").innerHTML = "";
+            const response = await fetch("/generate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ prompt: prompt })
+            });
 
-        fetch("/generate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt: prompt })
-        })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("loading").style.display = "none";
-
-            if (data.image_url) {
-                document.getElementById("generated-image").innerHTML =
-                    `<img src="${data.image_url}" class="img-fluid mt-3 rounded shadow">`;
-            } else {
-                alert("Error generating image. Please try again.");
-            }
+            const data = await response.json();
+            // Optionally, you can add the new image to the gallery
+            const imagesDiv = document.getElementById("images");
+            const newImageDiv = document.createElement("div");
+            newImageDiv.classList.add("col-md-4");
+            newImageDiv.innerHTML = `<img src="${data.image_url}" class="img-fluid" alt="Generated Image">`;
+            imagesDiv.appendChild(newImageDiv);
         });
-    }
-</script>
-
+    </script>
 </body>
 </html>

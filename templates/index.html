@@ -3,39 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stable Diffusion Image Generator</title>
-    <script>
-        async function generateImage() {
-            const prompt = document.getElementById("prompt").value;
-            if (!prompt) {
-                alert("Please enter a prompt!");
-                return;
-            }
+    <title>AI Image Generator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        .container { max-width: 700px; }
+        .image-grid img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
 
-            const response = await fetch("/generate", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ prompt: prompt }),
-            });
+<div class="container text-center mt-4">
+    <h2 class="mb-4">AI Image Generator</h2>
 
-            const result = await response.json();
-            if (result.image_url) {
-                document.getElementById("generated-image").src = result.image_url;
-                document.getElementById("image-container").style.display = "block";
+    <!-- Prompt Input -->
+    <div class="input-group mb-3">
+        <input type="text" id="prompt" class="form-control" placeholder="Enter your prompt">
+        <button class="btn btn-primary" onclick="generateImage()">Generate</button>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div id="loading" style="display: none;">
+        <p>Generating image... Please wait.</p>
+    </div>
+
+    <!-- Generated Image -->
+    <div id="generated-image" class="mt-3"></div>
+
+    <h3 class="mt-4">Previous Images</h3>
+    <div class="row image-grid">
+        {% for image in images %}
+            <div class="col-md-4">
+                <img src="{{ url_for('serve_image', filename=image) }}" alt="Generated Image">
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    function generateImage() {
+        const prompt = document.getElementById("prompt").value;
+        if (!prompt) {
+            alert("Please enter a prompt.");
+            return;
+        }
+
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("generated-image").innerHTML = "";
+
+        fetch("/generate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt: prompt })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("loading").style.display = "none";
+
+            if (data.image_url) {
+                document.getElementById("generated-image").innerHTML =
+                    `<img src="${data.image_url}" class="img-fluid mt-3 rounded shadow">`;
             } else {
                 alert("Error generating image. Please try again.");
             }
-        }
-    </script>
-</head>
-<body>
-    <h1>Stable Diffusion Image Generator</h1>
-    <input type="text" id="prompt" placeholder="Enter your prompt...">
-    <button onclick="generateImage()">Generate</button>
+        });
+    }
+</script>
 
-    <div id="image-container" style="display:none;">
-        <h2>Generated Image:</h2>
-        <img id="generated-image" src="" alt="Generated Image">
-    </div>
 </body>
 </html>

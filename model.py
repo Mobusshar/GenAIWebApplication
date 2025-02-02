@@ -1,26 +1,29 @@
-from diffusers import StableDiffusionPipeline
+from diffusers import StableDiffusionXLPipeline
 import torch
 import os
 import uuid
 
-MODEL_NAME = "runwayml/stable-diffusion-v1-5"  # Change this to SDXL if needed
+# Use the latest Stable Diffusion XL model
+MODEL_NAME = "stabilityai/stable-diffusion-xl-base-1.0"
 OUTPUT_DIR = "generated_images"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Load Stable Diffusion with GPU
-pipe = StableDiffusionPipeline.from_pretrained(MODEL_NAME).to("cpu")
+# Load the SDXL model with GPU (if available)
+device = "cuda" if torch.cuda.is_available() else "cpu"
+pipe = StableDiffusionXLPipeline.from_pretrained(MODEL_NAME, torch_dtype=torch.float16)
+pipe = pipe.to(device)
 
 def generate_image(prompt):
     filename = f"{uuid.uuid4().hex}.png"
     output_path = os.path.join(OUTPUT_DIR, filename)
 
-    # Improve image quality settings
+    # Generate image with SDXL
     image = pipe(
         prompt,
-        height=512,  # Adjust as needed
-        width=512,
-        num_inference_steps=50,  # Increase steps for better detail
-        guidance_scale=8.5,  # Higher values = more accurate
+        height=1024,  # SDXL supports higher resolution
+        width=1024,
+        num_inference_steps=50,  # More steps for better quality
+        guidance_scale=7.5,  # Trade-off between fidelity & creativity
     ).images[0]
 
     image.save(output_path)

@@ -1,36 +1,28 @@
-import torch
 from diffusers import StableDiffusionPipeline
-import logging
+import torch
 import os
+import uuid
+
+MODEL_NAME = "runwayml/stable-diffusion-v1-5"  # Change this to SDXL if needed
+OUTPUT_DIR = "generated_images"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
-class ImageGenerator:
-    def __init__(self):
-        self.output_dir = "generated_images"
-        os.makedirs(self.output_dir, exist_ok=True)
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.pipe = self._load_model()
+# Load Stable Diffusion with GPU
+pipe = StableDiffusionPipeline.from_pretrained(MODEL_NAME).to("cpu")
 
-    def _load_model(self):
-        try:
-            pipe = StableDiffusionPipeline.from_pretrained(
-                "stabilityai/stable-diffusion-xl-base-1.0",
-                torch_dtype=torch.float32,
-                safety_checker=None
-            ).to(self.device)
-            logging.info("Model loaded successfully")
-            return pipe
-        except Exception as e:
-            logging.error(f"Error loading model: {str(e)}")
-            raise
+def generate_image(prompt):
+    filename = f"{uuid.uuid4().hex}.png"
+    output_path = os.path.join(OUTPUT_DIR, filename)
 
-    def generate_image(self, prompt):
-        try:
-            image = self.pipe(prompt).images[0]
-            filename = f"{prompt[:20]}_{torch.rand(1).item():.4f}.png".replace(" ", "_")
-            image_path = os.path.join(self.output_dir, filename)
-            image.save(image_path)
-            return filename
-        except Exception as e:
-            logging.error(f"Error generating image: {str(e)}")
-            raise
+    # Improve image quality settings
+    image = pipe(
+        prompt,
+        height=512,  # Adjust as needed
+        width=512,
+        num_inference_steps=50,  # Increase steps for better detail
+        guidance_scale=8.5,  # Higher values = more accurate
+    ).images[0]
+
+    image.save(output_path)
+    return output_path

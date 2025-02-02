@@ -1,51 +1,33 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory
 from flask_cors import CORS
-from model import ImageGenerator
 import os
+from model import generate_image
 
 app = Flask(__name__)
-CORS(app)
-generator = ImageGenerator()
-output_dir = "generated_images"
+CORS(app)  # Enable CORS for API access
 
-
-def get_existing_images():
-    images = []
-    try:
-        for filename in os.listdir(output_dir):
-            if filename.endswith(".png"):
-                images.append(f"/images/{filename}")
-    except Exception as e:
-        app.logger.error(f"Error reading images: {str(e)}")
-    return images
-
+# Ensure generated images directory exists
+GENERATED_IMAGES_DIR = "generated_images"
+os.makedirs(GENERATED_IMAGES_DIR, exist_ok=True)
 
 @app.route("/")
-def index():
-    return render_template("index.html", images=get_existing_images())
-
+def home():
+    return render_template("index.html")
 
 @app.route("/generate", methods=["POST"])
 def generate():
-    try:
-        data = request.get_json()
-        prompt = data.get("prompt", "").strip()
+    data = request.json
+    prompt = data.get("prompt", "")
 
-        if not prompt:
-            return jsonify({"error": "Please enter a prompt"}), 400
+    if not prompt:
+        return jsonify({"error": "Prompt is required"}), 400
 
-        filename = generator.generate_image(prompt)
-        return jsonify({"image_url": f"/images/{filename}"})
+    image_path = generate_image(prompt)  # Generate image
+    return jsonify({"image_url": f"/static/{image_path}"}), 200
 
-    except Exception as e:
-        app.logger.error(f"Generation error: {str(e)}")
-        return jsonify({"error": str(e)}), 500
-
-
-@app.route("/images/<filename>")
-def serve_image(filename):
-    return send_from_directory(output_dir, filename)
-
+@app.route("/static/<path:filename>")
+def serve_generated_images(filename):
+    return send_from_directory(GENERATED_IMAGES_DIR, filename)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

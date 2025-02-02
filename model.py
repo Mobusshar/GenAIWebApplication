@@ -9,7 +9,7 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
 # Load Stable Diffusion with GPU
-pipe = StableDiffusionPipeline.from_pretrained(MODEL_NAME).to("cpu")
+pipe = StableDiffusionPipeline.from_pretrained(MODEL_NAME).to("cuda")
 
 def generate_image(prompt):
     filename = f"{uuid.uuid4().hex}.png"

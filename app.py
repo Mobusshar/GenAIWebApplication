@@ -7,12 +7,14 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for API access
 
 # Ensure generated images directory exists
-GENERATED_IMAGES_DIR = "generated_images"
+GENERATED_IMAGES_DIR = "static/generated"
 os.makedirs(GENERATED_IMAGES_DIR, exist_ok=True)
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    # Fetch all images from the generated images folder
+    images = [f"/{GENERATED_IMAGES_DIR}/{img}" for img in os.listdir(GENERATED_IMAGES_DIR) if img.endswith((".png", ".jpg"))]
+    return render_template("index.html", images=images)
 
 @app.route("/generate", methods=["POST"])
 def generate():
@@ -23,9 +25,9 @@ def generate():
         return jsonify({"error": "Prompt is required"}), 400
 
     image_path = generate_image(prompt)  # Generate image
-    return jsonify({"image_url": f"/static/{image_path}"}), 200
+    return jsonify({"image_url": f"/{image_path}"}), 200
 
-@app.route("/static/<path:filename>")
+@app.route("/static/generated/<path:filename>")
 def serve_generated_images(filename):
     return send_from_directory(GENERATED_IMAGES_DIR, filename)
 

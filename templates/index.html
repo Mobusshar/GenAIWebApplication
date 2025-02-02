@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Image Generator</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .image-gallery img {
+            width: 200px;  /* Set fixed width */
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -17,12 +31,11 @@
             <button type="submit" class="btn btn-primary">Generate Image</button>
         </form>
         <hr>
+
         <h2 class="mt-5">Generated Images</h2>
-        <div id="images" class="row mt-4">
+        <div id="image-gallery" class="image-gallery">
             {% for image in images %}
-            <div class="col-md-4">
-                <img src="{{ image }}" class="img-fluid" alt="Generated Image">
-            </div>
+            <img src="{{ image }}" alt="Generated Image">
             {% endfor %}
         </div>
     </div>
@@ -41,12 +54,11 @@
             });
 
             const data = await response.json();
-            // Optionally, you can add the new image to the gallery
-            const imagesDiv = document.getElementById("images");
-            const newImageDiv = document.createElement("div");
-            newImageDiv.classList.add("col-md-4");
-            newImageDiv.innerHTML = `<img src="${data.image_url}" class="img-fluid" alt="Generated Image">`;
-            imagesDiv.appendChild(newImageDiv);
+            const imageGallery = document.getElementById("image-gallery");
+            const newImage = document.createElement("img");
+            newImage.src = data.image_url;
+            newImage.alt = "Generated Image";
+            imageGallery.prepend(newImage);  // Add new image at the start
         });
     </script>
 </body>

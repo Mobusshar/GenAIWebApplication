@@ -26,37 +26,57 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
         .image-gallery {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             margin-top: 20px;
+            gap: 10px;
         }
         .image-gallery img {
             width: 150px;
             height: 150px;
-            margin: 5px;
+            object-fit: cover;
             border-radius: 8px;
             border: 2px solid #ddd;
+            transition: transform 0.3s;
+        }
+        .image-gallery img:hover {
+            transform: scale(1.05);
         }
         #generated-image {
             width: 100%;
-            max-height: 300px;
-            margin-top: 15px;
+            max-width: 512px;
+            margin: 20px auto;
             border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .loading {
+            display: none;
+            color: #666;
+            margin: 20px 0;
         }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <h2>AI Image Generator</h2>
-        <input type="text" id="prompt" placeholder="Enter your prompt...">
+        <h2>Stable Diffusion XL Image Generator</h2>
+        <input type="text" id="prompt" placeholder="Describe the image you want to generate...">
         <button id="generate-btn">Generate Image</button>
+        <div class="loading" id="loading">Generating...</div>
         <img id="generated-image" style="display:none;">
     </div>
 
-    <h3>Previous Images</h3>
+    <h3>Previous Generations</h3>
     <div class="image-gallery">
         {% for image in images %}
             <img src="{{ image }}" alt="Generated Image">
@@ -64,27 +84,41 @@
     </div>
 
     <script>
-        $("#generate-btn").click(function() {
-            var prompt = $("#prompt").val();
-            if (!prompt) {
-                alert("Please enter a prompt.");
-                return;
-            }
-
-            $.ajax({
-                url: "/generate",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({ prompt: prompt }),
-                success: function(response) {
-                    $("#generated-image").attr("src", response.image_url).show();
-                },
-                error: function() {
-                    alert("Error generating image. Try again.");
+        $(document).ready(function() {
+            $("#generate-btn").click(function() {
+                const prompt = $("#prompt").val().trim();
+                if (!prompt) {
+                    alert("Please enter a description for the image");
+                    return;
                 }
+
+                $("#loading").show();
+                $("#generated-image").hide();
+
+                $.ajax({
+                    url: "/generate",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ prompt: prompt }),
+                    success: function(response) {
+                        const img = $("#generated-image");
+                        img.attr("src", response.image_url + "?" + new Date().getTime());
+                        img.on("load", function() {
+                            $("#loading").hide();
+                            img.show();
+                            // Add new image to gallery
+                            $(".image-gallery").prepend(
+                                `<img src="${response.image_url}" alt="Generated Image">`
+                            );
+                        });
+                    },
+                    error: function(xhr) {
+                        $("#loading").hide();
+                        alert("Error: " + (xhr.responseJSON?.error || "Failed to generate image"));
+                    }
+                });
             });
         });
     </script>
-
 </body>
 </html>

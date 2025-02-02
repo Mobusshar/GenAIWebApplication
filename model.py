@@ -7,6 +7,7 @@ MODEL_NAME = "runwayml/stable-diffusion-v1-5"  # Change this to SDXL if needed
 OUTPUT_DIR = "generated_images"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
+
 # Load Stable Diffusion with GPU
 pipe = StableDiffusionPipeline.from_pretrained(MODEL_NAME).to("cpu")
 

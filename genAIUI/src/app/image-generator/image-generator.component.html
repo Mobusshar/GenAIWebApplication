@@ -1,18 +1,1 @@
-<div class="container">
-    <h1>AI Image Generator</h1>
-    <form (submit)="generateImage(); $event.preventDefault()">
-      <div class="form-group">
-        <label>Enter your prompt:</label>
-        <input type="text" [(ngModel)]="prompt" class="form-control" required>
-      </div>
-      <button class="btn btn-primary" type="submit">Generate Image</button>
-    </form>
-    <hr>
-    <h2>Generated Images</h2>
-    <div class="row mt-4">
-      <div class="col-md-4" *ngFor="let image of images">
-        <img [src]="image" class="img-fluid" alt="Generated Image">
-      </div>
-    </div>
-  </div>
-  
+<p>image-generator works!</p>

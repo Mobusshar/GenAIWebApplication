@@ -11,7 +11,7 @@ describe('ImageGeneratorComponent', () => {
       imports: [ImageGeneratorComponent]
     })
     .compileComponents();
-
+    
     fixture = TestBed.createComponent(ImageGeneratorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

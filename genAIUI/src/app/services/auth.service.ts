@@ -4,6 +4,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
+  private validUsername = 'admin';
+  private validPassword = 'password';
 
-  constructor() { }
+  authenticate(username: string, password: string): boolean {
+    return username === this.validUsername && password === this.validPassword;
+  }
 }

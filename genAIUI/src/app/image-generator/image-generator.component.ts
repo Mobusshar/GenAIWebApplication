@@ -7,20 +7,22 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./image-generator.component.css']
 })
 export class ImageGeneratorComponent {
-  prompt: string = '';  
-  images: string[] = []; 
+  prompt: string = ''; // Store prompt input
+  images: string[] = []; // Initialize an empty array for images
 
   constructor(private http: HttpClient) {}
 
   generateImage() {
-    if (!this.prompt) return;
-
-    this.http.post<{ image_url: string }>("http://127.0.0.1:5000/generate", { prompt: this.prompt })
-      .subscribe(response => {
-        this.images.push(response.image_url); 
-        this.prompt = ''; 
-      }, error => {
-        console.error("Error generating image:", error);
-      });
+    console.log("Sending API request...");  // Debugging
+    this.http.post<{ image_url: string }>('http://127.0.0.1:5000/generate', { prompt: this.prompt })
+      .subscribe(
+        response => {
+          console.log("API Response:", response);  // Debugging
+          this.images.push(response.image_url); // Add new image to list
+        },
+        error => {
+          console.error("API Error:", error);
+        }
+      );
   }
 }

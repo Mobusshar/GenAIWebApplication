@@ -1,0 +1,23 @@
+<div class="container">
+    <h1 class="mt-5">AI Image Generator</h1>
+  
+    <!-- Image Generation Form -->
+    <form (submit)="generateImage(); $event.preventDefault()" class="mt-3">
+      <div class="form-group">
+        <label for="prompt">Enter your prompt:</label>
+        <input type="text" id="prompt" [(ngModel)]="prompt" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Generate Image</button>
+    </form>
+  
+    <hr>
+  
+    <!-- Display Generated Images -->
+    <h2 class="mt-5">Generated Images</h2>
+    <div class="row mt-4">
+      <div class="col-md-4" *ngFor="let image of images">
+        <img [src]="image" class="img-fluid" alt="Generated Image">
+      </div>
+    </div>
+  </div>
+  

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-image-generator',
@@ -23,7 +24,7 @@ export class ImageGeneratorComponent {
     const requestPayload = { prompt: this.prompt }; // Prepare the request payload with the prompt
 
     // Send POST request to Flask backend
-    this.http.post<{ image_url: string }>('http://127.0.0.1:5000/generate', requestPayload)
+    this.http.post<{ image_url: string }>(`${environment.apiUrl}/generate`, requestPayload)
       .subscribe(
         response => {
           console.log("API Response:", response); 

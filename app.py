@@ -14,7 +14,6 @@ os.makedirs(GENERATED_IMAGES_DIR, exist_ok=True)
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
-
 @app.route("/generate", methods=["POST"])
 def generate():
     try:
@@ -24,19 +23,17 @@ def generate():
         if not prompt:
             return jsonify({"error": "Prompt is required"}), 400
 
-
         image_path = generate_image(prompt)  # Generate image
         if not image_path:
             return jsonify({"error": "Image generation failed"}), 500
 
-        return jsonify({"image_url": f"/static/{image_path}"}), 200
+        return jsonify({"image_url": f"/images/{os.path.basename(image_path)}"}), 200
 
     except Exception as e:
         logging.error(f"Error generating image: {str(e)}")
         return jsonify({"error": "Internal Server Error"}), 500
 
-
-@app.route("/static/<path:filename>")
+@app.route("/images/<path:filename>")
 def serve_generated_images(filename):
     """ Serve images safely from the generated images directory """
     safe_path = os.path.join(GENERATED_IMAGES_DIR, filename)
@@ -46,6 +43,11 @@ def serve_generated_images(filename):
 
     return send_from_directory(GENERATED_IMAGES_DIR, filename)
 
+@app.route('/images', methods=['GET'])
+def list_images():
+    images = os.listdir(GENERATED_IMAGES_DIR)
+    image_urls = [f"/images/{image}" for image in images]
+    return jsonify(image_urls)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

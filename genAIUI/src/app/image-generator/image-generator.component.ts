@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
@@ -7,11 +7,15 @@ import { environment } from '../../environments/environment';
   templateUrl: './image-generator.component.html',
   styleUrls: ['./image-generator.component.css']
 })
-export class ImageGeneratorComponent {
+export class ImageGeneratorComponent implements OnInit {
   prompt: string = '';  // This will hold the user input
   images: string[] = []; // This array will store generated image URLs
 
   constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.loadImages();
+  }
 
   generateImage() {
     if (!this.prompt.trim()) {
@@ -29,7 +33,7 @@ export class ImageGeneratorComponent {
         response => {
           console.log("API Response:", response); 
           if (response.image_url) {
-            this.images.push(response.image_url); // Add generated image URL to the list
+            this.images.unshift(`${environment.apiUrl}${response.image_url}`); // Add generated image URL to the beginning of the list
           }
         },
         error => {
@@ -37,6 +41,18 @@ export class ImageGeneratorComponent {
           alert(`Error: ${error?.error?.error || 'Something went wrong while generating the image'}`);
         }
       );
-}
+  }
+
+  loadImages() {
+    this.http.get<string[]>(`${environment.apiUrl}/images`)
+      .subscribe(
+        images => {
+          this.images = images.map(image => `${environment.apiUrl}${image}`);
+        },
+        error => {
+          console.error("API Error:", error); // Log any error response from the API
+        }
+      );
+  }
 
 }

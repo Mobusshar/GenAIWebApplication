@@ -43,3 +43,21 @@ h1, h2 {
   text-align: center;
 }
 
+.small-image {
+  max-width: 150px; /* Set a maximum width for the images */
+  max-height: 150px; /* Set a maximum height for the images */
+  object-fit: contain; /* Ensure the image fits within the specified dimensions without cropping */
+}
+
+.table {
+  background-color: #f9f9f9; /* Light background color for the table */
+}
+
+.thead-light th {
+  background-color: #e9ecef; /* Light background color for the table header */
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f1f1f1; /* Light background color for table row hover */
+}
+

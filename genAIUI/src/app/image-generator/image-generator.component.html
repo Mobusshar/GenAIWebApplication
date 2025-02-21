@@ -25,15 +25,23 @@
 
   <!-- Display Generated Images -->
   <h2 class="mt-5 text-center">Generated Images</h2>
-  <div class="row mt-4">
-    <div class="col-md-2 mb-4" *ngFor="let image of images; let i = index">
-      <div class="card h-100 shadow-sm">
-        <img [src]="image" class="card-img-top" alt="Generated Image">
-        <div class="card-body">
-          <p class="card-text">Generated Image {{ i + 1 }}</p>
-        </div>
-      </div>
-    </div>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th>#</th>
+          <th>Image</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let image of images; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td><img [src]="image" class="img-fluid small-image" alt="Generated Image"></td>
+          <td>Generated Image {{ i + 1 }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 

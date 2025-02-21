@@ -8,6 +8,9 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./image-generator.component.css']
 })
 export class ImageGeneratorComponent implements OnInit {
+  name: string = '';  // This will hold the user's name
+  email: string = '';  // This will hold the user's email
+  studentid: string = '';  // This will hold the user's student ID
   prompt: string = '';  // This will hold the user input
   images: string[] = []; // This array will store generated image URLs
 
@@ -25,7 +28,12 @@ export class ImageGeneratorComponent implements OnInit {
 
     console.log("Sending API request...");
 
-    const requestPayload = { prompt: this.prompt }; // Prepare the request payload with the prompt
+    const requestPayload = { 
+      name: this.name,
+      email: this.email,
+      studentid: this.studentid,
+      prompt: this.prompt 
+    }; // Prepare the request payload with the additional fields
 
     // Send POST request to Flask backend
     this.http.post<{ image_url: string }>(`${environment.apiUrl}/generate`, requestPayload)

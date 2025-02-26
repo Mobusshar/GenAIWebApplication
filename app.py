@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import os
 import logging
-from model import generate_image
+#from model import generate_image
 from models import db, Exercise1
 
 app = Flask(__name__)
@@ -32,11 +32,13 @@ def generate():
         if not prompt:
             return jsonify({"error": "Prompt is required"}), 400
 
-        image_path = generate_image(prompt)  # Generate image
-        if not image_path:
-            return jsonify({"error": "Image generation failed"}), 500
+        #image_path = generate_image(prompt)  # Generate image
+        #if not image_path:
+        #    return jsonify({"error": "Image generation failed"}), 500
 
-        image_url = f"/images/{os.path.basename(image_path)}"
+        #image_url = f"/images/{os.path.basename(image_path)}"
+
+        image_url = "/images/dummy.jpg"
 
         # Save the data to the database
         new_entry = Exercise1(name=name, email=email, studentid=studentid, prompt=prompt, image_url=image_url)

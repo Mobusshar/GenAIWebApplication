@@ -5,3 +5,5 @@ diffusers
 transformers
 pillow
 accelerate
+flask_sqlalchemy
+psycopg2

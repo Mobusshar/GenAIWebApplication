@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { ImageGeneratorComponent } from './image-generator/image-generator.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ImageGeneratorComponent
+    ImageGeneratorComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,

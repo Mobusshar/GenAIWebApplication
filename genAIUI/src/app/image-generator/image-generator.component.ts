@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-image-generator',
@@ -14,7 +15,7 @@ export class ImageGeneratorComponent implements OnInit {
   prompt: string = '';  // This will hold the user input
   images: string[] = []; // This array will store generated image URLs
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit() {
     this.loadImages();
@@ -61,6 +62,10 @@ export class ImageGeneratorComponent implements OnInit {
           console.error("API Error:", error); // Log any error response from the API
         }
       );
+  }
+
+  navigateToSubmitExercise2() {
+    this.router.navigate(['/submit-exercise2']);
   }
 
 }

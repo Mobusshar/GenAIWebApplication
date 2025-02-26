@@ -11,9 +11,11 @@ export class LandingPageComponent {
 
   navigateToExercise(exercise: number) {
     if (exercise === 2) {
-      this.router.navigate(['/image-generator']);
+      this.router.navigate(['/pre-image-generator']);
+    } else if (exercise === 1) {
+      this.router.navigate(['/pre-text-generator']);
     } else {
-      alert('Exercise 1 is not implemented yet.');
+      alert('Exercise not implemented yet.');
     }
   }
 }

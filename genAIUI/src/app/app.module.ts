@@ -12,6 +12,8 @@ import { TextGeneratorComponent } from './text-generator/text-generator.componen
 import { SubmitExercise1Component } from './submit-exercise1/submit-exercise1.component';
 import { PreImageGeneratorComponent } from './pre-image-generator/pre-image-generator.component';
 import { SubmitExercise2Component } from './submit-exercise2/submit-exercise2.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { SubmitExercise2Component } from './submit-exercise2/submit-exercise2.co
     TextGeneratorComponent,
     SubmitExercise1Component,
     PreImageGeneratorComponent,
-    SubmitExercise2Component
+    SubmitExercise2Component,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

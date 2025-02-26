@@ -4,188 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Image Generator</title>
-<<<<<<< HEAD
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-        }
-        input, button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .image-gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
-            gap: 10px;
-        }
-        .image-gallery img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 2px solid #ddd;
-            transition: transform 0.3s;
-        }
-        .image-gallery img:hover {
-            transform: scale(1.05);
-        }
-        #generated-image {
-            width: 100%;
-            max-width: 512px;
-            margin: 20px auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .loading {
-            display: none;
-            color: #666;
-            margin: 20px 0;
-        }
-    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container">
-        <h2>Stable Diffusion XL Image Generator</h2>
-        <input type="text" id="prompt" placeholder="Describe the image you want to generate...">
-        <button id="generate-btn">Generate Image</button>
-        <div class="loading" id="loading">Generating...</div>
-        <img id="generated-image" style="display:none;">
-    </div>
-
-    <h3>Previous Generations</h3>
-    <div class="image-gallery">
-        {% for image in images %}
-            <img src="{{ image }}" alt="Generated Image">
-        {% endfor %}
+        <h1 class="mt-5">AI Image Generator</h1>
+        <form id="image-form" class="mt-3">
+            <div class="form-group">
+                <label for="prompt">Enter your prompt:</label>
+                <input type="text" id="prompt" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Generate Image</button>
+        </form>
+        <hr>
+        <h2 class="mt-5">Generated Images</h2>
+        <div id="images" class="row mt-4">
+            {% for image in images %}
+            <div class="col-md-4">
+                <img src="{{ image }}" class="img-fluid" alt="Generated Image">
+            </div>
+            {% endfor %}
+        </div>
     </div>
 
     <script>
-        $(document).ready(function() {
-            $("#generate-btn").click(function() {
-                const prompt = $("#prompt").val().trim();
-                if (!prompt) {
-                    alert("Please enter a description for the image");
-                    return;
-                }
+        document.getElementById("image-form").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const prompt = document.getElementById("prompt").value;
 
-                $("#loading").show();
-                $("#generated-image").hide();
-
-                $.ajax({
-                    url: "/generate",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify({ prompt: prompt }),
-                    success: function(response) {
-                        const img = $("#generated-image");
-                        img.attr("src", response.image_url + "?" + new Date().getTime());
-                        img.on("load", function() {
-                            $("#loading").hide();
-                            img.show();
-                            // Add new image to gallery
-                            $(".image-gallery").prepend(
-                                `<img src="${response.image_url}" alt="Generated Image">`
-                            );
-                        });
-                    },
-                    error: function(xhr) {
-                        $("#loading").hide();
-                        alert("Error: " + (xhr.responseJSON?.error || "Failed to generate image"));
-                    }
-                });
+            const response = await fetch("/generate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ prompt: prompt })
             });
-=======
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        body { background-color: #f8f9fa; }
-        .container { max-width: 700px; }
-        .image-grid img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
-    </style>
-</head>
-<body>
 
-<div class="container text-center mt-4">
-    <h2 class="mb-4">AI Image Generator</h2>
-
-    <!-- Prompt Input -->
-    <div class="input-group mb-3">
-        <input type="text" id="prompt" class="form-control" placeholder="Enter your prompt">
-        <button class="btn btn-primary" onclick="generateImage()">Generate</button>
-    </div>
-
-    <!-- Loading Indicator -->
-    <div id="loading" style="display: none;">
-        <p>Generating image... Please wait.</p>
-    </div>
-
-    <!-- Generated Image -->
-    <div id="generated-image" class="mt-3"></div>
-
-    <h3 class="mt-4">Previous Images</h3>
-    <div class="row image-grid">
-        {% for image in images %}
-            <div class="col-md-4">
-                <img src="{{ url_for('serve_image', filename=image) }}" alt="Generated Image">
-            </div>
-        {% endfor %}
-    </div>
-</div>
-
-<script>
-    function generateImage() {
-        const prompt = document.getElementById("prompt").value;
-        if (!prompt) {
-            alert("Please enter a prompt.");
-            return;
-        }
-
-        document.getElementById("loading").style.display = "block";
-        document.getElementById("generated-image").innerHTML = "";
-
-        fetch("/generate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt: prompt })
-        })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("loading").style.display = "none";
-
-            if (data.image_url) {
-                document.getElementById("generated-image").innerHTML =
-                    `<img src="${data.image_url}" class="img-fluid mt-3 rounded shadow">`;
-            } else {
-                alert("Error generating image. Please try again.");
-            }
->>>>>>> parent of 05526e1 (Update index.html)
+            const data = await response.json();
+            // Optionally, you can add the new image to the gallery
+            const imagesDiv = document.getElementById("images");
+            const newImageDiv = document.createElement("div");
+            newImageDiv.classList.add("col-md-4");
+            newImageDiv.innerHTML = `<img src="${data.image_url}" class="img-fluid" alt="Generated Image">`;
+            imagesDiv.appendChild(newImageDiv);
         });
-    }
-</script>
-
+    </script>
 </body>
 </html>

@@ -11,6 +11,7 @@
   transition: transform 0.2s;
   font-size: 1.5rem;
   padding: 1rem 2rem;
+  margin: 10px; /* Add margin to create gap between buttons */
 }
 
 .animated-button:hover {
@@ -48,7 +49,18 @@
 
 /* Logo Styling */
 .logo {
-  width: 150px;
-  height: auto;
+  width: 500px; /* Increase the size of the logo */
+  height: 500px; /* Ensure the logo is round */
+  border-radius: 50%; /* Make the logo round */
+  object-fit: cover; /* Ensure the image covers the entire area */
+}
+
+/* Container Styling */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
 }
 

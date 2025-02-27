@@ -54,7 +54,12 @@
   height: auto;
 }
 
-/* Footer Styling */
+/* Header Styling 
+.navbar {
+  margin-bottom: 20px;
+}
+
+Footer Styling
 .footer {
   position: fixed;
   bottom: 0;
@@ -66,4 +71,9 @@
   font-size: 1rem;
   color: #666;
   box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+}*/
+
+/* Content Styling */
+.content {
+  padding-bottom: 60px; /* Space for the fixed footer */
 }

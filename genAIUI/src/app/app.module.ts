@@ -14,6 +14,7 @@ import { PreImageGeneratorComponent } from './pre-image-generator/pre-image-gene
 import { SubmitExercise2Component } from './submit-exercise2/submit-exercise2.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { FooterComponent } from './footer/footer.component';
     PreImageGeneratorComponent,
     SubmitExercise2Component,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,

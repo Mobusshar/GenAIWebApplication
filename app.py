@@ -4,6 +4,8 @@ import os
 import logging
 #from model import generate_image
 from models import db, Exercise1
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend API access
@@ -19,6 +21,14 @@ os.makedirs(GENERATED_IMAGES_DIR, exist_ok=True)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
+
+# Load the GPT-J model
+# model_name = "EleutherAI/gpt-j-6B"
+# model_name = "distilgpt2"
+# model_name = "gpt2"
+model_name = "gpt2-xl"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name)
 
 @app.route("/generate", methods=["POST"])
 def generate():
@@ -66,6 +76,43 @@ def list_images():
     images = os.listdir(GENERATED_IMAGES_DIR)
     image_urls = [f"/images/{image}" for image in images]
     return jsonify(image_urls)
+
+
+@app.route("/chat", methods=["POST"])
+def chat():
+    try:
+        data = request.json
+        name = data.get("name", "").strip()
+        email = data.get("email", "").strip()
+        studentid = data.get("studentid", "").strip()
+        prompt = data.get("prompt", "").strip()
+
+        if not prompt:
+            return jsonify({"error": "Prompt is required"}), 400
+
+        inputs = tokenizer(prompt, return_tensors="pt")
+        output = model.generate(
+            **inputs,
+            max_length=200,
+            temperature=0.7,  # Adjust temperature for creativity
+            top_k=50,         # Use top-k sampling
+            top_p=0.95        # Use top-p (nucleus) sampling
+        )
+        response_text = tokenizer.decode(output[0], skip_special_tokens=True)
+
+
+        # Save the data to the database (optional)
+        # new_entry = Exercise1(name=name, email=email, studentid=studentid, prompt=prompt, response=response_text)
+        # db.session.add(new_entry)
+        # db.session.commit()
+
+        return jsonify({"response": response_text}), 200
+
+    except Exception as e:
+        logging.error(f"Error generating response: {str(e)}")
+        return jsonify({"error": "Internal Server Error"}), 500
+
+
 
 if __name__ == "__main__":
     with app.app_context():

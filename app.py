@@ -4,7 +4,7 @@ import os
 import logging
 #from model import generate_image
 from models import db, Exercise1
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import pipeline, set_seed
 
 
 app = Flask(__name__)
@@ -22,13 +22,17 @@ os.makedirs(GENERATED_IMAGES_DIR, exist_ok=True)
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
+# Load the GPT-2 model using pipeline
+generator = pipeline('text-generation', model='gpt2-xl')
+set_seed(42)
+
 # Load the GPT-J model
 # model_name = "EleutherAI/gpt-j-6B"
 # model_name = "distilgpt2"
 # model_name = "gpt2"
-model_name = "gpt2-xl"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(model_name)
+# model_name = "gpt2-xl"
+# tokenizer = AutoTokenizer.from_pretrained(model_name)
+# model = AutoModelForCausalLM.from_pretrained(model_name)
 
 @app.route("/generate", methods=["POST"])
 def generate():
@@ -90,15 +94,9 @@ def chat():
         if not prompt:
             return jsonify({"error": "Prompt is required"}), 400
 
-        inputs = tokenizer(prompt, return_tensors="pt")
-        output = model.generate(
-            **inputs,
-            max_length=200,
-            temperature=0.7,  # Adjust temperature for creativity
-            top_k=50,         # Use top-k sampling
-            top_p=0.95        # Use top-p (nucleus) sampling
-        )
-        response_text = tokenizer.decode(output[0], skip_special_tokens=True)
+        # Generate text using the pipeline
+        response = generator(prompt, max_length=200, num_return_sequences=1, pad_token_id=50256)
+        response_text = response[0]['generated_text']
 
 
         # Save the data to the database (optional)

@@ -2,8 +2,9 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import os
 import logging
-#from model import generate_image
-from models import db, Exercise1
+#from models.image.sdxl import generate_image
+from models.db.models import db, Exercise1
+from models.text.qwen_model import load_qwen_model, generate_qwen_response
 from transformers import pipeline, set_seed, AutoModelForCausalLM, AutoTokenizer
 import torch
 
@@ -22,12 +23,14 @@ os.makedirs(GENERATED_IMAGES_DIR, exist_ok=True)
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
+# Load models
+tokenizer, qwen_model = load_qwen_model()
 
 # Load Qwen2.5-14B model and tokenizer
 # model_name = "Qwen/Qwen2.5-14B"
-model_name = "Qwen/Qwen2.5-0.5B"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float32).to("cpu")
+# model_name = "Qwen/Qwen2.5-1.5B"
+# tokenizer = AutoTokenizer.from_pretrained(model_name)
+# model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float32).to("cpu")
 
 # Load the GPT-2 model using pipeline
 # generator = pipeline('text-generation', model='gpt2-xl')
@@ -104,19 +107,8 @@ def chat():
          # Tokenize input properly
         inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=512).to("cpu")
 
-        # Generate response with optimized settings
-        output = model.generate(
-            **inputs,
-            max_new_tokens=150,  # Limit output length
-            temperature=0.6,  # Lower temperature for more meaningful responses
-            top_p=0.8,  # Reduce randomness
-            repetition_penalty=1.3,  # Stronger repetition penalty
-            pad_token_id=tokenizer.eos_token_id,  # Prevents weird outputs
-            eos_token_id=tokenizer.eos_token_id,  # Ensures proper stopping
-            do_sample=False  # Disable sampling for more controlled output
-        )
-
-        response_text = tokenizer.decode(output[0], skip_special_tokens=True).strip()
+        response_text = generate_qwen_response(prompt, tokenizer, qwen_model)
+        # response_text = tokenizer.decode(output[0], skip_special_tokens=True).strip()
 
         # Handle cases where response is empty or incorrect
         if not response_text.strip():

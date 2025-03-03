@@ -4,8 +4,8 @@ import os
 import logging
 #from model import generate_image
 from models import db, Exercise1
-from transformers import pipeline, set_seed
-
+from transformers import pipeline, set_seed, AutoModelForCausalLM, AutoTokenizer
+import torch
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend API access
@@ -22,9 +22,16 @@ os.makedirs(GENERATED_IMAGES_DIR, exist_ok=True)
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
+
+# Load Qwen2.5-14B model and tokenizer
+# model_name = "Qwen/Qwen2.5-14B"
+model_name = "Qwen/Qwen2.5-0.5B"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float32).to("cpu")
+
 # Load the GPT-2 model using pipeline
-generator = pipeline('text-generation', model='gpt2-xl')
-set_seed(42)
+# generator = pipeline('text-generation', model='gpt2-xl')
+# set_seed(42)
 
 # Load the GPT-J model
 # model_name = "EleutherAI/gpt-j-6B"
@@ -94,10 +101,36 @@ def chat():
         if not prompt:
             return jsonify({"error": "Prompt is required"}), 400
 
-        # Generate text using the pipeline
-        response = generator(prompt, max_length=200, num_return_sequences=1, pad_token_id=50256)
-        response_text = response[0]['generated_text']
+         # Tokenize input properly
+        inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=512).to("cpu")
 
+        # Generate response with optimized settings
+        output = model.generate(
+            **inputs,
+            max_new_tokens=150,  # Limit output length
+            temperature=0.6,  # Lower temperature for more meaningful responses
+            top_p=0.8,  # Reduce randomness
+            repetition_penalty=1.3,  # Stronger repetition penalty
+            pad_token_id=tokenizer.eos_token_id,  # Prevents weird outputs
+            eos_token_id=tokenizer.eos_token_id,  # Ensures proper stopping
+            do_sample=False  # Disable sampling for more controlled output
+        )
+
+        response_text = tokenizer.decode(output[0], skip_special_tokens=True).strip()
+
+        # Handle cases where response is empty or incorrect
+        if not response_text.strip():
+            return jsonify({"error": "No meaningful response generated. Try a different prompt."}), 400
+        
+        
+        # Generate text using the pipeline
+        # response = generator(prompt, max_length=200, num_return_sequences=1, pad_token_id=50256)
+        # response_text = response[0]['generated_text']
+
+        # Generate text using the Qwen2.5-14B model
+        # inputs = tokenizer(prompt, return_tensors="pt").to("cpu")
+        # output = model.generate(**inputs, max_length=200)
+        # response_text = tokenizer.decode(output[0], skip_special_tokens=True)
 
         # Save the data to the database (optional)
         # new_entry = Exercise1(name=name, email=email, studentid=studentid, prompt=prompt, response=response_text)

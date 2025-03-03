@@ -1,0 +1,24 @@
+.chat-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  height: auto;
+  overflow-y: auto;
+}
+
+.chat-message {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.bot-message .message-content {
+  background-color: #e9ecef;
+  color: black;
+  align-self: flex-start;
+  border-radius: 10px 10px 10px 0;
+  padding: 10px;
+  max-width: 70%;
+}

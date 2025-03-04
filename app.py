@@ -4,7 +4,7 @@ import os
 import logging
 #from models.image.sdxl import generate_image
 from models.db.models import db, Exercise1
-from models.text.qwen_model import load_qwen_model, generate_qwen_response
+#from models.text.qwen_model import load_qwen_model, generate_qwen_response
 from transformers import pipeline, set_seed, AutoModelForCausalLM, AutoTokenizer
 import torch
 
@@ -24,7 +24,7 @@ os.makedirs(GENERATED_IMAGES_DIR, exist_ok=True)
 logging.basicConfig(level=logging.INFO)
 
 # Load models
-tokenizer, qwen_model = load_qwen_model()
+# tokenizer, qwen_model = load_qwen_model()
 
 # Load Qwen2.5-14B model and tokenizer
 # model_name = "Qwen/Qwen2.5-14B"
@@ -103,18 +103,18 @@ def chat():
 
         if not prompt:
             return jsonify({"error": "Prompt is required"}), 400
-
+# working this block
          # Tokenize input properly
-        inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=512).to("cpu")
+        #inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=512).to("cpu")
 
-        response_text = generate_qwen_response(prompt, tokenizer, qwen_model)
+        #response_text = generate_qwen_response(prompt, tokenizer, qwen_model)
         # response_text = tokenizer.decode(output[0], skip_special_tokens=True).strip()
 
         # Handle cases where response is empty or incorrect
-        if not response_text.strip():
-            return jsonify({"error": "No meaningful response generated. Try a different prompt."}), 400
+        #if not response_text.strip():
+        #    return jsonify({"error": "No meaningful response generated. Try a different prompt."}), 400
         
-        
+# unlock till here
         # Generate text using the pipeline
         # response = generator(prompt, max_length=200, num_return_sequences=1, pad_token_id=50256)
         # response_text = response[0]['generated_text']
@@ -129,7 +129,7 @@ def chat():
         # db.session.add(new_entry)
         # db.session.commit()
 
-        return jsonify({"response": response_text}), 200
+        #return jsonify({"response": response_text}), 200
 
     except Exception as e:
         logging.error(f"Error generating response: {str(e)}")

@@ -6,4 +6,5 @@ transformers
 pillow
 accelerate
 flask_sqlalchemy
-psycopg2
+psycopg2-binary
+numpy<2

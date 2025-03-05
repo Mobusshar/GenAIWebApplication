@@ -97,9 +97,6 @@ def list_images():
 def chat():
     try:
         data = request.json
-        name = data.get("name", "").strip()
-        email = data.get("email", "").strip()
-        studentid = data.get("studentid", "").strip()
         prompt = data.get("prompt", "").strip()
 
         if not prompt:
@@ -259,6 +256,25 @@ def update_post_exercise1(id):
     db.session.commit()
     app.logger.info(f"Updated post-exercise1 entry with ID: {entry.id}")
     return jsonify({"message": "Post-exercise1 entry updated successfully"}), 200
+
+@app.route('/get-story/<int:id>', methods=['GET'])
+def get_story(id):
+    entry = db.session.get(Exercise1, id)
+    
+    if not entry:
+        app.logger.error(f"Entry with ID {id} not found")
+        return jsonify({"error": "Entry not found"}), 404
+    
+    story_data = {
+        "story_character": entry.story_character,
+        "story_setting": entry.story_setting,
+        "story_conflict": entry.story_conflict,
+        "story_resolution": entry.story_resolution,
+        "story_dialogue": entry.story_dialogue,
+        "story_moral": entry.story_moral
+    }
+    
+    return jsonify(story_data), 200
 
 if __name__ == "__main__":
     with app.app_context():

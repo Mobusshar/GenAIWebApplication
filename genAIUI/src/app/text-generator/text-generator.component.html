@@ -2,18 +2,30 @@
   <h1 class="mt-5">Text Generator Page</h1>
   
   <div class="mt-3">
-    <input [(ngModel)]="name" placeholder="Enter your name" class="form-control mb-2" />
-    <input [(ngModel)]="email" placeholder="Enter your email" class="form-control mb-2" />
-    <input [(ngModel)]="studentid" placeholder="Enter your student ID" class="form-control mb-2" />
     <input [(ngModel)]="prompt" placeholder="Ask me anything..." class="form-control mb-2" />
     <button (click)="sendMessage()" class="btn btn-primary btn-lg mt-3">Send</button>
   </div>
 
-  <div *ngIf="response" class="chat-container mt-3">
-    <div class="chat-message bot-message">
-      <div class="message-content">{{ response }}</div>
+  <div class="story-container mt-3">
+    <div *ngIf="story_character || story_setting || story_conflict || story_resolution || story_dialogue || story_moral" class="user-story-container">
+      <h2>Your Generated Story</h2>
+      <p><strong>Character Name:</strong> {{ story_character }}</p>
+      <p><strong>Setting:</strong> {{ story_setting }}</p>
+      <p><strong>Conflict:</strong> {{ story_conflict }}</p>
+      <p><strong>Resolution:</strong> {{ story_resolution }}</p>
+      <p><strong>Key Dialogue:</strong> {{ story_dialogue }}</p>
+      <p><strong>Moral or Theme:</strong> {{ story_moral }}</p>
     </div>
-  </div>
+    
+    <div *ngIf="response" class="chat-container">
+      <h2>AI Generated Story</h2>
+      <div class="chat-message bot-message">
+        <div class="message-content">{{ response }}</div>
+      </div>
+    </div>
 
+    
+  </div>
+  
   <button (click)="navigateToSubmitExercise1()" class="btn btn-secondary btn-lg mt-5 mb-20">Go to Submit Exercise 1</button>
 </div>

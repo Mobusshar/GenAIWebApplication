@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../environments/environment';
@@ -8,13 +8,16 @@ import { environment } from '../../environments/environment';
   templateUrl: './text-generator.component.html',
   styleUrls: ['./text-generator.component.css']
 })
-export class TextGeneratorComponent {
+export class TextGeneratorComponent implements OnInit {
   id: number = 0;
-  name: string = '';
-  email: string = '';
-  studentid: string = '';
   prompt: string = '';
   response: string = '';
+  story_character: string = '';
+  story_setting: string = '';
+  story_conflict: string = '';
+  story_resolution: string = '';
+  story_dialogue: string = '';
+  story_moral: string = '';
   private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {}
@@ -22,7 +25,26 @@ export class TextGeneratorComponent {
   ngOnInit(): void {
     this.id = +this.route.snapshot.paramMap.get('id')!;
     console.log('Received ID:', this.id);
-    // Add your logic to handle the ID and fetch data if necessary
+    this.fetchStoryData();
+  }
+
+  fetchStoryData() {
+    this.http.get<any>(`${this.apiUrl}/get-story/${this.id}`)
+      .subscribe(
+        data => {
+          console.log("Fetched Story Data:", data);
+          this.story_character = data.story_character;
+          this.story_setting = data.story_setting;
+          this.story_conflict = data.story_conflict;
+          this.story_resolution = data.story_resolution;
+          this.story_dialogue = data.story_dialogue;
+          this.story_moral = data.story_moral;
+        },
+        error => {
+          console.error("API Error:", error);
+          alert(`Error: ${error?.error?.error || 'Something went wrong while fetching the story data'}`);
+        }
+      );
   }
 
   sendMessage() {
@@ -33,10 +55,7 @@ export class TextGeneratorComponent {
 
     console.log("Sending API request...");
 
-    const requestPayload = { 
-      name: this.name,
-      email: this.email,
-      studentid: this.studentid,
+    const requestPayload = {
       prompt: this.prompt 
     }; // Prepare the request payload with the additional fields
 

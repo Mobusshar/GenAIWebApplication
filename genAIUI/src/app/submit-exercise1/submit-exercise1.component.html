@@ -1,4 +1,110 @@
-<div class="container text-center">
-  <h1 class="mt-5">Submit Exercise 1</h1>
-  <button (click)="submitExercise1()" class="btn btn-primary btn-lg mt-3">Submit</button>
+<div class="container">
+  <h1>Submit Exercise 1</h1>
+  <form (ngSubmit)="submitExercise1()" #submitForm="ngForm" class="mt-3">
+    <div class="form-group">
+      <label for="exp_interest">What interests you most about designing a children’s story cover/story in Exercise 1?</label>
+      <textarea id="exp_interest" name="exp_interest" class="form-control" [(ngModel)]="exp_interest"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="exp_challenges">What challenges do you anticipate in this exercise?</label>
+      <textarea id="exp_challenges" name="exp_challenges" class="form-control" [(ngModel)]="exp_challenges"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="exp_diff_ai_human">Compare your filled-in responses with AI-generated placeholders. What differences do you notice?</label>
+      <textarea id="exp_diff_ai_human" name="exp_diff_ai_human" class="form-control" [(ngModel)]="exp_diff_ai_human"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="exp_bias_ai_human">Did any marked section reveal a potential bias when left to AI versus human input?</label>
+      <textarea id="exp_bias_ai_human" name="exp_bias_ai_human" class="form-control" [(ngModel)]="exp_bias_ai_human"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="exp_challenge_fairness">Which parts of the story did you find most challenging to fill in fairly, and why?</label>
+      <textarea id="exp_challenge_fairness" name="exp_challenge_fairness" class="form-control" [(ngModel)]="exp_challenge_fairness"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="exp_message_change">How do you think the story’s overall message might change depending on who completes these sections?</label>
+      <textarea id="exp_message_change" name="exp_message_change" class="form-control" [(ngModel)]="exp_message_change"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="exp_improve">Suggestions to improve collaborative storytelling exercises to minimize bias?</label>
+      <textarea id="exp_improve" name="exp_improve" class="form-control" [(ngModel)]="exp_improve"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="exp_satisfaction">How satisfied were you with the overall exercise?</label>
+      <input type="number" id="exp_satisfaction" name="exp_satisfaction" class="form-control" [(ngModel)]="exp_satisfaction">
+    </div>
+    <div class="form-group">
+      <label for="exp_challenge">How challenging did you find this exercise?</label>
+      <input type="number" id="exp_challenge" name="exp_challenge" class="form-control" [(ngModel)]="exp_challenge">
+    </div>
+    <div class="form-group">
+      <label for="exp_creativity_boost">Did this exercise help you think more creatively? If so, how?</label>
+      <textarea id="exp_creativity_boost" name="exp_creativity_boost" class="form-control" [(ngModel)]="exp_creativity_boost"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="exp_enjoyment">What did you enjoy most about this exercise?</label>
+      <textarea id="exp_enjoyment" name="exp_enjoyment" class="form-control" [(ngModel)]="exp_enjoyment"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="exp_improvements">What would you improve about this exercise?</label>
+      <textarea id="exp_improvements" name="exp_improvements" class="form-control" [(ngModel)]="exp_improvements"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="ai_helpfulness">How helpful were generative AI tools in the creative process?</label>
+      <input type="number" id="ai_helpfulness" name="ai_helpfulness" class="form-control" [(ngModel)]="ai_helpfulness">
+    </div>
+    <div class="form-group">
+      <label for="ai_iterations">How many iterations did you generate with AI tools?</label>
+      <input type="number" id="ai_iterations" name="ai_iterations" class="form-control" [(ngModel)]="ai_iterations">
+    </div>
+    <div class="form-group">
+      <label for="ai_strategies">What strategies did you use to refine AI-generated outputs?</label>
+      <textarea id="ai_strategies" name="ai_strategies" class="form-control" [(ngModel)]="ai_strategies"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="ai_contribution">Do you feel the final output reflects your creative input, AI’s contribution, or both equally?</label>
+      <input type="text" id="ai_contribution" name="ai_contribution" class="form-control" [(ngModel)]="ai_contribution">
+    </div>
+    <div class="form-group">
+      <label for="ai_learnings">What did you learn about using AI for creative tasks?</label>
+      <textarea id="ai_learnings" name="ai_learnings" class="form-control" [(ngModel)]="ai_learnings"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="collab_value_post">How valuable was peer collaboration in improving your output?</label>
+      <input type="number" id="collab_value_post" name="collab_value_post" class="form-control" [(ngModel)]="collab_value_post">
+    </div>
+    <div class="form-group">
+      <label for="collab_feedback">How often did you incorporate peer feedback into your work?</label>
+      <input type="text" id="collab_feedback" name="collab_feedback" class="form-control" [(ngModel)]="collab_feedback">
+    </div>
+    <div class="form-group">
+      <label for="collab_new_ideas">Did collaborating with peers give you new ideas or perspectives?</label>
+      <textarea id="collab_new_ideas" name="collab_new_ideas" class="form-control" [(ngModel)]="collab_new_ideas"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="learn_conf_post">How confident are you in your creative skills after completing this exercise?</label>
+      <input type="number" id="learn_conf_post" name="learn_conf_post" class="form-control" [(ngModel)]="learn_conf_post">
+    </div>
+    <div class="form-group">
+      <label for="learn_skills">What specific skills or insights did you gain from this exercise?</label>
+      <textarea id="learn_skills" name="learn_skills" class="form-control" [(ngModel)]="learn_skills"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="learn_ai_future">How likely are you to use generative AI tools for future creative tasks?</label>
+      <input type="number" id="learn_ai_future" name="learn_ai_future" class="form-control" [(ngModel)]="learn_ai_future">
+    </div>
+    <div class="form-group">
+      <label for="reflect_creativity_change">Compare your pre-exercise and post-exercise confidence in creativity. How has it changed?</label>
+      <textarea id="reflect_creativity_change" name="reflect_creativity_change" class="form-control" [(ngModel)]="reflect_creativity_change"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="reflect_human_ai_role">Reflecting on this exercise, what do you think is the role of humans versus AI in creativity?</label>
+      <textarea id="reflect_human_ai_role" name="reflect_human_ai_role" class="form-control" [(ngModel)]="reflect_human_ai_role"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="reflect_future_prep">How do you think exercises like these prepare you for future creative challenges?</label>
+      <textarea id="reflect_future_prep" name="reflect_future_prep" class="form-control" [(ngModel)]="reflect_future_prep"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg mt-3">Submit Exercise 1</button>
+  </form>
 </div>

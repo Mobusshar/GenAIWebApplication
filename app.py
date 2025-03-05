@@ -218,6 +218,48 @@ def update_story(id):
     app.logger.info(f"Updated entry with ID: {entry.id}")
     return jsonify({"message": "Entry updated successfully"}), 200
 
+@app.route('/update-post-exercise1/<int:id>', methods=['PUT'])
+def update_post_exercise1(id):
+    data = request.json
+    app.logger.info(f"Received data for post-exercise1 update: {data}")
+    
+    entry = db.session.get(Exercise1, id)
+    
+    if not entry:
+        app.logger.error(f"Entry with ID {id} not found")
+        return jsonify({"error": "Entry not found"}), 404
+    
+    entry.exp_interest = data.get('exp_interest', entry.exp_interest).strip()
+    entry.exp_challenges = data.get('exp_challenges', entry.exp_challenges).strip()
+    entry.exp_diff_ai_human = data.get('exp_diff_ai_human', entry.exp_diff_ai_human).strip()
+    entry.exp_bias_ai_human = data.get('exp_bias_ai_human', entry.exp_bias_ai_human).strip()
+    entry.exp_challenge_fairness = data.get('exp_challenge_fairness', entry.exp_challenge_fairness).strip()
+    entry.exp_message_change = data.get('exp_message_change', entry.exp_message_change).strip()
+    entry.exp_improve = data.get('exp_improve', entry.exp_improve).strip()
+    entry.exp_satisfaction = data.get('exp_satisfaction', entry.exp_satisfaction)
+    entry.exp_challenge = data.get('exp_challenge', entry.exp_challenge)
+    entry.exp_creativity_boost = data.get('exp_creativity_boost', entry.exp_creativity_boost).strip()
+    entry.exp_enjoyment = data.get('exp_enjoyment', entry.exp_enjoyment).strip()
+    entry.exp_improvements = data.get('exp_improvements', entry.exp_improvements).strip()
+    entry.ai_helpfulness = data.get('ai_helpfulness', entry.ai_helpfulness)
+    entry.ai_iterations = data.get('ai_iterations', entry.ai_iterations)
+    entry.ai_strategies = data.get('ai_strategies', entry.ai_strategies).strip()
+    entry.ai_contribution = data.get('ai_contribution', entry.ai_contribution).strip()
+    entry.ai_learnings = data.get('ai_learnings', entry.ai_learnings).strip()
+    entry.collab_value_post = data.get('collab_value_post', entry.collab_value_post)
+    entry.collab_feedback = data.get('collab_feedback', entry.collab_feedback).strip()
+    entry.collab_new_ideas = data.get('collab_new_ideas', entry.collab_new_ideas).strip()
+    entry.learn_conf_post = data.get('learn_conf_post', entry.learn_conf_post)
+    entry.learn_skills = data.get('learn_skills', entry.learn_skills).strip()
+    entry.learn_ai_future = data.get('learn_ai_future', entry.learn_ai_future)
+    entry.reflect_creativity_change = data.get('reflect_creativity_change', entry.reflect_creativity_change).strip()
+    entry.reflect_human_ai_role = data.get('reflect_human_ai_role', entry.reflect_human_ai_role).strip()
+    entry.reflect_future_prep = data.get('reflect_future_prep', entry.reflect_future_prep).strip()
+    
+    db.session.commit()
+    app.logger.info(f"Updated post-exercise1 entry with ID: {entry.id}")
+    return jsonify({"message": "Post-exercise1 entry updated successfully"}), 200
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()

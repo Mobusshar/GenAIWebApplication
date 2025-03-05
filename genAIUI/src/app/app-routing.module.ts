@@ -20,7 +20,7 @@ const routes: Routes = [
       { path: 'pre-text-generator', component: PreTextGeneratorComponent },
       { path: 'story-building/:id', component: StoryBuildingComponent },
       { path: 'text-generator/:id', component: TextGeneratorComponent },
-      { path: 'submit-exercise1', component: SubmitExercise1Component },
+      { path: 'submit-exercise1/:id', component: SubmitExercise1Component },
       { path: 'pre-image-generator', component: PreImageGeneratorComponent },
       { path: 'submit-exercise2', component: SubmitExercise2Component }
       //{ path: '', redirectTo: '/image-generator', pathMatch: 'full' }

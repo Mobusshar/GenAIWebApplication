@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./text-generator.component.css']
 })
 export class TextGeneratorComponent {
-  id: number  = 0;
+  id: number = 0;
   name: string = '';
   email: string = '';
   studentid: string = '';
@@ -55,6 +55,6 @@ export class TextGeneratorComponent {
   }
 
   navigateToSubmitExercise1() {
-    this.router.navigate(['/submit-exercise1']);
+    this.router.navigate(['/submit-exercise1', this.id]);
   }
 }

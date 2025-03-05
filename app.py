@@ -3,7 +3,8 @@ from flask_cors import CORS
 import os
 import logging
 #from models.image.sdxl import generate_image
-from models.db.models import db, Exercise1
+from models.db.exercise1 import db, Exercise1
+from models.db.exercise2 import db, Exercise2
 #from models.text.qwen_model import load_qwen_model, generate_qwen_response
 from transformers import pipeline, set_seed, AutoModelForCausalLM, AutoTokenizer
 import torch
@@ -65,7 +66,7 @@ def generate():
         image_url = "/images/dummy.jpg"
 
         # Save the data to the database
-        new_entry = Exercise1(name=name, email=email, studentid=studentid, prompt=prompt, image_url=image_url)
+        new_entry = Exercise2(name=name, email=email, studentid=studentid, prompt=prompt, image_url=image_url)
         db.session.add(new_entry)
         db.session.commit()
 
@@ -135,6 +136,64 @@ def chat():
         logging.error(f"Error generating response: {str(e)}")
         return jsonify({"error": "Internal Server Error"}), 500
 
+
+@app.route('/save-pre-text', methods=['POST'])
+def save_pre_text():
+    data = request.json
+    app.logger.info(f"Received data: {data}")
+    
+    new_entry = Exercise1(
+        demo_name=data.get('demo_name', '').strip(),
+        demo_email=data.get('demo_email', '').strip(),
+        demo_academic=data.get('demo_academic', '').strip(),
+        base_creativity_conf=data.get('base_creativity_conf', 0),
+        base_creativity_freq=data.get('base_creativity_freq', '').strip(),
+        base_creativity_def=data.get('base_creativity_def', '').strip(),
+        ai_used_before=data.get('ai_used_before', False),
+        ai_tools_list=data.get('ai_tools_list', '').strip(),
+        ai_comfort=data.get('ai_comfort', 0),
+        ai_expectations=data.get('ai_expectations', '').strip(),
+        collab_conf=data.get('collab_conf', 0),
+        collab_role=data.get('collab_role', '').strip(),
+        collab_value=data.get('collab_value', '').strip(),
+        exp_interest=data.get('exp_interest', '').strip(),
+        exp_challenges=data.get('exp_challenges', '').strip(),
+        exp_diff_ai_human=data.get('exp_diff_ai_human', '').strip(),
+        exp_bias_ai_human=data.get('exp_bias_ai_human', '').strip(),
+        exp_challenge_fairness=data.get('exp_challenge_fairness', '').strip(),
+        exp_message_change=data.get('exp_message_change', '').strip(),
+        exp_improve=data.get('exp_improve', '').strip(),
+        exp_satisfaction=data.get('exp_satisfaction', 0),
+        exp_challenge=data.get('exp_challenge', 0),
+        exp_creativity_boost=data.get('exp_creativity_boost', '').strip(),
+        exp_enjoyment=data.get('exp_enjoyment', '').strip(),
+        exp_improvements=data.get('exp_improvements', '').strip(),
+        ai_helpfulness=data.get('ai_helpfulness', 0),
+        ai_iterations=data.get('ai_iterations', 0),
+        ai_strategies=data.get('ai_strategies', '').strip(),
+        ai_contribution=data.get('ai_contribution', '').strip(),
+        ai_learnings=data.get('ai_learnings', '').strip(),
+        collab_value_post=data.get('collab_value_post', 0),
+        collab_feedback=data.get('collab_feedback', '').strip(),
+        collab_new_ideas=data.get('collab_new_ideas', '').strip(),
+        learn_conf_post=data.get('learn_conf_post', 0),
+        learn_skills=data.get('learn_skills', '').strip(),
+        learn_ai_future=data.get('learn_ai_future', 0),
+        reflect_creativity_change=data.get('reflect_creativity_change', '').strip(),
+        reflect_human_ai_role=data.get('reflect_human_ai_role', '').strip(),
+        reflect_future_prep=data.get('reflect_future_prep', '').strip(),
+        story_character=data.get('story_character', '').strip(),
+        story_setting=data.get('story_setting', '').strip(),
+        story_conflict=data.get('story_conflict', '').strip(),
+        story_resolution=data.get('story_resolution', '').strip(),
+        story_dialogue=data.get('story_dialogue', '').strip(),
+        story_moral=data.get('story_moral', '').strip()
+    )
+    
+    db.session.add(new_entry)
+    db.session.commit()
+    app.logger.info(f"Saved entry with ID: {new_entry.id}")
+    return jsonify({"id": new_entry.id}), 201
 
 
 if __name__ == "__main__":

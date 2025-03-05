@@ -17,7 +17,7 @@ const routes: Routes = [
       { path: '', component: LandingPageComponent },
       { path: 'image-generator', component: ImageGeneratorComponent },
       { path: 'pre-text-generator', component: PreTextGeneratorComponent },
-      { path: 'text-generator', component: TextGeneratorComponent },
+      { path: 'text-generator/:id', component: TextGeneratorComponent },
       { path: 'submit-exercise1', component: SubmitExercise1Component },
       { path: 'pre-image-generator', component: PreImageGeneratorComponent },
       { path: 'submit-exercise2', component: SubmitExercise2Component }

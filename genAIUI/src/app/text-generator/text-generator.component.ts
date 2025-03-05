@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -9,6 +9,7 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./text-generator.component.css']
 })
 export class TextGeneratorComponent {
+  id: number  = 0;
   name: string = '';
   email: string = '';
   studentid: string = '';
@@ -16,7 +17,13 @@ export class TextGeneratorComponent {
   response: string = '';
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.id = +this.route.snapshot.paramMap.get('id')!;
+    console.log('Received ID:', this.id);
+    // Add your logic to handle the ID and fetch data if necessary
+  }
 
   sendMessage() {
     if (!this.prompt.trim()) {

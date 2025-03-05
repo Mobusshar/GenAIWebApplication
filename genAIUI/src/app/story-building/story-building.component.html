@@ -1,0 +1,31 @@
+<div class="container">
+  <h1>Story Building Page</h1>
+  <p>Received ID: {{ id }}</p>
+  <form (ngSubmit)="onUpdate()" #updateForm="ngForm" class="mt-3">
+    <div class="form-group">
+      <label for="story_character">Character Name</label>
+      <input type="text" id="story_character" name="story_character" class="form-control" [(ngModel)]="story_character">
+    </div>
+    <div class="form-group">
+      <label for="story_setting">Setting</label>
+      <textarea id="story_setting" name="story_setting" class="form-control" [(ngModel)]="story_setting"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="story_conflict">Conflict</label>
+      <textarea id="story_conflict" name="story_conflict" class="form-control" [(ngModel)]="story_conflict"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="story_resolution">Resolution</label>
+      <textarea id="story_resolution" name="story_resolution" class="form-control" [(ngModel)]="story_resolution"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="story_dialogue">Key Dialogue</label>
+      <textarea id="story_dialogue" name="story_dialogue" class="form-control" [(ngModel)]="story_dialogue"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="story_moral">Moral or Theme</label>
+      <textarea id="story_moral" name="story_moral" class="form-control" [(ngModel)]="story_moral"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg mt-3">Update</button>
+  </form>
+</div>

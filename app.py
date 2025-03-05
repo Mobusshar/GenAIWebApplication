@@ -140,7 +140,7 @@ def chat():
 @app.route('/save-pre-text', methods=['POST'])
 def save_pre_text():
     data = request.json
-    app.logger.info(f"Received data: {data}")
+    #app.logger.info(f"Received data: {data}")
     
     new_entry = Exercise1(
         demo_name=data.get('demo_name', '').strip(),
@@ -195,6 +195,28 @@ def save_pre_text():
     app.logger.info(f"Saved entry with ID: {new_entry.id}")
     return jsonify({"id": new_entry.id}), 201
 
+@app.route('/update-story/<int:id>', methods=['PUT'])
+def update_story(id):
+    data = request.json
+    app.logger.info(f"Received data for update: {data}")
+    
+    # Use Session.get() instead of Query.get()
+    entry = db.session.get(Exercise1, id)
+    
+    if not entry:
+        app.logger.error(f"Entry with ID {id} not found")
+        return jsonify({"error": "Entry not found"}), 404
+    
+    entry.story_character = data.get('story_character', entry.story_character).strip()
+    entry.story_setting = data.get('story_setting', entry.story_setting).strip()
+    entry.story_conflict = data.get('story_conflict', entry.story_conflict).strip()
+    entry.story_resolution = data.get('story_resolution', entry.story_resolution).strip()
+    entry.story_dialogue = data.get('story_dialogue', entry.story_dialogue).strip()
+    entry.story_moral = data.get('story_moral', entry.story_moral).strip()
+    
+    db.session.commit()
+    app.logger.info(f"Updated entry with ID: {entry.id}")
+    return jsonify({"message": "Entry updated successfully"}), 200
 
 if __name__ == "__main__":
     with app.app_context():

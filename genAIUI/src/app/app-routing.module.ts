@@ -8,6 +8,7 @@ import { SubmitExercise1Component } from './submit-exercise1/submit-exercise1.co
 import { SubmitExercise2Component } from './submit-exercise2/submit-exercise2.component';
 import { PreImageGeneratorComponent } from './pre-image-generator/pre-image-generator.component';
 import { LayoutComponent } from './layout/layout.component';
+import { StoryBuildingComponent } from './story-building/story-building.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
       { path: '', component: LandingPageComponent },
       { path: 'image-generator', component: ImageGeneratorComponent },
       { path: 'pre-text-generator', component: PreTextGeneratorComponent },
+      { path: 'story-building/:id', component: StoryBuildingComponent },
       { path: 'text-generator/:id', component: TextGeneratorComponent },
       { path: 'submit-exercise1', component: SubmitExercise1Component },
       { path: 'pre-image-generator', component: PreImageGeneratorComponent },

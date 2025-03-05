@@ -113,7 +113,7 @@ export class PreTextGeneratorComponent {
         response => {
           console.log('API Response:', response);
           if (response.id) {
-            this.navigateToTextGenerator(response.id);
+            this.navigateToStoryBuilding(response.id);
           }
         },
         error => {
@@ -123,7 +123,7 @@ export class PreTextGeneratorComponent {
       );
   }
 
-  navigateToTextGenerator(id: number) {
-    this.router.navigate(['/text-generator', id]);
+  navigateToStoryBuilding(id: number) {
+    this.router.navigate(['/story-building', id]);
   }
 }

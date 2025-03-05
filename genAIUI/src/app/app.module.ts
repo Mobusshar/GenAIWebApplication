@@ -15,6 +15,7 @@ import { SubmitExercise2Component } from './submit-exercise2/submit-exercise2.co
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { LayoutComponent } from './layout/layout.component';
+import { StoryBuildingComponent } from './story-building/story-building.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { LayoutComponent } from './layout/layout.component';
     SubmitExercise2Component,
     HeaderComponent,
     FooterComponent,
-    LayoutComponent
+    LayoutComponent,
+    StoryBuildingComponent
   ],
   imports: [
     BrowserModule,

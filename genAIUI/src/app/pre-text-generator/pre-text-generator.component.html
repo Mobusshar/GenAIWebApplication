@@ -1,58 +1,118 @@
-<div class="container text-center">
-  <h1 class="mt-5">Pre Text Generator Page</h1>
-  <form (ngSubmit)="onSubmit()" #preTextForm="ngForm" class="mt-3">
-    <div class="form-group">
-      <label for="demo_name">Name</label>
-      <input type="text" id="demo_name" name="demo_name" class="form-control" [(ngModel)]="demo_name">
-    </div>
-    <div class="form-group">
-      <label for="demo_email">Email</label>
-      <input type="email" id="demo_email" name="demo_email" class="form-control" [(ngModel)]="demo_email">
-    </div>
-    <div class="form-group">
-      <label for="demo_academic">Academic background</label>
-      <input type="text" id="demo_academic" name="demo_academic" class="form-control" [(ngModel)]="demo_academic">
-    </div>
-    <div class="form-group">
-      <label for="base_creativity_conf">How confident are you in your creative skills?</label>
-      <input type="number" id="base_creativity_conf" name="base_creativity_conf" class="form-control" [(ngModel)]="base_creativity_conf">
-    </div>
-    <div class="form-group">
-      <label for="base_creativity_freq">How often do you engage in creative activities?</label>
-      <input type="text" id="base_creativity_freq" name="base_creativity_freq" class="form-control" [(ngModel)]="base_creativity_freq">
-    </div>
-    <div class="form-group">
-      <label for="base_creativity_def">What does creativity mean to you?</label>
-      <textarea id="base_creativity_def" name="base_creativity_def" class="form-control" [(ngModel)]="base_creativity_def"></textarea>
-    </div>
-    <div class="form-group">
-      <label for="ai_used_before">Have you used generative AI tools before?</label>
-      <input type="checkbox" id="ai_used_before" name="ai_used_before" class="form-check-input" [(ngModel)]="ai_used_before">
-    </div>
-    <div class="form-group">
-      <label for="ai_tools_list">If yes, which ones?</label>
-      <textarea id="ai_tools_list" name="ai_tools_list" class="form-control" [(ngModel)]="ai_tools_list"></textarea>
-    </div>
-    <div class="form-group">
-      <label for="ai_comfort">How comfortable are you with using AI tools for creative tasks?</label>
-      <input type="number" id="ai_comfort" name="ai_comfort" class="form-control" [(ngModel)]="ai_comfort">
-    </div>
-    <div class="form-group">
-      <label for="ai_expectations">What are your expectations for how AI will assist your creativity in this exercise?</label>
-      <textarea id="ai_expectations" name="ai_expectations" class="form-control" [(ngModel)]="ai_expectations"></textarea>
-    </div>
-    <div class="form-group">
-      <label for="collab_conf">How confident are you in collaborating with peers to generate ideas?</label>
-      <input type="number" id="collab_conf" name="collab_conf" class="form-control" [(ngModel)]="collab_conf">
-    </div>
-    <div class="form-group">
-      <label for="collab_role">What role do you typically take in group work?</label>
-      <input type="text" id="collab_role" name="collab_role" class="form-control" [(ngModel)]="collab_role">
-    </div>
-    <div class="form-group">
-      <label for="collab_value">What do you find most valuable about working collaboratively?</label>
-      <textarea id="collab_value" name="collab_value" class="form-control" [(ngModel)]="collab_value"></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary btn-lg mt-3">Save</button>
-  </form>
+<div class="container my-5">
+  <h1 class="text-center mb-4">Pre Text Generator Page</h1>
+
+  <div class="card p-4">
+    <!-- Angular form -->
+    <form (ngSubmit)="onSubmit()" #preTextForm="ngForm">
+      <!-- Name -->
+      <div class="row mb-3">
+        <label for="demo_name" class="col-sm-4 col-form-label text-end">Name</label>
+        <div class="col-sm-8">
+          <input type="text" id="demo_name" name="demo_name" class="form-control" [(ngModel)]="demo_name" />
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="row mb-3">
+        <label for="demo_email" class="col-sm-4 col-form-label text-end">Email</label>
+        <div class="col-sm-8">
+          <input type="email" id="demo_email" name="demo_email" class="form-control" [(ngModel)]="demo_email" />
+        </div>
+      </div>
+
+      <!-- Academic background -->
+      <div class="row mb-3">
+        <label for="demo_academic" class="col-sm-4 col-form-label text-end">Academic background</label>
+        <div class="col-sm-8">
+          <input type="text" id="demo_academic" name="demo_academic" class="form-control" [(ngModel)]="demo_academic" />
+        </div>
+      </div>
+
+      <!-- Creative skills confidence -->
+      <div class="row mb-3">
+        <label for="base_creativity_conf" class="col-sm-4 col-form-label text-end">How confident are you in your creative skills?</label>
+        <div class="col-sm-8">
+          <input type="number" id="base_creativity_conf" name="base_creativity_conf" class="form-control" [(ngModel)]="base_creativity_conf" />
+        </div>
+      </div>
+
+      <!-- Creative activities frequency -->
+      <div class="row mb-3">
+        <label for="base_creativity_freq" class="col-sm-4 col-form-label text-end">How often do you engage in creative activities?</label>
+        <div class="col-sm-8">
+          <input type="text" id="base_creativity_freq" name="base_creativity_freq" class="form-control" [(ngModel)]="base_creativity_freq" />
+        </div>
+      </div>
+
+      <!-- What does creativity mean to you? -->
+      <div class="row mb-3">
+        <label for="base_creativity_def" class="col-sm-4 col-form-label text-end">What does creativity mean to you?</label>
+        <div class="col-sm-8">
+          <textarea id="base_creativity_def" name="base_creativity_def" class="form-control" rows="3" [(ngModel)]="base_creativity_def"></textarea>
+        </div>
+      </div>
+
+      <!-- Have you used generative AI tools before? -->
+      <div class="row mb-3">
+        <label for="ai_used_before" class="col-sm-4 col-form-label text-end">Have you used generative AI tools before?</label>
+        <div class="col-sm-8 d-flex align-items-center">
+          <input type="checkbox" id="ai_used_before" name="ai_used_before" class="form-check-input me-2" [(ngModel)]="ai_used_before" />
+        </div>
+      </div>
+
+      <!-- If yes, which ones? -->
+      <div class="row mb-3">
+        <label for="ai_tools_list" class="col-sm-4 col-form-label text-end">If yes, which ones?</label>
+        <div class="col-sm-8">
+          <textarea id="ai_tools_list" name="ai_tools_list" class="form-control" rows="2" [(ngModel)]="ai_tools_list"></textarea>
+        </div>
+      </div>
+
+      <!-- AI comfort -->
+      <div class="row mb-3">
+        <label for="ai_comfort" class="col-sm-4 col-form-label text-end">How comfortable are you with using AI tools for creative tasks?</label>
+        <div class="col-sm-8">
+          <input type="number" id="ai_comfort" name="ai_comfort" class="form-control" [(ngModel)]="ai_comfort" />
+        </div>
+      </div>
+
+      <!-- AI expectations -->
+      <div class="row mb-3">
+        <label for="ai_expectations" class="col-sm-4 col-form-label text-end">What are your expectations for how AI will assist your creativity in this exercise?</label>
+        <div class="col-sm-8">
+          <textarea id="ai_expectations" name="ai_expectations" class="form-control" rows="3" [(ngModel)]="ai_expectations"></textarea>
+        </div>
+      </div>
+
+      <!-- Collaboration confidence -->
+      <div class="row mb-3">
+        <label for="collab_conf" class="col-sm-4 col-form-label text-end">How confident are you in collaborating with peers to generate ideas?</label>
+        <div class="col-sm-8">
+          <input type="number" id="collab_conf" name="collab_conf" class="form-control" [(ngModel)]="collab_conf" />
+        </div>
+      </div>
+
+      <!-- Group work role -->
+      <div class="row mb-3">
+        <label for="collab_role" class="col-sm-4 col-form-label text-end">What role do you typically take in group work?</label>
+        <div class="col-sm-8">
+          <input type="text" id="collab_role" name="collab_role" class="form-control" [(ngModel)]="collab_role" />
+        </div>
+      </div>
+
+      <!-- Value of collaboration -->
+      <div class="row mb-4">
+        <label for="collab_value" class="col-sm-4 col-form-label text-end">What do you find most valuable about working collaboratively?</label>
+        <div class="col-sm-8">
+          <textarea id="collab_value" name="collab_value" class="form-control" rows="3" [(ngModel)]="collab_value"></textarea>
+        </div>
+      </div>
+
+      <!-- Submit button -->
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-lg mt-3">Save</button>
+      </div>
+    </form>
+  </div>
 </div>
+

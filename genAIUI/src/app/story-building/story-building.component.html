@@ -13,43 +13,83 @@
         </div>
       </div>
 
-      <!-- Setting -->
+      <!-- Story Text with Emotions -->
       <div class="row mb-3">
-        <label for="story_setting" class="col-sm-4 col-form-label text-end">Setting</label>
-        <div class="col-sm-8">
-          <textarea id="story_setting" name="story_setting" class="form-control" [(ngModel)]="story_setting"></textarea>
-        </div>
-      </div>
-
-      <!-- Conflict -->
-      <div class="row mb-3">
-        <label for="story_conflict" class="col-sm-4 col-form-label text-end">Conflict</label>
-        <div class="col-sm-8">
-          <textarea id="story_conflict" name="story_conflict" class="form-control" [(ngModel)]="story_conflict"></textarea>
-        </div>
-      </div>
-
-      <!-- Resolution -->
-      <div class="row mb-3">
-        <label for="story_resolution" class="col-sm-4 col-form-label text-end">Resolution</label>
-        <div class="col-sm-8">
-          <textarea id="story_resolution" name="story_resolution" class="form-control" [(ngModel)]="story_resolution"></textarea>
-        </div>
-      </div>
-
-      <!-- Key Dialogue -->
-      <div class="row mb-3">
-        <label for="story_dialogue" class="col-sm-4 col-form-label text-end">Key Dialogue</label>
-        <div class="col-sm-8">
-          <textarea id="story_dialogue" name="story_dialogue" class="form-control" [(ngModel)]="story_dialogue"></textarea>
-        </div>
-      </div>
-
-      <!-- Moral or Theme -->
-      <div class="row mb-3">
-        <label for="story_moral" class="col-sm-4 col-form-label text-end">Moral or Theme</label>
-        <div class="col-sm-8">
-          <textarea id="story_moral" name="story_moral" class="form-control" [(ngModel)]="story_moral"></textarea>
+        <div class="col-sm-12">
+          <p>
+            {{story_character}} was indeed a very hardworking man who put in all his efforts in all possible ways. Every morning he woke up early and got prepared for work meticulously to support his family most effectively. But unfortunately, things started going totally non-synchronized, one fine day.
+            This particular morning, the alarm failed to ring, and therefore {{story_character}} woke up late. In haste he got up and started living his daily life. He wore a shirt on which some coffee spilled and he got out just missing the usual bus. The rest of it was forced to be walked under a chilly and drizzling rain to get to work. {{story_character}} noted how the rain fell and continued to match his steadily growing exasperation and sense of unluckiness.
+            <textarea id="frustration" name="frustration" class="form-control" [(ngModel)]="frustration" placeholder="Frustration 😤"></textarea>
+          </p>
+          <p>
+            Thanks to the plethora of obstacles piling up in his life, he had exceeded that last point and went further. He had finally made it to work, only to continue discovering frustration. His computer failed him on an important assignment, and everyone else seemed too busy burning their bridges to offer assistance. Every tiny mishap continued accumulating, leaving him tired and mufing up the morale. {{story_character}} heaved a frustrated sigh, staring at his screen, feeling utterly defeated by everything around him.
+            <textarea id="sadness" name="sadness" class="form-control" [(ngModel)]="sadness" placeholder="Sadness 😢"></textarea>
+          </p>
+          <p>
+            Things couldn't get any worse, just as he thought. His boss calls him into the office. "{{story_character}}, your work has been sloppy lately," said the boss coldly. He added, "If this continues, we may need to reconsider your position here." A sudden wave of fear gripped him.
+            <textarea id="fear" name="fear" class="form-control" [(ngModel)]="fear" placeholder="Fear 😨"></textarea>
+            He had worked tireless days; now, one bad day could cost him everything. His hands trembled leaving the office; his heart was pounding.
+          </p>
+          <p>
+            At lunch hour, {{story_character}} sat there alone, gripping a sandwich with white knuckle fingers. One coworker bumped into him; his food hit the floor. "Hey, watch it {{story_character}}," the man dismissively muttered. That was the last straw. Anger erupted in {{story_character}}'s chest.
+            <textarea id="anger" name="anger" class="form-control" [(ngModel)]="anger" placeholder="Anger 😡"></textarea>
+            "Are you kidding me?!," he snapped, standing abruptly. But when he saw both men's shocked look, he bit his tongue and stormed out to seethe.
+          </p>
+          <p>
+            After a rough day at work, in busy streets {{story_character}} walked home. There were thousands of things racing through his mind frustration, worry, exhaustion, and everything too. It was then that he saw an elderly lady standing at a very crowded sidewalk. Cars rushed past, and she looked like she didn't have the courage to cross such a busy road. Although he was so much into his own trouble, somehow there was that tug he could feel within him to help.
+            <textarea id="empathy" name="empathy" class="form-control" [(ngModel)]="empathy" placeholder="Empathy 🧡"></textarea>
+          </p>
+          <p>
+            He did stop for a moment. "I am already having my worst day. Why even bother?" But this egoistic thought was remove from his mind. Something very deep was urging him forward. He went to her and said, "May I help you cross over the street?"
+            The eyes of the woman brightened up instantaneously with an illumination associated with relief.
+            <textarea id="gratitude" name="gratitude" class="form-control" [(ngModel)]="gratitude" placeholder="Gratitude 🙏"></textarea>
+            "Oh, it would be a wonderful favor." He carefully took her across this street, protecting her from the flow of impatient rushing cars.
+            <textarea id="protectiveness" name="protectiveness" class="form-control" [(ngModel)]="protectiveness" placeholder="Protectiveness 🛡️"></textarea>
+            When they reached just at the other side of the street, the woman squeezed his hand, saying, "You have a very kind heart, young man."
+          </p>
+          <p>
+            At that moment, for the first time in a long time, something inside {{story_character}} changed. He found peace in this simple act of kindness to a stranger that would have been missing from his life for a while now.
+            <textarea id="serenity" name="serenity" class="form-control" [(ngModel)]="serenity" placeholder="Serenity 🌿"></textarea>
+          </p>
+          <p>
+            Later that night, {{story_character}} reached home only to find an unexpected surprise lying on his doorstep: a tiny little package along with a handwritten note. The note written by the elderly lady acknowledged her heartfelt gratitude. Within that package was a pair of gloves with a simple message inscribed, "Kindness is a reward."
+            {{story_character}}'s eyes went wide as he read the note, and warmth began swell in his chest.
+            <textarea id="joy" name="joy" class="form-control" [(ngModel)]="joy" placeholder="Joy 😄"></textarea>
+            And for the first time that day, that was a smile of {{story_character}}'s that could be described as genuine.
+          </p>
+          <p>
+            It has changed the entire scenario; most importantly, it brings some happiness and brightness. Even on a day that feels like it was filled with constant misfortunes, it feels great to have one's kindness appreciated and recognized. In the end, it just goes to show-and point out, really-that even on the worst days, such an act, no matter the proportion, can change everything.
+            <textarea id="hope" name="hope" class="form-control" [(ngModel)]="hope" placeholder="Hope ✨"></textarea>
+            Inspired by the experience, he determined to keep helping others, though difficult his circumstances became.
+          </p>
+          <p>
+            The next morning came into play with the strangest of happenings. As he entered his work, he saw the coworker whom he had snapped at yesterday. It would have been easy to ignore him, but instead {{story_character}} took a breath and said, "Hey... I'm sorry about yesterday." The man blinked at him in surprise, then laughed and said, "No worries, {{story_character}}. I was in a bad mood, too." Then they shook hands, and for the first time ever, {{story_character}} felt a sense of kinship with another human being in the workplace.
+            <textarea id="friendship" name="friendship" class="form-control" [(ngModel)]="friendship" placeholder="Friendship 🤝"></textarea>
+          </p>
+          <p>
+            Thus, {{story_character}} was called again by his boss, only this time the tone was entirely different. "I've been watching you, {{story_character}}. I see improvement. Keep it up." Relief flooded {{story_character}}'s chest.
+            <textarea id="relief" name="relief" class="form-control" [(ngModel)]="relief" placeholder="Relief 😌"></textarea>
+            He was convinced he might well be on the verge of losing everything; instead there turned out to be a way forward.
+          </p>
+          <p>
+            He could feel the care for others in him-from within. He now knew how much people's suffering mirrored with his own, and for the first time, he felt other people's suffering with a weight never felt before.
+            <textarea id="compassion" name="compassion" class="form-control" [(ngModel)]="compassion" placeholder="Compassion 💖"></textarea>
+            He reflected on how he had judged people too early, not understanding that they had unseen burdens much like himself.
+          </p>
+          <p>
+            He sat in silent deliberation, understanding what this harsh day really meant for him. He had thought that suffering hardship meant only pain but has now discovered the hidden meaning within.
+            <textarea id="self_reflection" name="self_reflection" class="form-control" [(ngModel)]="self_reflection" placeholder="Self-Reflection 🧠"></textarea>
+            It has brought him under fire and has helped him to discover more deeply his understanding of himself and his environment.
+          </p>
+          <p>
+            As a bright candle of hope, his story spread all over the community. People started thinking that no matter how wrong life seems at times, small acts of generosity and care could create ripples of change. The unlucky day for {{story_character}} became a historic day-proving that every challenge has a chance to make this world a bit brighter.
+            <textarea id="inspiration" name="inspiration" class="form-control" [(ngModel)]="inspiration" placeholder="Inspiration 🌟"></textarea>
+          </p>
+          <p>
+            <!-- Moral or Theme -->
+            <label for="story_moral" class="col-sm-4 col-form-label text-end">Moral of the Story</label>
+            <textarea id="story_moral" name="story_moral" class="form-control" [(ngModel)]="story_moral" placeholder="Moral or Theme"></textarea>
+          </p>
         </div>
       </div>
 

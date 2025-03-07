@@ -11,12 +11,24 @@ import { environment } from '../../environments/environment';
 export class TextGeneratorComponent implements OnInit {
   id: number = 0;
   prompt: string = '';
-  response: string = '';
+  response: string = 'This is a dummy response to show how the AI generated story will look like. The story will be dynamically generated based on the prompt provided by the user.';
   story_character: string = '';
-  story_setting: string = '';
-  story_conflict: string = '';
-  story_resolution: string = '';
-  story_dialogue: string = '';
+  
+  frustration: string = '';
+  sadness: string = '';
+  fear: string = '';
+  anger: string = '';
+  empathy: string = '';
+  gratitude: string = '';
+  protectiveness: string = '';
+  serenity: string = '';
+  joy: string = '';
+  hope: string = '';
+  friendship: string = '';
+  relief: string = '';
+  compassion: string = '';
+  self_reflection: string = '';
+  inspiration: string = '';
   story_moral: string = '';
   private apiUrl = environment.apiUrl;
 
@@ -34,10 +46,21 @@ export class TextGeneratorComponent implements OnInit {
         data => {
           console.log("Fetched Story Data:", data);
           this.story_character = data.story_character;
-          this.story_setting = data.story_setting;
-          this.story_conflict = data.story_conflict;
-          this.story_resolution = data.story_resolution;
-          this.story_dialogue = data.story_dialogue;
+          this.frustration = data.frustration;
+          this.sadness = data.sadness;
+          this.fear = data.fear;
+          this.anger = data.anger;
+          this.empathy = data.empathy;
+          this.gratitude = data.gratitude;
+          this.protectiveness = data.protectiveness;
+          this.serenity = data.serenity;
+          this.joy = data.joy;
+          this.hope = data.hope;
+          this.friendship = data.friendship;
+          this.relief = data.relief;
+          this.compassion = data.compassion;
+          this.self_reflection = data.self_reflection;
+          this.inspiration = data.inspiration;
           this.story_moral = data.story_moral;
         },
         error => {

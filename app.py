@@ -8,9 +8,12 @@ from models.db.exercise2 import db, Exercise2
 #from models.text.qwen_model import load_qwen_model, generate_qwen_response
 from transformers import pipeline, set_seed, AutoModelForCausalLM, AutoTokenizer
 import torch
+import requests
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend API access
+
+COLAB_API_URL = "https://7b3c-34-75-98-241.ngrok-free.app/chat"
 
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/genai'
@@ -101,6 +104,11 @@ def chat():
 
         if not prompt:
             return jsonify({"error": "Prompt is required"}), 400
+        
+        # Forward the request to Google Colab
+        response = requests.post(COLAB_API_URL, json={"prompt": prompt})
+
+        return jsonify(response.json()), response.status_code
 # working this block
          # Tokenize input properly
         #inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=512).to("cpu")
@@ -180,10 +188,21 @@ def save_pre_text():
         reflect_human_ai_role=data.get('reflect_human_ai_role', '').strip(),
         reflect_future_prep=data.get('reflect_future_prep', '').strip(),
         story_character=data.get('story_character', '').strip(),
-        story_setting=data.get('story_setting', '').strip(),
-        story_conflict=data.get('story_conflict', '').strip(),
-        story_resolution=data.get('story_resolution', '').strip(),
-        story_dialogue=data.get('story_dialogue', '').strip(),
+        frustration=data.get('frustration', '').strip(),
+        sadness=data.get('sadness', '').strip(),
+        fear=data.get('fear', '').strip(),
+        anger=data.get('anger', '').strip(),
+        empathy=data.get('empathy', '').strip(),
+        gratitude=data.get('gratitude', '').strip(),
+        protectiveness=data.get('protectiveness', '').strip(),
+        serenity=data.get('serenity', '').strip(),
+        joy=data.get('joy', '').strip(),
+        hope=data.get('hope', '').strip(),
+        friendship=data.get('friendship', '').strip(),
+        relief=data.get('relief', '').strip(),
+        compassion=data.get('compassion', '').strip(),
+        self_reflection=data.get('self_reflection', '').strip(),
+        inspiration=data.get('inspiration', '').strip(),
         story_moral=data.get('story_moral', '').strip()
     )
     
@@ -205,10 +224,21 @@ def update_story(id):
         return jsonify({"error": "Entry not found"}), 404
     
     entry.story_character = data.get('story_character', entry.story_character).strip()
-    entry.story_setting = data.get('story_setting', entry.story_setting).strip()
-    entry.story_conflict = data.get('story_conflict', entry.story_conflict).strip()
-    entry.story_resolution = data.get('story_resolution', entry.story_resolution).strip()
-    entry.story_dialogue = data.get('story_dialogue', entry.story_dialogue).strip()
+    entry.frustration = data.get('frustration', entry.frustration).strip()
+    entry.sadness = data.get('sadness', entry.sadness).strip()
+    entry.fear = data.get('fear', entry.fear).strip()
+    entry.anger = data.get('anger', entry.anger).strip()
+    entry.empathy = data.get('empathy', entry.empathy).strip()
+    entry.gratitude = data.get('gratitude', entry.gratitude).strip()
+    entry.protectiveness = data.get('protectiveness', entry.protectiveness).strip()
+    entry.serenity = data.get('serenity', entry.serenity).strip()
+    entry.joy = data.get('joy', entry.joy).strip()
+    entry.hope = data.get('hope', entry.hope).strip()
+    entry.friendship = data.get('friendship', entry.friendship).strip()
+    entry.relief = data.get('relief', entry.relief).strip()
+    entry.compassion = data.get('compassion', entry.compassion).strip()
+    entry.self_reflection = data.get('self_reflection', entry.self_reflection).strip()
+    entry.inspiration = data.get('inspiration', entry.inspiration).strip()
     entry.story_moral = data.get('story_moral', entry.story_moral).strip()
     
     db.session.commit()
@@ -267,10 +297,21 @@ def get_story(id):
     
     story_data = {
         "story_character": entry.story_character,
-        "story_setting": entry.story_setting,
-        "story_conflict": entry.story_conflict,
-        "story_resolution": entry.story_resolution,
-        "story_dialogue": entry.story_dialogue,
+        "frustration": entry.frustration,
+        "sadness": entry.sadness,
+        "fear": entry.fear,
+        "anger": entry.anger,
+        "empathy": entry.empathy,
+        "gratitude": entry.gratitude,
+        "protectiveness": entry.protectiveness,
+        "serenity": entry.serenity,
+        "joy": entry.joy,
+        "hope": entry.hope,
+        "friendship": entry.friendship,
+        "relief": entry.relief,
+        "compassion": entry.compassion,
+        "self_reflection": entry.self_reflection,
+        "inspiration": entry.inspiration,
         "story_moral": entry.story_moral
     }
     

@@ -108,7 +108,7 @@ export class PreTextGeneratorComponent {
 
     console.log('Request Payload:', requestPayload); // Log the request payload
 
-    this.http.post<{ id: number }>(`${environment.apiUrl}/save-pre-text`, requestPayload)
+    this.http.post<{ id: number }>(`${environment.apiUrl}/exercise1/save-pre-text`, requestPayload)
       .subscribe(
         response => {
           console.log('API Response:', response);

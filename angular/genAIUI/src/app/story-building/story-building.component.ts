@@ -37,7 +37,7 @@ export class StoryBuildingComponent implements OnInit {
   }
 
   fetchStoryData() {
-    this.http.get<any>(`${environment.apiUrl}/get-story/${this.id}`)
+    this.http.get<any>(`${environment.apiUrl}/exercise1/get-story/${this.id}`)
       .subscribe(
         data => {
           if (data) {
@@ -93,7 +93,7 @@ export class StoryBuildingComponent implements OnInit {
 
     console.log('Update Payload:', updatePayload); // Log the update payload
 
-    this.http.put(`${environment.apiUrl}/update-story/${this.id}`, updatePayload)
+    this.http.put(`${environment.apiUrl}/exercise1/update-story/${this.id}`, updatePayload)
       .subscribe(
         response => {
           console.log('API Response:', response);

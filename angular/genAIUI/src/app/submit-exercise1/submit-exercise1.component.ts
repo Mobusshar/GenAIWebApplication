@@ -79,7 +79,7 @@ export class SubmitExercise1Component implements OnInit {
 
     console.log('Update Payload:', updatePayload); // Log the update payload
 
-    this.http.put(`${this.apiUrl}/update-post-exercise1/${this.id}`, updatePayload)
+    this.http.put(`${this.apiUrl}/exercise1/update-post-exercise1/${this.id}`, updatePayload)
       .subscribe(
         response => {
           console.log('API Response:', response);

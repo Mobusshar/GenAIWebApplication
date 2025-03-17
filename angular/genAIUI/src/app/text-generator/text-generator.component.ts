@@ -41,7 +41,7 @@ export class TextGeneratorComponent implements OnInit {
   }
 
   fetchStoryData() {
-    this.http.get<any>(`${this.apiUrl}/get-story/${this.id}`)
+    this.http.get<any>(`${this.apiUrl}/exercise1/get-story/${this.id}`)
       .subscribe(
         data => {
           console.log("Fetched Story Data:", data);

@@ -141,6 +141,10 @@ As a bright candle of hope, his story spread all over the community. People star
       );
   }
 
+  navigateBack() {
+    this.router.navigate(['/story-building', this.id]);
+  }
+  
   navigateToSubmitExercise1() {
     this.router.navigate(['/submit-exercise1', this.id]);
   }

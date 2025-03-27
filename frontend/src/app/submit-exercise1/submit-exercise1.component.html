@@ -6,7 +6,7 @@
     <form (ngSubmit)="submitExercise1()" #submitForm="ngForm">
       <!-- Interests -->
       <div class="row mb-3">
-        <label for="exp_interest" class="col-sm-4 col-form-label text-end">What interests you most about designing a children’s story cover/story in Exercise 1?</label>
+        <label for="exp_interest" class="col-sm-4 col-form-label text-end">What interests you most about designing a story in Exercise 1?</label>
         <div class="col-sm-8">
           <textarea id="exp_interest" name="exp_interest" class="form-control" [(ngModel)]="exp_interest"></textarea>
         </div>
@@ -28,13 +28,36 @@
         </div>
       </div>
 
-      <!-- Bias in AI vs human input -->
-      <div class="row mb-3">
-        <label for="exp_bias_ai_human" class="col-sm-4 col-form-label text-end">Did any marked section reveal a potential bias when left to AI versus human input?</label>
-        <div class="col-sm-8">
-          <textarea id="exp_bias_ai_human" name="exp_bias_ai_human" class="form-control" [(ngModel)]="exp_bias_ai_human"></textarea>
-        </div>
-      </div>
+      <!-- Bias in AI vs Human Input -->
+<div class="row mb-3">
+  <label for="exp_bias_ai_human" class="col-sm-4 col-form-label text-end">
+    Did any marked section reveal a potential bias when left to AI versus human input?
+  </label>
+  <div class="col-sm-8 d-flex align-items-center">
+    <div class="form-check me-3">
+      <input
+        type="radio"
+        id="exp_bias_ai_human_yes"
+        name="exp_bias_ai_human"
+        class="form-check-input"
+        [(ngModel)]="exp_bias_ai_human"
+        [value]="'Yes'"
+      />
+      <label for="exp_bias_ai_human_yes" class="form-check-label">Yes</label>
+    </div>
+    <div class="form-check">
+      <input
+        type="radio"
+        id="exp_bias_ai_human_no"
+        name="exp_bias_ai_human"
+        class="form-check-input"
+        [(ngModel)]="exp_bias_ai_human"
+        [value]="'No'"
+      />
+      <label for="exp_bias_ai_human_no" class="form-check-label">No</label>
+    </div>
+  </div>
+</div>
 
       <!-- Challenges in fairness -->
       <div class="row mb-3">
@@ -61,28 +84,79 @@
       </div>
 
       <!-- Satisfaction -->
-      <div class="row mb-3">
-        <label for="exp_satisfaction" class="col-sm-4 col-form-label text-end">How satisfied were you with the overall exercise?</label>
-        <div class="col-sm-8">
-          <input type="number" id="exp_satisfaction" name="exp_satisfaction" class="form-control" [(ngModel)]="exp_satisfaction">
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="exp_satisfaction" class="col-sm-4 col-form-label text-end">
+    How satisfied were you with the overall exercise?
+  </label>
+  <div class="col-sm-8">
+    <select
+      id="exp_satisfaction"
+      name="exp_satisfaction"
+      class="form-select"
+      [(ngModel)]="exp_satisfaction"
+    >
+      <option value="" disabled selected>Select your satisfaction level</option>
+      <option value="1">1 - Not satisfied at all</option>
+      <option value="2">2 - Slightly satisfied</option>
+      <option value="3">3 - Somewhat satisfied</option>
+      <option value="4">4 - Satisfied</option>
+      <option value="5">5 - Very satisfied</option>
+    </select>
+  </div>
+</div>
 
       <!-- Challenge level -->
-      <div class="row mb-3">
-        <label for="exp_challenge" class="col-sm-4 col-form-label text-end">How challenging did you find this exercise?</label>
-        <div class="col-sm-8">
-          <input type="number" id="exp_challenge" name="exp_challenge" class="form-control" [(ngModel)]="exp_challenge">
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="exp_challenge" class="col-sm-4 col-form-label text-end">
+    How challenging did you find this exercise?
+  </label>
+  <div class="col-sm-8">
+    <select
+      id="exp_challenge"
+      name="exp_challenge"
+      class="form-select"
+      [(ngModel)]="exp_challenge"
+    >
+      <option value="" disabled selected>Select the challenge level</option>
+      <option value="1">1 - Very easy</option>
+      <option value="2">2 - Somewhat easy</option>
+      <option value="3">3 - Neutral</option>
+      <option value="4">4 - Somewhat difficult</option>
+      <option value="5">5 - Very difficult</option>
+    </select>
+  </div>
+</div>
 
       <!-- Creativity boost -->
-      <div class="row mb-3">
-        <label for="exp_creativity_boost" class="col-sm-4 col-form-label text-end">Did this exercise help you think more creatively? If so, how?</label>
-        <div class="col-sm-8">
-          <textarea id="exp_creativity_boost" name="exp_creativity_boost" class="form-control" [(ngModel)]="exp_creativity_boost"></textarea>
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="exp_creativity_boost" class="col-sm-4 col-form-label text-end">
+    Did this exercise help you think more creatively?
+  </label>
+  <div class="col-sm-8 d-flex align-items-center">
+    <div class="form-check me-3">
+      <input
+        type="radio"
+        id="exp_creativity_boost_yes"
+        name="exp_creativity_boost"
+        class="form-check-input"
+        [(ngModel)]="exp_creativity_boost"
+        [value]="'Yes'"
+      />
+      <label for="exp_creativity_boost_yes" class="form-check-label">Yes</label>
+    </div>
+    <div class="form-check">
+      <input
+        type="radio"
+        id="exp_creativity_boost_no"
+        name="exp_creativity_boost"
+        class="form-check-input"
+        [(ngModel)]="exp_creativity_boost"
+        [value]="'No'"
+      />
+      <label for="exp_creativity_boost_no" class="form-check-label">No</label>
+    </div>
+  </div>
+</div>
 
       <!-- Enjoyment -->
       <div class="row mb-3">
@@ -101,20 +175,48 @@
       </div>
 
       <!-- AI helpfulness -->
-      <div class="row mb-3">
-        <label for="ai_helpfulness" class="col-sm-4 col-form-label text-end">How helpful were generative AI tools in the creative process?</label>
-        <div class="col-sm-8">
-          <input type="number" id="ai_helpfulness" name="ai_helpfulness" class="form-control" [(ngModel)]="ai_helpfulness">
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="ai_helpfulness" class="col-sm-4 col-form-label text-end">
+    How helpful were generative AI tools in the creative process?
+  </label>
+  <div class="col-sm-8">
+    <select
+      id="ai_helpfulness"
+      name="ai_helpfulness"
+      class="form-select"
+      [(ngModel)]="ai_helpfulness"
+    >
+      <option value="" disabled selected>Select the helpfulness level</option>
+      <option value="1">1 - Not helpful at all</option>
+      <option value="2">2 - Slightly helpful</option>
+      <option value="3">3 - Somewhat helpful</option>
+      <option value="4">4 - Helpful</option>
+      <option value="5">5 - Very helpful</option>
+    </select>
+  </div>
+</div>
 
       <!-- AI iterations -->
-      <div class="row mb-3">
-        <label for="ai_iterations" class="col-sm-4 col-form-label text-end">How many iterations did you generate with AI tools?</label>
-        <div class="col-sm-8">
-          <input type="number" id="ai_iterations" name="ai_iterations" class="form-control" [(ngModel)]="ai_iterations">
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="ai_iterations" class="col-sm-4 col-form-label text-end">
+    How many iterations did you change from the AI output?
+  </label>
+  <div class="col-sm-8">
+    <select
+      id="ai_iterations"
+      name="ai_iterations"
+      class="form-select"
+      [(ngModel)]="ai_iterations"
+    >
+      <option value="" disabled selected>Select the number of iterations</option>
+      <option value="1">1 - None</option>
+      <option value="2">2 - 1-2 times</option>
+      <option value="3">3 - 3-4 times</option>
+      <option value="4">4 - 5-6 times</option>
+      <option value="5">5 - More than 6 times</option>
+    </select>
+  </div>
+</div>
 
       <!-- AI strategies -->
       <div class="row mb-3">
@@ -125,12 +227,46 @@
       </div>
 
       <!-- AI contribution -->
-      <div class="row mb-3">
-        <label for="ai_contribution" class="col-sm-4 col-form-label text-end">Do you feel the final output reflects your creative input, AI’s contribution, or both equally?</label>
-        <div class="col-sm-8">
-          <input type="text" id="ai_contribution" name="ai_contribution" class="form-control" [(ngModel)]="ai_contribution">
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="ai_contribution" class="col-sm-4 col-form-label text-end">
+    Do you feel the final output reflects your creative input, AI’s contribution, or both equally?
+  </label>
+  <div class="col-sm-8 d-flex align-items-center">
+    <div class="form-check me-3">
+      <input
+        type="radio"
+        id="ai_contribution_creative"
+        name="ai_contribution"
+        class="form-check-input"
+        [(ngModel)]="ai_contribution"
+        [value]="'Mostly my creative input'"
+      />
+      <label for="ai_contribution_creative" class="form-check-label">Mostly my creative input</label>
+    </div>
+    <div class="form-check me-3">
+      <input
+        type="radio"
+        id="ai_contribution_ai"
+        name="ai_contribution"
+        class="form-check-input"
+        [(ngModel)]="ai_contribution"
+        [value]="'Mostly AI’s contribution'"
+      />
+      <label for="ai_contribution_ai" class="form-check-label">Mostly AI’s contribution</label>
+    </div>
+    <div class="form-check">
+      <input
+        type="radio"
+        id="ai_contribution_both"
+        name="ai_contribution"
+        class="form-check-input"
+        [(ngModel)]="ai_contribution"
+        [value]="'Both equally'"
+      />
+      <label for="ai_contribution_both" class="form-check-label">Both equally</label>
+    </div>
+  </div>
+</div>
 
       <!-- AI learnings -->
       <div class="row mb-3">
@@ -141,36 +277,101 @@
       </div>
 
       <!-- Collaboration value post -->
-      <div class="row mb-3">
-        <label for="collab_value_post" class="col-sm-4 col-form-label text-end">How valuable was peer collaboration in improving your output?</label>
-        <div class="col-sm-8">
-          <input type="number" id="collab_value_post" name="collab_value_post" class="form-control" [(ngModel)]="collab_value_post">
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="collab_value_post" class="col-sm-4 col-form-label text-end">
+    How valuable was peer collaboration in improving your output?
+  </label>
+  <div class="col-sm-8">
+    <select
+      id="collab_value_post"
+      name="collab_value_post"
+      class="form-select"
+      [(ngModel)]="collab_value_post"
+    >
+      <option value="" disabled selected>Select the value of collaboration</option>
+      <option value="1">1 - Not valuable at all</option>
+      <option value="2">2 - Slightly valuable</option>
+      <option value="3">3 - Somewhat valuable</option>
+      <option value="4">4 - Valuable</option>
+      <option value="5">5 - Very valuable</option>
+    </select>
+  </div>
+</div>
 
       <!-- Collaboration feedback -->
-      <div class="row mb-3">
-        <label for="collab_feedback" class="col-sm-4 col-form-label text-end">How often did you incorporate peer feedback into your work?</label>
-        <div class="col-sm-8">
-          <input type="text" id="collab_feedback" name="collab_feedback" class="form-control" [(ngModel)]="collab_feedback">
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="collab_feedback" class="col-sm-4 col-form-label text-end">
+    How often did you incorporate peer feedback into your work?
+  </label>
+  <div class="col-sm-8">
+    <select
+      id="collab_feedback"
+      name="collab_feedback"
+      class="form-select"
+      [(ngModel)]="collab_feedback"
+    >
+      <option value="" disabled selected>Select the frequency</option>
+      <option value="1">1 - Rarely</option>
+      <option value="2">2 - Occasionally</option>
+      <option value="3">3 - Sometimes</option>
+      <option value="4">4 - Often</option>
+      <option value="5">5 - Very frequently</option>
+    </select>
+  </div>
+</div>
 
       <!-- Collaboration new ideas -->
-      <div class="row mb-3">
-        <label for="collab_new_ideas" class="col-sm-4 col-form-label text-end">Did collaborating with peers give you new ideas or perspectives?</label>
-        <div class="col-sm-8">
-          <textarea id="collab_new_ideas" name="collab_new_ideas" class="form-control" [(ngModel)]="collab_new_ideas"></textarea>
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="collab_new_ideas" class="col-sm-4 col-form-label text-end">
+    Did collaborating with peers give you new ideas or perspectives?
+  </label>
+  <div class="col-sm-8 d-flex align-items-center">
+    <div class="form-check me-3">
+      <input
+        type="radio"
+        id="collab_new_ideas_yes"
+        name="collab_new_ideas"
+        class="form-check-input"
+        [(ngModel)]="collab_new_ideas"
+        [value]="'Yes'"
+      />
+      <label for="collab_new_ideas_yes" class="form-check-label">Yes</label>
+    </div>
+    <div class="form-check">
+      <input
+        type="radio"
+        id="collab_new_ideas_no"
+        name="collab_new_ideas"
+        class="form-check-input"
+        [(ngModel)]="collab_new_ideas"
+        [value]="'No'"
+      />
+      <label for="collab_new_ideas_no" class="form-check-label">No</label>
+    </div>
+  </div>
+</div>
 
       <!-- Confidence post exercise -->
-      <div class="row mb-3">
-        <label for="learn_conf_post" class="col-sm-4 col-form-label text-end">How confident are you in your creative skills after completing this exercise?</label>
-        <div class="col-sm-8">
-          <input type="number" id="learn_conf_post" name="learn_conf_post" class="form-control" [(ngModel)]="learn_conf_post">
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="learn_conf_post" class="col-sm-4 col-form-label text-end">
+    How confident are you in your creative skills after completing this exercise?
+  </label>
+  <div class="col-sm-8">
+    <select
+      id="learn_conf_post"
+      name="learn_conf_post"
+      class="form-select"
+      [(ngModel)]="learn_conf_post"
+    >
+      <option value="" disabled selected>Select your confidence level</option>
+      <option value="1">1 - Not confident at all</option>
+      <option value="2">2 - Slightly confident</option>
+      <option value="3">3 - Somewhat confident</option>
+      <option value="4">4 - Confident</option>
+      <option value="5">5 - Very confident</option>
+    </select>
+  </div>
+</div>
 
       <!-- Skills or insights gained -->
       <div class="row mb-3">
@@ -181,12 +382,26 @@
       </div>
 
       <!-- Likelihood of using AI in future -->
-      <div class="row mb-3">
-        <label for="learn_ai_future" class="col-sm-4 col-form-label text-end">How likely are you to use generative AI tools for future creative tasks?</label>
-        <div class="col-sm-8">
-          <input type="number" id="learn_ai_future" name="learn_ai_future" class="form-control" [(ngModel)]="learn_ai_future">
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="learn_ai_future" class="col-sm-4 col-form-label text-end">
+    How likely are you to use generative AI tools for future creative tasks?
+  </label>
+  <div class="col-sm-8">
+    <select
+      id="learn_ai_future"
+      name="learn_ai_future"
+      class="form-select"
+      [(ngModel)]="learn_ai_future"
+    >
+      <option value="" disabled selected>Select your likelihood</option>
+      <option value="1">1 - Not likely at all</option>
+      <option value="2">2 - Slightly likely</option>
+      <option value="3">3 - Somewhat likely</option>
+      <option value="4">4 - Likely</option>
+      <option value="5">5 - Very likely</option>
+    </select>
+  </div>
+</div>
 
       <!-- Creativity confidence change -->
       <div class="row mb-3">

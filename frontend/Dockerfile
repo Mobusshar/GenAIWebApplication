@@ -18,7 +18,7 @@ RUN npm run build --prod
 FROM nginx:latest
 
 # Copy the build output from Stage 1 to Nginx HTML directory
-COPY --from=build /app/dist/your-angular-app-name /usr/share/nginx/html
+COPY --from=build /app/dist/gen-aiui /usr/share/nginx/html
 
 # Copy custom Nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf

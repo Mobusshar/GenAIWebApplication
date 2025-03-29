@@ -15,7 +15,7 @@ COPY . .
 RUN npm run build --prod
 
 # Stage 2: Serve the app using Nginx
-FROM nginx:latest
+FROM nginx:1.23
 
 # Copy the build output from Stage 1 to Nginx HTML directory
 COPY --from=build /app/dist/gen-aiui /usr/share/nginx/html

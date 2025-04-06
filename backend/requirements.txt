@@ -8,3 +8,6 @@ accelerate
 flask_sqlalchemy
 psycopg2-binary
 numpy<2
+openai
+requests
+python-dotenv

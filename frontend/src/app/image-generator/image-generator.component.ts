@@ -1,55 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-image-generator',
   templateUrl: './image-generator.component.html',
   styleUrls: ['./image-generator.component.css']
 })
-export class ImageGeneratorComponent implements OnInit {
-  name: string = '';  // This will hold the user's name
-  email: string = '';  // This will hold the user's email
-  studentid: string = '';  // This will hold the user's student ID
-  prompt: string = '';  // This will hold the user input
-  images: string[] = []; // This array will store generated image URLs
+export class ImageGeneratorComponent implements OnInit{
+  id: number = 0;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  product1: string = '';
+  product1Name: string = '';
+  product1Value: number | null = null;
 
-  ngOnInit() {
-    this.loadImages();
-  }
+  product2: string = '';
+  product2Name: string = '';
+  product2Value: number | null = null;
 
-  generateImage() {
-    if (!this.prompt.trim()) {
-        alert("Please enter a prompt.");
-        return;
-    }
+  product3: string = '';
+  product3Name: string = '';
+  product3Value: number | null = null;
 
-    console.log("Sending API request...");
+  images: string[] = [];
+  uploadedImage: string | ArrayBuffer | null = null;
+  generatedImage: string | null = null;
+  selectedFile: File | null = null;
 
-    const requestPayload = { 
-      name: this.name,
-      email: this.email,
-      studentid: this.studentid,
-      prompt: this.prompt 
-    }; // Prepare the request payload with the additional fields
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {}
 
-    // Send POST request to Flask backend
-    this.http.post<{ image_url: string }>(`${environment.apiUrl}/generate`, requestPayload)
-      .subscribe(
-        response => {
-          console.log("API Response:", response); 
-          if (response.image_url) {
-            this.images.unshift(`${environment.apiUrl}${response.image_url}`); // Add generated image URL to the beginning of the list
-          }
-        },
-        error => {
-          console.error("API Error:", error); // Log any error response from the API
-          alert(`Error: ${error?.error?.error || 'Something went wrong while generating the image'}`);
-        }
-      );
+  ngOnInit(): void {
+    this.id = +this.route.snapshot.paramMap.get('id')!;
+    console.log('Received ID:', this.id);
   }
 
   loadImages() {
@@ -64,8 +47,45 @@ export class ImageGeneratorComponent implements OnInit {
       );
   }
 
-  navigateToSubmitExercise2() {
-    this.router.navigate(['/submit-exercise2']);
+
+  navigateToSubmitExercise2(): void {
+    this.router.navigate(['/submit-exercise2', this.id]);
   }
 
+  // Handle file selection
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.selectedFile = input.files[0];
+
+      // Preview the uploaded image
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.uploadedImage = e.target?.result ?? null;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+
+  // Upload the sketch and call the DALL-E 2 API
+  uploadSketch(): void {
+    if (!this.selectedFile) {
+      alert('Please upload a sketched image first.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+
+    this.http.post<{ generatedImageUrl: string }>(`${environment.apiUrl}/generate-dalle-image`, formData)
+      .subscribe(
+        (response) => {
+          this.generatedImage = response.generatedImageUrl;
+        },
+        (error) => {
+          console.error('Error generating AI image:', error);
+          alert('Something went wrong while generating the AI image.');
+        }
+      );
+  }
 }

@@ -1,49 +1,96 @@
 <div class="container">
   <h1 class="mt-5 text-center">AI Image Generator</h1>
 
-  <form (ngSubmit)="generateImage()" class="mt-3">
-    <div class="form-group">
-      <label for="name">Name:</label>
-      <input type="text" id="name" [(ngModel)]="name" name="name" class="form-control" required>
-    </div>
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" id="email" [(ngModel)]="email" name="email" class="form-control" required>
-    </div>
-    <div class="form-group">
-      <label for="studentid">Student ID:</label>
-      <input type="text" id="studentid" [(ngModel)]="studentid" name="studentid" class="form-control" required>
-    </div>
-    <div class="form-group">
-      <label for="prompt">Enter your prompt:</label>
-      <input type="text" id="prompt" [(ngModel)]="prompt" name="prompt" class="form-control" required>
-    </div>
-    <button type="submit" class="btn btn-primary btn-block">Generate Image</button>
-  </form>
+  <!-- Section to Download the Image -->
+  <div class="mt-4 text-center">
+    <h3>Step 1: Download the Image or ask for a printed image to the course teacher</h3>
+    <img src="assets/car_interior.jpg" alt="Car Interior" class="img-fluid mb-3" style="max-width: 700px;">
+    <a href="assets/car_interior.jpg" download="car_interior.jpg" class="btn btn-primary">Download Image</a>
+  </div>
 
   <hr>
 
-  <!-- Display Generated Images -->
-  <h2 class="mt-5 text-center">Generated Images</h2>
-  <div class="table-responsive">
-    <table class="table table-bordered table-striped table-hover">
-      <thead class="thead-light">
-        <tr>
-          <th>#</th>
-          <th>Image</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let image of images; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td><img [src]="image" class="img-fluid small-image" alt="Generated Image"></td>
-          <td>Generated Image {{ i + 1 }}</td>
-        </tr>
-      </tbody>
-    </table>
+<!-- Section to Describe Products -->
+<div class="mt-4">
+  <h3>Step 2: Describe Your Products</h3>
+  <form #productDescriptionForm="ngForm">
+    <!-- Product 1 -->
+    <div class="form-group mb-3">
+      <label for="product1">Product 1 Description:</label>
+      <textarea id="product1" name="product1" class="form-control" rows="2" [(ngModel)]="product1" required></textarea>
+    </div>
+    <div class="form-group mb-3">
+      <label for="product1Name">Product 1 Name (or Pet Name):</label>
+      <input type="text" id="product1Name" name="product1Name" class="form-control" [(ngModel)]="product1Name" required />
+    </div>
+    <div class="form-group mb-3">
+      <label for="product1Value">Product 1 Market Value (in Euro):</label>
+      <input type="number" id="product1Value" name="product1Value" class="form-control" [(ngModel)]="product1Value" required />
+    </div>
+
+    <!-- Product 2 -->
+    <div class="form-group mb-3">
+      <label for="product2">Product 2 Description:</label>
+      <textarea id="product2" name="product2" class="form-control" rows="2" [(ngModel)]="product2" required></textarea>
+    </div>
+    <div class="form-group mb-3">
+      <label for="product2Name">Product 2 Name (or Pet Name):</label>
+      <input type="text" id="product2Name" name="product2Name" class="form-control" [(ngModel)]="product2Name" required />
+    </div>
+    <div class="form-group mb-3">
+      <label for="product2Value">Product 2 Market Value (in Euro):</label>
+      <input type="number" id="product2Value" name="product2Value" class="form-control" [(ngModel)]="product2Value" required />
+    </div>
+
+    <!-- Product 3 -->
+    <div class="form-group mb-3">
+      <label for="product3">Product 3 Description:</label>
+      <textarea id="product3" name="product3" class="form-control" rows="2" [(ngModel)]="product3" required></textarea>
+    </div>
+    <div class="form-group mb-3">
+      <label for="product3Name">Product 3 Name (or Pet Name):</label>
+      <input type="text" id="product3Name" name="product3Name" class="form-control" [(ngModel)]="product3Name" required />
+    </div>
+    <div class="form-group mb-3">
+      <label for="product3Value">Product 3 Market Value (in Euro):</label>
+      <input type="number" id="product3Value" name="product3Value" class="form-control" [(ngModel)]="product3Value" required />
+    </div>
+  </form>
+</div>
+
+<hr>
+
+  <!-- Section to Upload the Sketched Image -->
+  <div class="mt-4">
+    <h3>Step 2: Upload Your Hand Sketched Image Here with 3 products desinged</h3>
+    <form (ngSubmit)="uploadSketch()" class="mt-3">
+      <div class="form-group">
+        <label for="sketchUpload">Upload your sketched image:</label>
+        <input type="file" id="sketchUpload" (change)="onFileSelected($event)" class="form-control" accept="image/*" required>
+      </div>
+      <button type="submit" class="btn btn-success mt-3">Generate AI Image</button>
+    </form>
   </div>
 
-  <button (click)="navigateToSubmitExercise2()" class="btn btn-secondary btn-lg mt-5">Submit Exercise 2</button>
+  <hr>
+
+  <!-- Section to Display the Uploaded and Generated Images -->
+  <div class="mt-4">
+    <h3>Step 3: View Results</h3>
+    <div class="row">
+      <div class="col-md-6 text-center">
+        <h5>Uploaded Sketch</h5>
+        <img *ngIf="uploadedImage" [src]="uploadedImage" alt="Uploaded Sketch" class="img-fluid" style="max-width: 400px;">
+      </div>
+      <div class="col-md-6 text-center">
+        <h5>Generated AI Image</h5>
+        <img *ngIf="generatedImage" [src]="generatedImage" alt="Generated AI Image" class="img-fluid" style="max-width: 400px;">
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <button class="btn btn-primary" (click)="navigateToSubmitExercise2()">Proceed to Submit Exercise</button>
+  </div>
 </div>
 

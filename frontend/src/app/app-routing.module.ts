@@ -16,13 +16,13 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', component: LandingPageComponent },
-      { path: 'image-generator', component: ImageGeneratorComponent },
+      { path: 'image-generator/:id', component: ImageGeneratorComponent },
       { path: 'pre-text-generator', component: PreTextGeneratorComponent },
       { path: 'story-building/:id', component: StoryBuildingComponent },
       { path: 'text-generator/:id', component: TextGeneratorComponent },
       { path: 'submit-exercise1/:id', component: SubmitExercise1Component },
       { path: 'pre-image-generator', component: PreImageGeneratorComponent },
-      { path: 'submit-exercise2', component: SubmitExercise2Component }
+      { path: 'submit-exercise2/:id', component: SubmitExercise2Component }
       //{ path: '', redirectTo: '/image-generator', pathMatch: 'full' }
     ]
   }

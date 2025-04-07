@@ -2,6 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from models.db.exercise1 import db, Exercise1
 from models.db.exercise2 import db, Exercise2
+from models.db import db, create_exercise1_table
 from config import Config
 
 def create_app():
@@ -13,6 +14,7 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+        create_exercise1_table()
 
     from routes.exercise1 import exercise1_bp
     from routes.exercise2 import exercise2_bp

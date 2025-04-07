@@ -3,12 +3,23 @@
 
   <div class="card p-4">
     <!-- Angular form -->
-    <form (ngSubmit)="onSubmit()" #preTextForm="ngForm">
+    <form (ngSubmit)="onSubmit()" #preTextForm="ngForm" novalidate>
       <!-- Name -->
       <div class="row mb-3">
         <label for="demo_name" class="col-sm-4 col-form-label text-end">Name</label>
         <div class="col-sm-8">
-          <input type="text" id="demo_name" name="demo_name" class="form-control" [(ngModel)]="demo_name" />
+          <input
+            type="text"
+            id="demo_name"
+            name="demo_name"
+            class="form-control"
+            [(ngModel)]="demo_name"
+            required
+            #demoName="ngModel"
+          />
+          <div *ngIf="demoName.invalid && demoName.touched" class="text-danger">
+            Name is required.
+          </div>
         </div>
       </div>
 
@@ -16,7 +27,18 @@
       <div class="row mb-3">
         <label for="demo_email" class="col-sm-4 col-form-label text-end">Email</label>
         <div class="col-sm-8">
-          <input type="email" id="demo_email" name="demo_email" class="form-control" [(ngModel)]="demo_email" />
+          <input
+            type="email"
+            id="demo_email"
+            name="demo_email"
+            class="form-control"
+            [(ngModel)]="demo_email"
+            required
+            #demoEmail="ngModel"
+          />
+          <div *ngIf="demoEmail.invalid && demoEmail.touched" class="text-danger">
+            A valid email is required.
+          </div>
         </div>
       </div>
 
@@ -24,7 +46,45 @@
       <div class="row mb-3">
         <label for="demo_academic" class="col-sm-4 col-form-label text-end">Academic background</label>
         <div class="col-sm-8">
-          <input type="text" id="demo_academic" name="demo_academic" class="form-control" [(ngModel)]="demo_academic" />
+          <select
+            id="demo_academic"
+            name="demo_academic"
+            class="form-select"
+            [(ngModel)]="demo_academic"
+            (change)="onAcademicChange($event)"
+            required
+            #demoAcademic="ngModel"
+          >
+            <option value="" disabled selected>Select your academic background</option>
+            <option value="High School">High School</option>
+            <option value="Undergraduate">Undergraduate</option>
+            <option value="Graduate">Graduate</option>
+            <option value="Postgraduate">Postgraduate</option>
+            <option value="Other">Other</option>
+          </select>
+          <div *ngIf="demoAcademic.invalid && demoAcademic.touched" class="text-danger">
+            Academic background is required.
+          </div>
+        </div>
+      </div>
+
+      <!-- Input field for "Other" academic background -->
+      <div class="row mb-3" *ngIf="isOtherAcademic">
+        <label for="other_academic" class="col-sm-4 col-form-label text-end">Specify Other</label>
+        <div class="col-sm-8">
+          <input
+            type="text"
+            id="other_academic"
+            name="other_academic"
+            class="form-control"
+            [(ngModel)]="other_academic"
+            (input)="updateAcademicBackground()"
+            required
+            #otherAcademic="ngModel"
+          />
+          <div *ngIf="otherAcademic.invalid && otherAcademic.touched" class="text-danger">
+            Please specify your academic background.
+          </div>
         </div>
       </div>
 
@@ -39,6 +99,8 @@
             name="base_creativity_conf"
             class="form-select"
             [(ngModel)]="base_creativity_conf"
+            required
+            #baseCreativityConf="ngModel"
           >
             <option value="" disabled selected>Select your confidence level</option>
             <option value="1">1 - Not confident at all</option>
@@ -47,163 +109,333 @@
             <option value="4">4 - Confident</option>
             <option value="5">5 - Very confident</option>
           </select>
+          <div *ngIf="baseCreativityConf.invalid && baseCreativityConf.touched" class="text-danger">
+            Confidence level is required.
+          </div>
         </div>
       </div>
 
       <!-- Creative activities frequency -->
-<div class="row mb-3">
-  <label for="base_creativity_freq" class="col-sm-4 col-form-label text-end">
-    How often do you engage in creative activities?
-  </label>
-  <div class="col-sm-8">
-    <select
-      id="base_creativity_freq"
-      name="base_creativity_freq"
-      class="form-select"
-      [(ngModel)]="base_creativity_freq"
-    >
-      <option value="" disabled selected>Select your frequency</option>
-      <option value="1">1 - Rarely</option>
-      <option value="2">2 - Occasionally</option>
-      <option value="3">3 - Sometimes</option>
-      <option value="4">4 - Often</option>
-      <option value="5">5 - Very frequently</option>
-    </select>
-  </div>
-</div>
+      <div class="row mb-3">
+        <label for="base_creativity_freq" class="col-sm-4 col-form-label text-end">
+          How often do you engage in creative activities?
+        </label>
+        <div class="col-sm-8">
+          <select
+            id="base_creativity_freq"
+            name="base_creativity_freq"
+            class="form-select"
+            [(ngModel)]="base_creativity_freq"
+            required
+            #baseCreativityFreq="ngModel"
+          >
+            <option value="" disabled selected>Select your frequency</option>
+            <option value="1">1 - Rarely</option>
+            <option value="2">2 - Occasionally</option>
+            <option value="3">3 - Sometimes</option>
+            <option value="4">4 - Often</option>
+            <option value="5">5 - Very frequently</option>
+          </select>
+          <div *ngIf="baseCreativityFreq.invalid && baseCreativityFreq.touched" class="text-danger">
+            Frequency is required.
+          </div>
+        </div>
+      </div>
 
       <!-- What does creativity mean to you? -->
       <div class="row mb-3">
         <label for="base_creativity_def" class="col-sm-4 col-form-label text-end">What does creativity mean to you?</label>
         <div class="col-sm-8">
-          <textarea id="base_creativity_def" name="base_creativity_def" class="form-control" rows="3" [(ngModel)]="base_creativity_def"></textarea>
+          <select
+            id="base_creativity_def"
+            name="base_creativity_def"
+            class="form-select"
+            [(ngModel)]="base_creativity_def"
+            (change)="onCreativityChange($event)"
+            required
+            #baseCreativityDef="ngModel"
+          >
+            <option value="" disabled selected>Select what creativity means to you</option>
+            <option value="Innovation">Innovation</option>
+            <option value="Expression">Expression</option>
+            <option value="Problem-solving">Problem-solving</option>
+            <option value="Collaboration">Collaboration</option>
+            <option value="Other">Other</option>
+          </select>
+          <div *ngIf="baseCreativityDef.invalid && baseCreativityDef.touched" class="text-danger">
+            Creativity definition is required.
+          </div>
+        </div>
+      </div>
+
+      <!-- Input field for "Other" creativity definition -->
+      <div class="row mb-3" *ngIf="isOtherCreativity">
+        <label for="other_creativity" class="col-sm-4 col-form-label text-end">Specify Other</label>
+        <div class="col-sm-8">
+          <input
+            type="text"
+            id="other_creativity"
+            name="other_creativity"
+            class="form-control"
+            [(ngModel)]="other_creativity"
+            (input)="updateCreativityDefinition()"
+            required
+            #otherCreativity="ngModel"
+          />
+          <div *ngIf="otherCreativity.invalid && otherCreativity.touched" class="text-danger">
+            Please specify your creativity definition.
+          </div>
         </div>
       </div>
 
       <!-- Have you used generative AI tools before? -->
-<div class="row mb-3">
-  <label for="ai_used_before" class="col-sm-4 col-form-label text-end">
-    Have you used generative AI tools before?
-  </label>
-  <div class="col-sm-8 d-flex align-items-center">
-    <div class="form-check me-3">
-      <input
-        type="radio"
-        id="ai_used_before_yes"
-        name="ai_used_before"
-        class="form-check-input"
-        [(ngModel)]="ai_used_before"
-        [value]="true"
-      />
-      <label for="ai_used_before_yes" class="form-check-label">Yes</label>
-    </div>
-    <div class="form-check">
-      <input
-        type="radio"
-        id="ai_used_before_no"
-        name="ai_used_before"
-        class="form-check-input"
-        [(ngModel)]="ai_used_before"
-        [value]="false"
-      />
-      <label for="ai_used_before_no" class="form-check-label">No</label>
-    </div>
-  </div>
-</div>
+      <div class="row mb-3">
+        <label for="ai_used_before" class="col-sm-4 col-form-label text-end">
+          Have you used generative AI tools before?
+        </label>
+        <div class="col-sm-8 d-flex align-items-center">
+          <div class="form-check me-3">
+            <input
+              type="radio"
+              id="ai_used_before_yes"
+              name="ai_used_before"
+              class="form-check-input"
+              [(ngModel)]="ai_used_before"
+              [value]="true"
+            />
+            <label for="ai_used_before_yes" class="form-check-label">Yes</label>
+          </div>
+          <div class="form-check">
+            <input
+              type="radio"
+              id="ai_used_before_no"
+              name="ai_used_before"
+              class="form-check-input"
+              [(ngModel)]="ai_used_before"
+              [value]="false"
+            />
+            <label for="ai_used_before_no" class="form-check-label">No</label>
+          </div>
+        </div>
+      </div>
 
       <!-- If yes, which ones? -->
       <div class="row mb-3">
         <label for="ai_tools_list" class="col-sm-4 col-form-label text-end">If yes, which ones?</label>
         <div class="col-sm-8">
-          <textarea id="ai_tools_list" name="ai_tools_list" class="form-control" rows="2" [(ngModel)]="ai_tools_list"></textarea>
+          <textarea
+            id="ai_tools_list"
+            name="ai_tools_list"
+            class="form-control"
+            rows="2"
+            [(ngModel)]="ai_tools_list"
+          ></textarea>
         </div>
       </div>
 
       <!-- AI comfort -->
-<div class="row mb-3">
-  <label for="ai_comfort" class="col-sm-4 col-form-label text-end">
-    How comfortable are you with using AI tools for creative tasks?
-  </label>
-  <div class="col-sm-8">
-    <select
-      id="ai_comfort"
-      name="ai_comfort"
-      class="form-select"
-      [(ngModel)]="ai_comfort"
-    >
-      <option value="" disabled selected>Select your comfort level</option>
-      <option value="1">1 - Not comfortable at all</option>
-      <option value="2">2 - Slightly comfortable</option>
-      <option value="3">3 - Somewhat comfortable</option>
-      <option value="4">4 - Comfortable</option>
-      <option value="5">5 - Very comfortable</option>
-    </select>
-  </div>
-</div>
+      <div class="row mb-3">
+        <label for="ai_comfort" class="col-sm-4 col-form-label text-end">
+          How comfortable are you with using AI tools for creative tasks?
+        </label>
+        <div class="col-sm-8">
+          <select
+            id="ai_comfort"
+            name="ai_comfort"
+            class="form-select"
+            [(ngModel)]="ai_comfort"
+            required
+            #aiComfort="ngModel"
+          >
+            <option value="" disabled selected>Select your comfort level</option>
+            <option value="1">1 - Not comfortable at all</option>
+            <option value="2">2 - Slightly comfortable</option>
+            <option value="3">3 - Somewhat comfortable</option>
+            <option value="4">4 - Comfortable</option>
+            <option value="5">5 - Very comfortable</option>
+          </select>
+          <div *ngIf="aiComfort.invalid && aiComfort.touched" class="text-danger">
+            Comfort level is required.
+          </div>
+        </div>
+      </div>
 
       <!-- AI expectations -->
       <div class="row mb-3">
-        <label for="ai_expectations" class="col-sm-4 col-form-label text-end">What are your expectations for how AI will assist your creativity in this exercise?</label>
+        <label for="ai_expectations" class="col-sm-4 col-form-label text-end">
+          What are your expectations for how AI will assist your creativity in this exercise?
+        </label>
         <div class="col-sm-8">
-          <textarea id="ai_expectations" name="ai_expectations" class="form-control" rows="3" [(ngModel)]="ai_expectations"></textarea>
+          <select
+            id="ai_expectations"
+            name="ai_expectations"
+            class="form-select"
+            [(ngModel)]="ai_expectations"
+            (change)="onAIExpectationsChange($event)"
+            required
+            #aiExpectations="ngModel"
+          >
+            <option value="" disabled selected>Select your expectations</option>
+            <option value="Provide inspiration">Provide inspiration</option>
+            <option value="Enhance efficiency">Enhance efficiency</option>
+            <option value="Offer suggestions">Offer suggestions</option>
+            <option value="Guide through structure">Guide through structure</option>
+            <option value="Other">Other</option>
+          </select>
+          <div *ngIf="aiExpectations.invalid && aiExpectations.touched" class="text-danger">
+            Expectations are required.
+          </div>
+        </div>
+      </div>
+
+      <!-- Input field for "Other" AI expectations -->
+      <div class="row mb-3" *ngIf="isOtherAIExpectations">
+        <label for="other_ai_expectations" class="col-sm-4 col-form-label text-end">Specify Other</label>
+        <div class="col-sm-8">
+          <input
+            type="text"
+            id="other_ai_expectations"
+            name="other_ai_expectations"
+            class="form-control"
+            [(ngModel)]="other_ai_expectations"
+            (input)="updateAIExpectations()"
+            required
+            #otherAIExpectations="ngModel"
+          />
+          <div *ngIf="otherAIExpectations.invalid && otherAIExpectations.touched" class="text-danger">
+            Please specify your expectations.
+          </div>
         </div>
       </div>
 
       <!-- Collaboration confidence -->
-<div class="row mb-3">
-  <label for="collab_conf" class="col-sm-4 col-form-label text-end">
-    How confident are you in collaborating with peers to generate ideas?
-  </label>
-  <div class="col-sm-8">
-    <select
-      id="collab_conf"
-      name="collab_conf"
-      class="form-select"
-      [(ngModel)]="collab_conf"
-    >
-      <option value="" disabled selected>Select your confidence level</option>
-      <option value="1">1 - Not confident at all</option>
-      <option value="2">2 - Slightly confident</option>
-      <option value="3">3 - Somewhat confident</option>
-      <option value="4">4 - Confident</option>
-      <option value="5">5 - Very confident</option>
-    </select>
-  </div>
-</div>
+      <div class="row mb-3">
+        <label for="collab_conf" class="col-sm-4 col-form-label text-end">
+          How confident are you in collaborating with peers to generate ideas?
+        </label>
+        <div class="col-sm-8">
+          <select
+            id="collab_conf"
+            name="collab_conf"
+            class="form-select"
+            [(ngModel)]="collab_conf"
+            required
+            #collabConf="ngModel"
+          >
+            <option value="" disabled selected>Select your confidence level</option>
+            <option value="1">1 - Not confident at all</option>
+            <option value="2">2 - Slightly confident</option>
+            <option value="3">3 - Somewhat confident</option>
+            <option value="4">4 - Confident</option>
+            <option value="5">5 - Very confident</option>
+          </select>
+          <div *ngIf="collabConf.invalid && collabConf.touched" class="text-danger">
+            Confidence level is required.
+          </div>
+        </div>
+      </div>
 
       <!-- Group work role -->
-<div class="row mb-3">
-  <label for="collab_role" class="col-sm-4 col-form-label text-end">
-    What role do you typically take in group work?
-  </label>
-  <div class="col-sm-8">
-    <select
-      id="collab_role"
-      name="collab_role"
-      class="form-select"
-      [(ngModel)]="collab_role"
-    >
-      <option value="" disabled selected>Select your role</option>
-      <option value="Leader">Leader</option>
-      <option value="Contributor">Contributor</option>
-      <option value="Listener">Listener</option>
-      <option value="Mediator">Mediator</option>
-      <option value="Other">Other</option>
-    </select>
-  </div>
-</div>
+      <div class="row mb-3">
+        <label for="collab_role" class="col-sm-4 col-form-label text-end">
+          What role do you typically take in group work?
+        </label>
+        <div class="col-sm-8">
+          <select
+            id="collab_role"
+            name="collab_role"
+            class="form-select"
+            [(ngModel)]="collab_role"
+            (change)="onCollabRoleChange($event)"
+            required
+            #collabRole="ngModel"
+          >
+            <option value="" disabled selected>Select your role</option>
+            <option value="Leader">Leader</option>
+            <option value="Contributor">Contributor</option>
+            <option value="Listener">Listener</option>
+            <option value="Mediator">Mediator</option>
+            <option value="Other">Other</option>
+          </select>
+          <div *ngIf="collabRole.invalid && collabRole.touched" class="text-danger">
+            Group work role is required.
+          </div>
+        </div>
+      </div>
+
+      <!-- Input field for "Other" group work role -->
+      <div class="row mb-3" *ngIf="isOtherCollabRole">
+        <label for="other_collab_role" class="col-sm-4 col-form-label text-end">Specify Other</label>
+        <div class="col-sm-8">
+          <input
+            type="text"
+            id="other_collab_role"
+            name="other_collab_role"
+            class="form-control"
+            [(ngModel)]="other_collab_role"
+            (input)="updateCollabRole()"
+            required
+            #otherCollabRole="ngModel"
+          />
+          <div *ngIf="otherCollabRole.invalid && otherCollabRole.touched" class="text-danger">
+            Please specify your role.
+          </div>
+        </div>
+      </div>
 
       <!-- Value of collaboration -->
       <div class="row mb-4">
-        <label for="collab_value" class="col-sm-4 col-form-label text-end">What do you find most valuable about working collaboratively?</label>
+        <label for="collab_value" class="col-sm-4 col-form-label text-end">
+          What do you find most valuable about working collaboratively?
+        </label>
         <div class="col-sm-8">
-          <textarea id="collab_value" name="collab_value" class="form-control" rows="3" [(ngModel)]="collab_value"></textarea>
+          <select
+            id="collab_value"
+            name="collab_value"
+            class="form-select"
+            [(ngModel)]="collab_value"
+            (change)="onCollabValueChange($event)"
+            required
+            #collabValue="ngModel"
+          >
+            <option value="" disabled selected>Select what you value most</option>
+            <option value="Shared ideas">Shared ideas</option>
+            <option value="Diverse perspectives">Diverse perspectives</option>
+            <option value="Accountability">Accountability</option>
+            <option value="Increased motivation">Increased motivation</option>
+            <option value="Other">Other</option>
+          </select>
+          <div *ngIf="collabValue.invalid && collabValue.touched" class="text-danger">
+            Value of collaboration is required.
+          </div>
+        </div>
+      </div>
+
+      <!-- Input field for "Other" value of collaboration -->
+      <div class="row mb-3" *ngIf="isOtherCollabValue">
+        <label for="other_collab_value" class="col-sm-4 col-form-label text-end">Specify Other</label>
+        <div class="col-sm-8">
+          <input
+            type="text"
+            id="other_collab_value"
+            name="other_collab_value"
+            class="form-control"
+            [(ngModel)]="other_collab_value"
+            (input)="updateCollabValue()"
+            required
+            #otherCollabValue="ngModel"
+          />
+          <div *ngIf="otherCollabValue.invalid && otherCollabValue.touched" class="text-danger">
+            Please specify what you value most.
+          </div>
         </div>
       </div>
 
       <!-- Submit button -->
       <div class="text-center">
-        <button type="submit" class="btn btn-primary btn-lg mt-3">Save</button>
+        <button type="submit" class="btn btn-primary btn-lg mt-3" [disabled]="preTextForm.invalid">
+          Save
+        </button>
       </div>
     </form>
   </div>

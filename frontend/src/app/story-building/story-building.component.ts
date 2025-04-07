@@ -70,7 +70,35 @@ export class StoryBuildingComponent implements OnInit {
       );
   }
 
+  // Validate all required fields before submission
+  isFormValid(): boolean {
+    return (
+      this.story_character.trim() !== '' &&
+      this.frustration.trim() !== '' &&
+      this.sadness.trim() !== '' &&
+      this.fear.trim() !== '' &&
+      this.anger.trim() !== '' &&
+      this.empathy.trim() !== '' &&
+      this.gratitude.trim() !== '' &&
+      this.protectiveness.trim() !== '' &&
+      this.serenity.trim() !== '' &&
+      this.joy.trim() !== '' &&
+      this.hope.trim() !== '' &&
+      this.friendship.trim() !== '' &&
+      this.relief.trim() !== '' &&
+      this.compassion.trim() !== '' &&
+      this.self_reflection.trim() !== '' &&
+      this.inspiration.trim() !== '' &&
+      this.story_moral.trim() !== ''
+    );
+  }
+
   onUpdate() {
+    if (!this.isFormValid()) {
+      alert('Please fill out all required fields before proceeding.');
+      return;
+    }
+
     const updatePayload = {
       story_character: this.story_character,
       frustration: this.frustration,

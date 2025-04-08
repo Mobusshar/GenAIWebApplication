@@ -14,25 +14,6 @@ export class TextGeneratorComponent implements OnInit {
   response: string = "";
   story_character: string = '';
   
-  //ai_story_moral = 'Kindness is a reward';
-  //ai_story_character = 'John';
-  //ai_frustration = 'Frustration grew as the day went on.';
-  //ai_sadness = 'Sadness overwhelmed him.';
-  //ai_fear = 'Fear gripped him as he thought about losing his job.';
-  //ai_anger = 'Anger erupted in his chest.';
-  //ai_empathy = 'Empathy tugged at his heart.';
-  //ai_gratitude = 'Gratitude filled her eyes.';
-  //ai_protectiveness = 'He felt a sense of protectiveness.';
-  //ai_serenity = 'Serenity washed over him.';
-  //ai_joy = 'Joy filled his heart.';
-  //ai_hope = 'Hope lit up his path.';
-  //ai_friendship = 'Friendship blossomed in the workplace.';
-  //ai_relief = 'Relief flooded his chest.';
-  //ai_compassion = 'Compassion grew within him.';
-  //ai_self_reflection = 'He reflected deeply on his experiences.';
-  //ai_inspiration = 'Inspiration spread throughout the community.';
-
-
   // AI Story Variables
   ai_story_moral = '';
   ai_story_character = '';
@@ -51,6 +32,7 @@ export class TextGeneratorComponent implements OnInit {
   ai_compassion = '';
   ai_self_reflection = '';
   ai_inspiration = '';
+  ai_story = '';
 
 
   frustration: string = '';
@@ -69,6 +51,7 @@ export class TextGeneratorComponent implements OnInit {
   self_reflection: string = '';
   inspiration: string = '';
   story_moral: string = '';
+  story: string = '';
   private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {}
@@ -84,6 +67,8 @@ export class TextGeneratorComponent implements OnInit {
       .subscribe(
         data => {
           console.log("Fetched Story Data:", data);
+
+          // Map manually entered fields
           this.story_character = data.story_character;
           this.frustration = data.frustration;
           this.sadness = data.sadness;
@@ -101,6 +86,27 @@ export class TextGeneratorComponent implements OnInit {
           this.self_reflection = data.self_reflection;
           this.inspiration = data.inspiration;
           this.story_moral = data.story_moral;
+          this.story = data.story;
+
+          // Map AI-generated fields
+          this.ai_story_character = data.ai_story_character;
+          this.ai_frustration = data.ai_frustration;
+          this.ai_sadness = data.ai_sadness;
+          this.ai_fear = data.ai_fear;
+          this.ai_anger = data.ai_anger;
+          this.ai_empathy = data.ai_empathy;
+          this.ai_gratitude = data.ai_gratitude;
+          this.ai_protectiveness = data.ai_protectiveness;
+          this.ai_serenity = data.ai_serenity;
+          this.ai_joy = data.ai_joy;
+          this.ai_hope = data.ai_hope;
+          this.ai_friendship = data.ai_friendship;
+          this.ai_relief = data.ai_relief;
+          this.ai_compassion = data.ai_compassion;
+          this.ai_self_reflection = data.ai_self_reflection;
+          this.ai_inspiration = data.ai_inspiration;
+          this.ai_story_moral = data.ai_story_moral;
+          this.ai_story = data.ai_story;
         },
         error => {
           console.error("API Error:", error);
@@ -109,61 +115,53 @@ export class TextGeneratorComponent implements OnInit {
       );
   }
 
-
   // Method to generate AI story
   generateAIStory() {
-    this.http.get<any>(`${this.apiUrl}/exercise1/generate-ai-story`).subscribe(
-      (response) => {
-        // Update AI story variables with the response
-        this.ai_story_moral = response.ai_story_moral;
-        this.ai_story_character = response.ai_story_character;
-        this.ai_frustration = response.ai_frustration;
-        this.ai_sadness = response.ai_sadness;
-        this.ai_fear = response.ai_fear;
-        this.ai_anger = response.ai_anger;
-        this.ai_empathy = response.ai_empathy;
-        this.ai_gratitude = response.ai_gratitude;
-        this.ai_protectiveness = response.ai_protectiveness;
-        this.ai_serenity = response.ai_serenity;
-        this.ai_joy = response.ai_joy;
-        this.ai_hope = response.ai_hope;
-        this.ai_friendship = response.ai_friendship;
-        this.ai_relief = response.ai_relief;
-        this.ai_compassion = response.ai_compassion;
-        this.ai_self_reflection = response.ai_self_reflection;
-        this.ai_inspiration = response.ai_inspiration;
-      },
-      (error) => {
-        console.error('Error generating AI story:', error);
-      }
-    );
-  }
-
-
-  sendMessage() {
-    if (!this.prompt.trim()) {
-      alert("Please enter a prompt.");
+    if (!this.id) {
+      alert("Invalid ID. Please ensure the ID is provided.");
       return;
     }
 
-    console.log("Sending API request...");
+    this.http.post<any>(`${this.apiUrl}/exercise1/generate-ai-story/${this.id}`, {}).subscribe(
+      (response) => {
+        // Log the entire response for debugging
+        console.log("Generated AI Story Response:", response);
 
-    const requestPayload = {
-      prompt: this.prompt 
-    }; // Prepare the request payload with the additional fields
+        // Check if the response contains the 'ai_story' object
+        if (response && response.data) {
+          const aiStory = response.data;
 
-    // Send POST request to Flask backend
-    this.http.post<{ response: string }>(`${this.apiUrl}/chat`, requestPayload)
-      .subscribe(
-        response => {
-          console.log("API Response:", response); 
-          this.response = response.response;
-        },
-        error => {
-          console.error("API Error:", error); // Log any error response from the API
-          alert(`Error: ${error?.error?.error || 'Something went wrong while generating the response'}`);
+          // Update AI story variables with the response
+          this.ai_story_moral = aiStory.ai_story_moral;
+          this.ai_story_character = aiStory.ai_story_character;
+          this.ai_frustration = aiStory.ai_frustration;
+          this.ai_sadness = aiStory.ai_sadness;
+          this.ai_fear = aiStory.ai_fear;
+          this.ai_anger = aiStory.ai_anger;
+          this.ai_empathy = aiStory.ai_empathy;
+          this.ai_gratitude = aiStory.ai_gratitude;
+          this.ai_protectiveness = aiStory.ai_protectiveness;
+          this.ai_serenity = aiStory.ai_serenity;
+          this.ai_joy = aiStory.ai_joy;
+          this.ai_hope = aiStory.ai_hope;
+          this.ai_friendship = aiStory.ai_friendship;
+          this.ai_relief = aiStory.ai_relief;
+          this.ai_compassion = aiStory.ai_compassion;
+          this.ai_self_reflection = aiStory.ai_self_reflection;
+          this.ai_inspiration = aiStory.ai_inspiration;
+          this.ai_story = aiStory.ai_story;
+
+          alert("AI story generated and saved successfully!");
+        } else {
+          console.error("Invalid response structure:", response);
+          alert("Error: Invalid response structure from the server.");
         }
-      );
+      },
+      (error) => {
+        console.error("Error generating AI story:", error);
+        alert(`Error: ${error?.error?.error || 'Something went wrong while generating the AI story'}`);
+      }
+    );
   }
 
   navigateBack() {

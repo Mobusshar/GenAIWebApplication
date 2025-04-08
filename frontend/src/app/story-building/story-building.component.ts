@@ -27,6 +27,7 @@ export class StoryBuildingComponent implements OnInit {
   self_reflection: string = '';
   inspiration: string = '';
   story_moral: string = '';
+  story: string = '';
 
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { }
 
@@ -59,6 +60,7 @@ export class StoryBuildingComponent implements OnInit {
             this.self_reflection = data.self_reflection;
             this.inspiration = data.inspiration;
             this.story_moral = data.story_moral;
+            this.story = data.story;
           } else {
             console.log("No existing story data found.");
           }

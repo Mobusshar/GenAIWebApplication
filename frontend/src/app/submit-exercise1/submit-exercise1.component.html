@@ -59,6 +59,179 @@
   </div>
 </div>
 
+<div class="text-center mb-3">
+  <p class="text-muted">Click the button below to learn about biases in creativity inhibition.</p>
+  <!-- Button to trigger modal -->
+<button
+      type="button"
+      class="btn btn-info ms-3"
+      data-bs-toggle="modal"
+      data-bs-target="#biasModal"
+    >
+      Learn About Biases(Creativity Inhibition)
+    </button>
+</div>
+
+<!-- Modal for Bias Information -->
+<div
+  class="modal fade"
+  id="biasModal"
+  tabindex="-1"
+  aria-labelledby="biasModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="biasModalLabel">Emotion Bias(Creativity Inhibition) Potential Creativity Potential</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Emotion</th>
+              <th>Bias(Creativity Inhibition) Potential</th>
+              <th>Creativity Potential</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Frustration 😤</td>
+              <td>May cause pessimistic thinking or resistance to new perspectives.</td>
+              <td>Encourages problem-solving and new ideas due to discomfort.</td>
+            </tr>
+            <tr>
+              <td>Sadness 😢</td>
+              <td>Can lead to self-victimization and emotional exaggeration.</td>
+              <td>Inspires deep reflection, art, and poetry.</td>
+            </tr>
+            <tr>
+              <td>Fear 😨</td>
+              <td>Often irrational and exaggerated, leading to paranoia.</td>
+              <td>Triggers survival instincts, heightening imagination.</td>
+            </tr>
+            <tr>
+              <td>Anger 😡</td>
+              <td>Creates impulsive reactions and blame-shifting.</td>
+              <td>Fuels passionate expression in literature and activism.</td>
+            </tr>
+            <tr>
+              <td>Empathy 🧡</td>
+              <td>Can be selective or manipulated based on personal biases.</td>
+              <td>Encourages storytelling and character depth.</td>
+            </tr>
+            <tr>
+              <td>Gratitude 🙏</td>
+              <td>Sometimes romanticizes reality, ignoring struggles.</td>
+              <td>Strengthens positive reinforcement in narratives.</td>
+            </tr>
+            <tr>
+              <td>Protectiveness 🛡️</td>
+              <td>May justify overprotective or exclusionary attitudes.</td>
+              <td>Drives heroic themes in creative works.</td>
+            </tr>
+            <tr>
+              <td>Serenity 🌿</td>
+              <td>Can dismiss real conflicts in favor of forced optimism.</td>
+              <td>Enhances peaceful, introspective creative works.</td>
+            </tr>
+            <tr>
+              <td>Joy 😄</td>
+              <td>Can overlook negative realities and suppress struggles.</td>
+              <td>Motivates humor, satire, and uplifting stories.</td>
+            </tr>
+            <tr>
+              <td>Hope ✨</td>
+              <td>Can lead to unrealistic expectations.</td>
+              <td>Inspires visions of progress and idealism.</td>
+            </tr>
+            <tr>
+              <td>Friendship 🤝</td>
+              <td>Can create in-group favoritism or bias.</td>
+              <td>Strengthens themes of connection and collaboration.</td>
+            </tr>
+            <tr>
+              <td>Relief 😌</td>
+              <td>Can downplay the severity of issues.</td>
+              <td>Encourages resolution and closure in storytelling.</td>
+            </tr>
+            <tr>
+              <td>Compassion 💞</td>
+              <td>May idealize emotions while neglecting complexities.</td>
+              <td>Drives humanitarian creativity in writing and film.</td>
+            </tr>
+            <tr>
+              <td>Self-Reflection 🤔</td>
+              <td>Can become overly self-focused, losing objectivity.</td>
+              <td>Leads to philosophical and introspective works.</td>
+            </tr>
+            <tr>
+              <td>Inspiration 🌟</td>
+              <td>Can be influenced by social biases or personal agendas.</td>
+              <td>Encourages visionary thinking and artistic works.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Field: AI Biases -->
+<div class="row mb-3">
+  <label for="exp_ai_biases" class="col-sm-4 col-form-label text-end">
+    After reviewing the creativity inhibition table, what biases did the AI demonstrate?
+  </label>
+  <div class="col-sm-8">
+    <div class="form-check" *ngFor="let bias of aiBiasOptions; let i = index">
+      <input
+        type="checkbox"
+        id="ai_bias_{{ i }}"
+        name="exp_ai_biases"
+        class="form-check-input"
+        [checked]="selectedAiBiases.includes(bias)"
+        (change)="onAiBiasChange($event, bias)"
+      />
+      <label for="ai_bias_{{ i }}" class="form-check-label">{{ bias }}</label>
+    </div>
+  </div>
+</div>
+
+<!-- New Field: User Biases -->
+<div class="row mb-3">
+  <label for="exp_user_biases" class="col-sm-4 col-form-label text-end">
+    Reflecting on your own input, what biases might you have introduced into the story?
+  </label>
+  <div class="col-sm-8">
+    <div class="form-check" *ngFor="let bias of userBiasOptions; let i = index">
+      <input
+        type="checkbox"
+        id="user_bias_{{ i }}"
+        name="exp_user_biases"
+        class="form-check-input"
+        [checked]="selectedUserBiases.includes(bias)"
+        (change)="onUserBiasChange($event, bias)"
+      />
+      <label for="user_bias_{{ i }}" class="form-check-label">{{ bias }}</label>
+    </div>
+  </div>
+</div>
+
       <!-- Challenges in fairness -->
       <div class="row mb-3">
         <label for="exp_challenge_fairness" class="col-sm-4 col-form-label text-end">Which parts of the story did you find most challenging to fill in fairly, and why?</label>

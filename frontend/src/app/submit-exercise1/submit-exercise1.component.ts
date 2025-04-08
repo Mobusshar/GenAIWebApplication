@@ -14,6 +14,8 @@ export class SubmitExercise1Component implements OnInit {
   exp_challenges: string = '';
   exp_diff_ai_human: string = '';
   exp_bias_ai_human: string = '';
+  exp_ai_biases: string = ''; // Concatenated AI biases
+  exp_user_biases: string = ''; // Concatenated user biases
   exp_challenge_fairness: string = '';
   exp_message_change: string = '';
   exp_improve: string = '';
@@ -37,6 +39,31 @@ export class SubmitExercise1Component implements OnInit {
   reflect_human_ai_role: string = '';
   reflect_future_prep: string = '';
 
+  // Bias options
+  aiBiasOptions: string[] = [
+    'May cause pessimistic thinking or resistance to new perspectives.',
+    'Can lead to self-victimization and emotional exaggeration.',
+    'Often irrational and exaggerated, leading to paranoia.',
+    'Creates impulsive reactions and blame-shifting.',
+    'Can be selective or manipulated based on personal biases.',
+    'Sometimes romanticizes reality, ignoring struggles.',
+    'May justify overprotective or exclusionary attitudes.',
+    'Can dismiss real conflicts in favor of forced optimism.',
+    'Can overlook negative realities and suppress struggles.',
+    'Can lead to unrealistic expectations.',
+    'Can create in-group favoritism or bias.',
+    'Can downplay the severity of issues.',
+    'May idealize emotions while neglecting complexities.',
+    'Can become overly self-focused, losing objectivity.',
+    'Can be influenced by social biases or personal agendas.'
+  ];
+
+  userBiasOptions: string[] = [...this.aiBiasOptions]; // Same options for user biases
+
+  // Selected biases
+  selectedAiBiases: string[] = [];
+  selectedUserBiases: string[] = [];
+
   private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {}
@@ -47,12 +74,38 @@ export class SubmitExercise1Component implements OnInit {
     // Fetch existing data if necessary
   }
 
+  // Handle AI Bias checkbox changes
+  onAiBiasChange(event: Event, bias: string): void {
+    const checkbox = event.target as HTMLInputElement;
+    if (checkbox.checked) {
+      this.selectedAiBiases.push(bias);
+    } else {
+      this.selectedAiBiases = this.selectedAiBiases.filter(item => item !== bias);
+    }
+  }
+
+  // Handle User Bias checkbox changes
+  onUserBiasChange(event: Event, bias: string): void {
+    const checkbox = event.target as HTMLInputElement;
+    if (checkbox.checked) {
+      this.selectedUserBiases.push(bias);
+    } else {
+      this.selectedUserBiases = this.selectedUserBiases.filter(item => item !== bias);
+    }
+  }
+
   submitExercise1() {
+    // Concatenate selected biases
+    this.exp_ai_biases = this.selectedAiBiases.join(', ');
+    this.exp_user_biases = this.selectedUserBiases.join(', ');
+
     const updatePayload = {
       exp_interest: this.exp_interest,
       exp_challenges: this.exp_challenges,
       exp_diff_ai_human: this.exp_diff_ai_human,
       exp_bias_ai_human: this.exp_bias_ai_human,
+      exp_ai_biases: this.exp_ai_biases, // Concatenated AI biases
+      exp_user_biases: this.exp_user_biases, // Concatenated user biases
       exp_challenge_fairness: this.exp_challenge_fairness,
       exp_message_change: this.exp_message_change,
       exp_improve: this.exp_improve,
@@ -84,7 +137,7 @@ export class SubmitExercise1Component implements OnInit {
         response => {
           console.log('API Response:', response);
           alert('Exercise 1 submitted successfully');
-            this.router.navigate(['/']); // Navigate to the homepage
+          this.router.navigate(['/']); // Navigate to the homepage
         },
         error => {
           console.error('API Error:', error);

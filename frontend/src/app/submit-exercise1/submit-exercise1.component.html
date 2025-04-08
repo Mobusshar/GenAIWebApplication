@@ -6,25 +6,82 @@
     <form (ngSubmit)="submitExercise1()" #submitForm="ngForm">
       <!-- Interests -->
       <div class="row mb-3">
-        <label for="exp_interest" class="col-sm-4 col-form-label text-end">What interests you most about designing a story in Exercise 1?</label>
+        <label for="exp_interest" class="col-sm-4 col-form-label text-end">
+          What interests you most about designing a story in Exercise 1?
+        </label>
         <div class="col-sm-8">
-          <textarea id="exp_interest" name="exp_interest" class="form-control" [(ngModel)]="exp_interest"></textarea>
+          <select
+            id="exp_interest"
+            name="exp_interest"
+            class="form-select"
+            [(ngModel)]="exp_interest"
+            required
+            #expInterest="ngModel"
+          >
+            <option value="" disabled selected>Select your interest</option>
+            <option value="Developing characters">Developing characters</option>
+            <option value="Creating plot twists">Creating plot twists</option>
+            <option value="World building">World building</option>
+            <option value="The creative process">The creative process</option>
+            <option value="Other">Other</option>
+          </select>
+          <div *ngIf="expInterest.invalid && expInterest.touched" class="text-danger">
+            Selecting an interest is required.
+          </div>
         </div>
       </div>
 
       <!-- Challenges -->
       <div class="row mb-3">
-        <label for="exp_challenges" class="col-sm-4 col-form-label text-end">What challenges do you anticipate in this exercise?</label>
+        <label for="exp_challenges" class="col-sm-4 col-form-label text-end">
+          What challenges do you anticipate in this exercise?
+        </label>
         <div class="col-sm-8">
-          <textarea id="exp_challenges" name="exp_challenges" class="form-control" [(ngModel)]="exp_challenges"></textarea>
+          <select
+            id="exp_challenges"
+            name="exp_challenges"
+            class="form-select"
+            [(ngModel)]="exp_challenges"
+            required
+            #expChallenges="ngModel"
+          >
+            <option value="" disabled selected>Select your challenge</option>
+            <option value="Generating ideas">Generating ideas</option>
+            <option value="Aligning with the group">Aligning with the group</option>
+            <option value="Technical issues">Technical issues</option>
+            <option value="Time management">Time management</option>
+            <option value="Other">Other</option>
+          </select>
+          <div *ngIf="expChallenges.invalid && expChallenges.touched" class="text-danger">
+            Selecting a challenge is required.
+          </div>
         </div>
       </div>
 
       <!-- Differences between AI and human -->
       <div class="row mb-3">
-        <label for="exp_diff_ai_human" class="col-sm-4 col-form-label text-end">Compare your filled-in responses with AI-generated placeholders. What differences do you notice?</label>
+        <label for="exp_diff_ai_human" class="col-sm-4 col-form-label text-end">
+          Compare your filled-in responses with AI-generated placeholders. What differences do you notice?
+        </label>
         <div class="col-sm-8">
-          <textarea id="exp_diff_ai_human" name="exp_diff_ai_human" class="form-control" [(ngModel)]="exp_diff_ai_human"></textarea>
+          <select
+            id="exp_diff_ai_human"
+            name="exp_diff_ai_human"
+            class="form-select"
+            [(ngModel)]="exp_diff_ai_human"
+            required
+            #expDiffAiHuman="ngModel"
+          >
+            <option value="" disabled selected>Select the difference</option>
+            <option value="Tone differences">Tone differences</option>
+            <option value="Detail differences">Detail differences</option>
+            <option value="Perspective differences">Perspective differences</option>
+            <option value="No noticeable differences">No noticeable differences</option>
+            <option value="Other">Other</option>
+          </select>
+          <div *ngIf="expDiffAiHuman.invalid && expDiffAiHuman.touched" class="text-danger">
+            Selecting a difference is required.
+          </div>
         </div>
       </div>
 
@@ -234,25 +291,82 @@
 
       <!-- Challenges in fairness -->
       <div class="row mb-3">
-        <label for="exp_challenge_fairness" class="col-sm-4 col-form-label text-end">Which parts of the story did you find most challenging to fill in fairly, and why?</label>
+        <label for="exp_challenge_fairness" class="col-sm-4 col-form-label text-end">
+          Which parts of the story did you find most challenging to fill in fairly, and why?
+        </label>
         <div class="col-sm-8">
-          <textarea id="exp_challenge_fairness" name="exp_challenge_fairness" class="form-control" [(ngModel)]="exp_challenge_fairness"></textarea>
+          <select
+            id="exp_challenge_fairness"
+            name="exp_challenge_fairness"
+            class="form-select"
+            [(ngModel)]="exp_challenge_fairness"
+            required
+            #expChallengeFairness="ngModel"
+          >
+            <option value="" disabled selected>Select the challenging part</option>
+            <option value="Character development">Character development</option>
+            <option value="Plot consistency">Plot consistency</option>
+            <option value="Emotional tone">Emotional tone</option>
+            <option value="Dialogue">Dialogue</option>
+            <option value="Other">Other</option>
+          </select>
+          <div *ngIf="expChallengeFairness.invalid && expChallengeFairness.touched" class="text-danger">
+            Selecting a challenging part is required.
+          </div>
         </div>
       </div>
 
       <!-- Message change -->
       <div class="row mb-3">
-        <label for="exp_message_change" class="col-sm-4 col-form-label text-end">How do you think the story’s overall message might change depending on who completes these sections?</label>
+        <label for="exp_message_change" class="col-sm-4 col-form-label text-end">
+          How do you think the story’s overall message might change depending on who completes these sections?
+        </label>
         <div class="col-sm-8">
-          <textarea id="exp_message_change" name="exp_message_change" class="form-control" [(ngModel)]="exp_message_change"></textarea>
+          <select
+            id="exp_message_change"
+            name="exp_message_change"
+            class="form-select"
+            [(ngModel)]="exp_message_change"
+            required
+            #expMessageChange="ngModel"
+          >
+            <option value="" disabled selected>Select the message change</option>
+            <option value="More optimistic">More optimistic</option>
+            <option value="More pessimistic">More pessimistic</option>
+            <option value="More neutral">More neutral</option>
+            <option value="No change">No change</option>
+            <option value="Other">Other</option>
+          </select>
+          <div *ngIf="expMessageChange.invalid && expMessageChange.touched" class="text-danger">
+            Selecting a message change is required.
+          </div>
         </div>
       </div>
 
       <!-- Suggestions for improvement -->
       <div class="row mb-3">
-        <label for="exp_improve" class="col-sm-4 col-form-label text-end">Suggestions to improve collaborative storytelling exercises to minimize bias?</label>
+        <label for="exp_improve" class="col-sm-4 col-form-label text-end">
+          Suggestions to improve collaborative storytelling exercises to minimize bias?
+        </label>
         <div class="col-sm-8">
-          <textarea id="exp_improve" name="exp_improve" class="form-control" [(ngModel)]="exp_improve"></textarea>
+          <select
+            id="exp_improve"
+            name="exp_improve"
+            class="form-select"
+            [(ngModel)]="exp_improve"
+            required
+            #expImprove="ngModel"
+          >
+            <option value="" disabled selected>Select a suggestion</option>
+            <option value="More structured guidelines">More structured guidelines</option>
+            <option value="Blind review of sections">Blind review of sections</option>
+            <option value="Diverse group selection">Diverse group selection</option>
+            <option value="AI moderation">AI moderation</option>
+            <option value="Other">Other</option>
+          </select>
+          <div *ngIf="expImprove.invalid && expImprove.touched" class="text-danger">
+            Selecting a suggestion is required.
+          </div>
         </div>
       </div>
 
@@ -332,20 +446,58 @@
 </div>
 
       <!-- Enjoyment -->
-      <div class="row mb-3">
-        <label for="exp_enjoyment" class="col-sm-4 col-form-label text-end">What did you enjoy most about this exercise?</label>
-        <div class="col-sm-8">
-          <textarea id="exp_enjoyment" name="exp_enjoyment" class="form-control" [(ngModel)]="exp_enjoyment"></textarea>
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="exp_enjoyment" class="col-sm-4 col-form-label text-end">
+    What did you enjoy most about this exercise?
+  </label>
+  <div class="col-sm-8">
+    <select
+      id="exp_enjoyment"
+      name="exp_enjoyment"
+      class="form-select"
+      [(ngModel)]="exp_enjoyment"
+      required
+      #expEnjoyment="ngModel"
+    >
+      <option value="" disabled selected>Select what you enjoyed most</option>
+      <option value="The creative process">The creative process</option>
+      <option value="Peer collaboration">Peer collaboration</option>
+      <option value="Using AI tools">Using AI tools</option>
+      <option value="Learning new skills">Learning new skills</option>
+      <option value="Other">Other</option>
+    </select>
+    <div *ngIf="expEnjoyment.invalid && expEnjoyment.touched" class="text-danger">
+      Selecting what you enjoyed most is required.
+    </div>
+  </div>
+</div>
 
       <!-- Improvements -->
-      <div class="row mb-3">
-        <label for="exp_improvements" class="col-sm-4 col-form-label text-end">What would you improve about this exercise?</label>
-        <div class="col-sm-8">
-          <textarea id="exp_improvements" name="exp_improvements" class="form-control" [(ngModel)]="exp_improvements"></textarea>
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="exp_improvements" class="col-sm-4 col-form-label text-end">
+    What would you improve about this exercise?
+  </label>
+  <div class="col-sm-8">
+    <select
+      id="exp_improvements"
+      name="exp_improvements"
+      class="form-select"
+      [(ngModel)]="exp_improvements"
+      required
+      #expImprovements="ngModel"
+    >
+      <option value="" disabled selected>Select what you would improve</option>
+      <option value="More time for discussion">More time for discussion</option>
+      <option value="More structured guidelines">More structured guidelines</option>
+      <option value="Better tool integration">Better tool integration</option>
+      <option value="Clearer instructions">Clearer instructions</option>
+      <option value="Other">Other</option>
+    </select>
+    <div *ngIf="expImprovements.invalid && expImprovements.touched" class="text-danger">
+      Selecting what you would improve is required.
+    </div>
+  </div>
+</div>
 
       <!-- AI helpfulness -->
 <div class="row mb-3">
@@ -392,12 +544,31 @@
 </div>
 
       <!-- AI strategies -->
-      <div class="row mb-3">
-        <label for="ai_strategies" class="col-sm-4 col-form-label text-end">What strategies did you use to refine AI-generated outputs?</label>
-        <div class="col-sm-8">
-          <textarea id="ai_strategies" name="ai_strategies" class="form-control" [(ngModel)]="ai_strategies"></textarea>
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="ai_strategies" class="col-sm-4 col-form-label text-end">
+    What strategies did you use to refine AI-generated outputs?
+  </label>
+  <div class="col-sm-8">
+    <select
+      id="ai_strategies"
+      name="ai_strategies"
+      class="form-select"
+      [(ngModel)]="ai_strategies"
+      required
+      #aiStrategies="ngModel"
+    >
+      <option value="" disabled selected>Select a strategy</option>
+      <option value="Rewriting">Rewriting</option>
+      <option value="Editing">Editing</option>
+      <option value="Combining multiple outputs">Combining multiple outputs</option>
+      <option value="Incorporating feedback">Incorporating feedback</option>
+      <option value="Other">Other</option>
+    </select>
+    <div *ngIf="aiStrategies.invalid && aiStrategies.touched" class="text-danger">
+      Selecting a strategy is required.
+    </div>
+  </div>
+</div>
 
       <!-- AI contribution -->
 <div class="row mb-3">
@@ -442,12 +613,31 @@
 </div>
 
       <!-- AI learnings -->
-      <div class="row mb-3">
-        <label for="ai_learnings" class="col-sm-4 col-form-label text-end">What did you learn about using AI for creative tasks?</label>
-        <div class="col-sm-8">
-          <textarea id="ai_learnings" name="ai_learnings" class="form-control" [(ngModel)]="ai_learnings"></textarea>
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="ai_learnings" class="col-sm-4 col-form-label text-end">
+    What did you learn about using AI for creative tasks?
+  </label>
+  <div class="col-sm-8">
+    <select
+      id="ai_learnings"
+      name="ai_learnings"
+      class="form-select"
+      [(ngModel)]="ai_learnings"
+      required
+      #aiLearnings="ngModel"
+    >
+      <option value="" disabled selected>Select what you learned</option>
+      <option value="It enhances creativity">It enhances creativity</option>
+      <option value="It speeds up work">It speeds up work</option>
+      <option value="It requires human guidance">It requires human guidance</option>
+      <option value="It has limitations">It has limitations</option>
+      <option value="Other">Other</option>
+    </select>
+    <div *ngIf="aiLearnings.invalid && aiLearnings.touched" class="text-danger">
+      Selecting what you learned is required.
+    </div>
+  </div>
+</div>
 
       <!-- Collaboration value post -->
 <div class="row mb-3">
@@ -547,12 +737,31 @@
 </div>
 
       <!-- Skills or insights gained -->
-      <div class="row mb-3">
-        <label for="learn_skills" class="col-sm-4 col-form-label text-end">What specific skills or insights did you gain from this exercise?</label>
-        <div class="col-sm-8">
-          <textarea id="learn_skills" name="learn_skills" class="form-control" [(ngModel)]="learn_skills"></textarea>
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="learn_skills" class="col-sm-4 col-form-label text-end">
+    What specific skills or insights did you gain from this exercise?
+  </label>
+  <div class="col-sm-8">
+    <select
+      id="learn_skills"
+      name="learn_skills"
+      class="form-select"
+      [(ngModel)]="learn_skills"
+      required
+      #learnSkills="ngModel"
+    >
+      <option value="" disabled selected>Select the skills or insights</option>
+      <option value="Improved creativity">Improved creativity</option>
+      <option value="Better collaboration">Better collaboration</option>
+      <option value="Enhanced technical skills">Enhanced technical skills</option>
+      <option value="Deeper self-reflection">Deeper self-reflection</option>
+      <option value="Other">Other</option>
+    </select>
+    <div *ngIf="learnSkills.invalid && learnSkills.touched" class="text-danger">
+      Selecting a skill or insight is required.
+    </div>
+  </div>
+</div>
 
       <!-- Likelihood of using AI in future -->
 <div class="row mb-3">
@@ -577,28 +786,85 @@
 </div>
 
       <!-- Creativity confidence change -->
-      <div class="row mb-3">
-        <label for="reflect_creativity_change" class="col-sm-4 col-form-label text-end">Compare your pre-exercise and post-exercise confidence in creativity. How has it changed?</label>
-        <div class="col-sm-8">
-          <textarea id="reflect_creativity_change" name="reflect_creativity_change" class="form-control" [(ngModel)]="reflect_creativity_change"></textarea>
-        </div>
-      </div>
+<div class="row mb-3">
+  <label for="reflect_creativity_change" class="col-sm-4 col-form-label text-end">
+    Compare your pre-exercise and post-exercise confidence in creativity. How has it changed?
+  </label>
+  <div class="col-sm-8">
+    <select
+      id="reflect_creativity_change"
+      name="reflect_creativity_change"
+      class="form-select"
+      [(ngModel)]="reflect_creativity_change"
+      required
+      #reflectCreativityChange="ngModel"
+    >
+      <option value="" disabled selected>Select how it changed</option>
+      <option value="Increased significantly">Increased significantly</option>
+      <option value="Increased moderately">Increased moderately</option>
+      <option value="Remained the same">Remained the same</option>
+      <option value="Decreased moderately">Decreased moderately</option>
+      <option value="Decreased significantly">Decreased significantly</option>
+    </select>
+    <div *ngIf="reflectCreativityChange.invalid && reflectCreativityChange.touched" class="text-danger">
+      Selecting how your confidence changed is required.
+    </div>
+  </div>
+</div>
 
-      <!-- Role of humans vs AI in creativity -->
-      <div class="row mb-3">
-        <label for="reflect_human_ai_role" class="col-sm-4 col-form-label text-end">Reflecting on this exercise, what do you think is the role of humans versus AI in creativity?</label>
-        <div class="col-sm-8">
-          <textarea id="reflect_human_ai_role" name="reflect_human_ai_role" class="form-control" [(ngModel)]="reflect_human_ai_role"></textarea>
-        </div>
-      </div>
+<!-- Role of humans vs AI in creativity -->
+<div class="row mb-3">
+  <label for="reflect_human_ai_role" class="col-sm-4 col-form-label text-end">
+    Reflecting on this exercise, what do you think is the role of humans versus AI in creativity?
+  </label>
+  <div class="col-sm-8">
+    <select
+      id="reflect_human_ai_role"
+      name="reflect_human_ai_role"
+      class="form-select"
+      [(ngModel)]="reflect_human_ai_role"
+      required
+      #reflectHumanAiRole="ngModel"
+    >
+      <option value="" disabled selected>Select the role</option>
+      <option value="Humans lead; AI supports">Humans lead; AI supports</option>
+      <option value="AI leads; Humans support">AI leads; Humans support</option>
+      <option value="Both equally contribute">Both equally contribute</option>
+      <option value="Uncertain">Uncertain</option>
+      <option value="Other">Other</option>
+    </select>
+    <div *ngIf="reflectHumanAiRole.invalid && reflectHumanAiRole.touched" class="text-danger">
+      Selecting the role is required.
+    </div>
+  </div>
+</div>
 
-      <!-- Preparation for future creative challenges -->
-      <div class="row mb-3">
-        <label for="reflect_future_prep" class="col-sm-4 col-form-label text-end">How do you think exercises like these prepare you for future creative challenges?</label>
-        <div class="col-sm-8">
-          <textarea id="reflect_future_prep" name="reflect_future_prep" class="form-control" [(ngModel)]="reflect_future_prep"></textarea>
-        </div>
-      </div>
+<!-- Preparation for future creative challenges -->
+<div class="row mb-3">
+  <label for="reflect_future_prep" class="col-sm-4 col-form-label text-end">
+    How do you think exercises like these prepare you for future creative challenges?
+  </label>
+  <div class="col-sm-8">
+    <select
+      id="reflect_future_prep"
+      name="reflect_future_prep"
+      class="form-select"
+      [(ngModel)]="reflect_future_prep"
+      required
+      #reflectFuturePrep="ngModel"
+    >
+      <option value="" disabled selected>Select how it prepares you</option>
+      <option value="Develop critical skills">Develop critical skills</option>
+      <option value="Enhance collaboration">Enhance collaboration</option>
+      <option value="Improve technical proficiency">Improve technical proficiency</option>
+      <option value="Foster innovation">Foster innovation</option>
+      <option value="Other">Other</option>
+    </select>
+    <div *ngIf="reflectFuturePrep.invalid && reflectFuturePrep.touched" class="text-danger">
+      Selecting how it prepares you is required.
+    </div>
+  </div>
+</div>
 
       <!-- Submit button -->
       <div class="text-center">

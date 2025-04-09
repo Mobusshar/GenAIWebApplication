@@ -85,14 +85,6 @@ export class ImageGeneratorComponent implements OnInit {
       );
   }
 
-  // Handle file selection for the final sketch
-  onFinalSketchSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      this.finalSketchFile = input.files[0];
-    }
-  }
-
   // Method to generate the AI image
   generateAIImage(): void {
     if (!this.selectedFile) {
@@ -168,30 +160,6 @@ export class ImageGeneratorComponent implements OnInit {
         (error) => {
           console.error('Error updating AI image and product data:', error);
           alert('Something went wrong while updating the AI image and product data.');
-        }
-      );
-  }
-
-  // Upload the final sketch
-  uploadFinalSketch(): void {
-    if (!this.finalSketchFile) {
-      alert('Please select a file to upload.');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('file', this.finalSketchFile);
-
-    // Use the `id` to specify which record to update
-    this.http.put<{ filePath: string }>(`${environment.apiUrl}/exercise2/upload-final-sketch/${this.id}`, formData)
-      .subscribe(
-        (response) => {
-          this.sketch_upload_path_after = response.filePath; // Save the file path returned by the backend
-          alert('Final sketch uploaded and updated successfully.');
-        },
-        (error) => {
-          console.error('Error uploading final sketch:', error);
-          alert('Something went wrong while uploading the final sketch.');
         }
       );
   }

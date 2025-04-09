@@ -82,3 +82,112 @@ CREATE TABLE exercise1 (
 );
 
 select * from exercise1;
+
+DROP TABLE IF EXISTS exercise2;
+
+CREATE TABLE exercise2 (
+    id SERIAL PRIMARY KEY,
+    
+    -- Pre-Exercise Demographics
+    pre_demo_name VARCHAR(255),
+    pre_demo_email VARCHAR(255),
+    pre_demo_academic VARCHAR(255),
+
+    -- Baseline Creativity
+    pre_creative_confidence INT,
+    pre_creative_frequency INT,
+    pre_creativity_meaning VARCHAR(255),
+
+    -- Familiarity with AI
+    pre_used_ai_tools BOOLEAN,
+    pre_ai_tools_used VARCHAR(255),
+    pre_ai_comfort INT,
+    pre_ai_expectations VARCHAR(255),
+
+    -- Collaboration
+    pre_collab_confidence INT,
+    pre_collab_role VARCHAR(255),
+    pre_collab_value VARCHAR(255),
+
+    -- Post-Exercise Questions
+    post_challenges_faced VARCHAR(255),
+    post_most_engaging_part VARCHAR(255),
+    post_most_difficult_part VARCHAR(255),
+    post_ai_impact VARCHAR(255),
+    post_revised_after_ai BOOLEAN,
+    post_revision_type VARCHAR(255),
+    post_influenced_by_group VARCHAR(255),
+    post_stuck_with_first_idea VARCHAR(255),
+    post_ai_feedback_response VARCHAR(255),
+    post_ai_made_more_appealing VARCHAR(255),
+    post_description_influence VARCHAR(255),
+    post_resistance_reason VARCHAR(255),
+    post_familiarity_vs_innovation VARCHAR(255),
+    post_ai_reinforce_or_challenge VARCHAR(255),
+
+    -- Exercise Experience
+    post_experience_satisfaction INT,
+    post_exercise_difficulty INT,
+    post_creativity_boosted BOOLEAN,
+    post_exercise_enjoyment VARCHAR(255),
+    post_exercise_improvements VARCHAR(255),
+
+    -- AI Usage
+    post_ai_helpfulness INT,
+    post_ai_modification_count INT,
+    post_ai_refinement_strategy VARCHAR(255),
+    post_final_output_contribution VARCHAR(255),
+    post_ai_learning VARCHAR(255),
+
+    -- Collaboration Reflection
+    post_peer_collab_value INT,
+    post_peer_feedback_frequency INT,
+    post_peer_collab_insight TEXT,
+
+    -- Learning Outcomes
+    post_confidence_after INT,
+    post_skills_gained VARCHAR(255),
+    post_future_ai_use_likelihood INT,
+
+    -- Reflection
+    post_confidence_change VARCHAR(255),
+    post_ai_role VARCHAR(255),
+    post_creative_challenges_preparation VARCHAR(255),
+
+    -- File Uploads
+    sketch_upload_path_before VARCHAR(255),
+    sketch_upload_path_after VARCHAR(255),
+    ai_image_path VARCHAR(255),
+
+    -- Product 1 Original
+    product1_name VARCHAR(255),
+    product1_description TEXT,
+    product1_suggested_euro VARCHAR(255),
+
+    -- Product 2 Original
+    product2_name VARCHAR(255),
+    product2_description TEXT,
+    product2_suggested_euro VARCHAR(255),
+
+    -- Product 3 Original
+    product3_name VARCHAR(255),
+    product3_description TEXT,
+    product3_suggested_euro VARCHAR(255),
+
+    -- Product 1 AI-Generated
+    product1_ai_name VARCHAR(255),
+    product1_ai_description TEXT,
+    product1_ai_suggested_euro VARCHAR(255),
+
+    -- Product 2 AI-Generated
+    product2_ai_name VARCHAR(255),
+    product2_ai_description TEXT,
+    product2_ai_suggested_euro VARCHAR(255),
+
+    -- Product 3 AI-Generated
+    product3_ai_name VARCHAR(255),
+    product3_ai_description TEXT,
+    product3_ai_suggested_euro VARCHAR(255)
+);
+
+select * from exercise2;

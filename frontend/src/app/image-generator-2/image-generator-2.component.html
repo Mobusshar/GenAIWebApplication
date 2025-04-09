@@ -1,0 +1,132 @@
+<div class="container">
+
+  <!-- Section to Compare Uploaded and AI-Generated Data -->
+  <div class="container mt-4">
+    <h3 class="text-center">Compare Uploaded and AI-Generated Data</h3>
+    <div class="row">
+      <!-- Left Side: Uploaded Data -->
+      <div class="col-md-6">
+        <h4 class="text-center">Uploaded Data</h4>
+        <table class="table table-bordered">
+          <tr>
+            <th>Sketch</th>
+            <td>
+              <img *ngIf="uploadedImage" [src]="uploadedImage" alt="Uploaded Sketch" class="img-fluid" style="max-width: 100%;">
+            </td>
+          </tr>
+          <tr>
+            <th>Product 1 Name</th>
+            <td>{{ product1_name }}</td>
+          </tr>
+          <tr>
+            <th>Product 1 Description</th>
+            <td>{{ product1_description }}</td>
+          </tr>
+          <tr>
+            <th>Product 1 Suggested Euro</th>
+            <td>{{ product1_suggested_euro }}</td>
+          </tr>
+          <tr>
+            <th>Product 2 Name</th>
+            <td>{{ product2_name }}</td>
+          </tr>
+          <tr>
+            <th>Product 2 Description</th>
+            <td>{{ product2_description }}</td>
+          </tr>
+          <tr>
+            <th>Product 2 Suggested Euro</th>
+            <td>{{ product2_suggested_euro }}</td>
+          </tr>
+          <tr>
+            <th>Product 3 Name</th>
+            <td>{{ product3_name }}</td>
+          </tr>
+          <tr>
+            <th>Product 3 Description</th>
+            <td>{{ product3_description }}</td>
+          </tr>
+          <tr>
+            <th>Product 3 Suggested Euro</th>
+            <td>{{ product3_suggested_euro }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Right Side: AI-Generated Data -->
+      <div class="col-md-6">
+        <h4 class="text-center">AI-Generated Data</h4>
+        <table class="table table-bordered">
+          <tr>
+            <th>Generated Image</th>
+            <td>
+              <img *ngIf="generatedImage" [src]="generatedImage" alt="Generated AI Image" class="img-fluid" style="max-width: 100%;">
+            </td>
+          </tr>
+          <tr>
+            <th>Product 1 AI Name</th>
+            <td>{{ product1_ai_name }}</td>
+          </tr>
+          <tr>
+            <th>Product 1 AI Description</th>
+            <td>{{ product1_ai_description }}</td>
+          </tr>
+          <tr>
+            <th>Product 1 AI Suggested Euro</th>
+            <td>{{ product1_ai_suggested_euro }}</td>
+          </tr>
+          <tr>
+            <th>Product 2 AI Name</th>
+            <td>{{ product2_ai_name }}</td>
+          </tr>
+          <tr>
+            <th>Product 2 AI Description</th>
+            <td>{{ product2_ai_description }}</td>
+          </tr>
+          <tr>
+            <th>Product 2 AI Suggested Euro</th>
+            <td>{{ product2_ai_suggested_euro }}</td>
+          </tr>
+          <tr>
+            <th>Product 3 AI Name</th>
+            <td>{{ product3_ai_name }}</td>
+          </tr>
+          <tr>
+            <th>Product 3 AI Description</th>
+            <td>{{ product3_ai_description }}</td>
+          </tr>
+          <tr>
+            <th>Product 3 AI Suggested Euro</th>
+            <td>{{ product3_ai_suggested_euro }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Section to Upload Final Sketch -->
+  <div class="mt-4">
+    <h3>Step 6: Upload Your Final Sketch</h3>
+    <form (ngSubmit)="uploadFinalSketch()" class="mt-3">
+      <div class="form-group">
+        <label for="sketch_upload_path_after">Upload your final sketched image:</label>
+        <input type="file" id="sketch_upload_path_after" (change)="onFinalSketchSelected($event)" class="form-control" accept="image/*" required>
+      </div>
+      <button type="submit" class="btn btn-success mt-3">Submit Final Sketch</button>
+    </form>
+  </div>
+
+  <hr>
+
+  <!-- Section to Submit Exercise -->
+  <div class="container">
+    <h3 class="mt-4 text-center">Submit Exercise 2</h3>
+    <p class="text-center">Review the details and submit your exercise.</p>
+
+    <div class="text-center mt-4">
+        <button class="btn btn-primary" (click)="navigateToSubmitExercise2()">Proceed to Submit Exercise</button>
+      </div>
+  </div>
+</div>

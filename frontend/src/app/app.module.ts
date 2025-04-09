@@ -16,6 +16,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { LayoutComponent } from './layout/layout.component';
 import { StoryBuildingComponent } from './story-building/story-building.component';
+import { ImageGenerator2Component } from './image-generator-2/image-generator-2.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { StoryBuildingComponent } from './story-building/story-building.componen
     HeaderComponent,
     FooterComponent,
     LayoutComponent,
-    StoryBuildingComponent
+    StoryBuildingComponent,
+    ImageGenerator2Component
   ],
   imports: [
     BrowserModule,

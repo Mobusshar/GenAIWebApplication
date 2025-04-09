@@ -3,42 +3,56 @@
 
   <div class="card p-4">
     <!-- Angular form -->
-    <form (ngSubmit)="onSubmit()" #preTextForm="ngForm">
+    <form (ngSubmit)="onSubmit()" #preImageForm="ngForm">
       <!-- Name -->
       <div class="row mb-3">
-        <label for="demo_name" class="col-sm-4 col-form-label text-end">Name</label>
+        <label for="pre_demo_name" class="col-sm-4 col-form-label text-end">Name</label>
         <div class="col-sm-8">
-          <input type="text" id="demo_name" name="demo_name" class="form-control" [(ngModel)]="demo_name" />
+          <input type="text" id="pre_demo_name" name="pre_demo_name" class="form-control" [(ngModel)]="pre_demo_name" required />
         </div>
       </div>
 
       <!-- Email -->
       <div class="row mb-3">
-        <label for="demo_email" class="col-sm-4 col-form-label text-end">Email</label>
+        <label for="pre_demo_email" class="col-sm-4 col-form-label text-end">Email</label>
         <div class="col-sm-8">
-          <input type="email" id="demo_email" name="demo_email" class="form-control" [(ngModel)]="demo_email" />
+          <input type="email" id="pre_demo_email" name="pre_demo_email" class="form-control" [(ngModel)]="pre_demo_email" required />
         </div>
       </div>
 
       <!-- Academic background -->
       <div class="row mb-3">
-        <label for="demo_academic" class="col-sm-4 col-form-label text-end">Academic background</label>
+        <label for="pre_demo_academic" class="col-sm-4 col-form-label text-end">Academic background</label>
         <div class="col-sm-8">
-          <input type="text" id="demo_academic" name="demo_academic" class="form-control" [(ngModel)]="demo_academic" />
+          <select
+            id="pre_demo_academic"
+            name="pre_demo_academic"
+            class="form-select"
+            [(ngModel)]="pre_demo_academic"
+            required
+          >
+            <option value="" disabled selected>Select your academic background</option>
+            <option value="High School">High School</option>
+            <option value="Undergraduate">Undergraduate</option>
+            <option value="Graduate">Graduate</option>
+            <option value="Postgraduate">Postgraduate</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
       </div>
 
       <!-- Creative skills confidence -->
       <div class="row mb-3">
-        <label for="base_creativity_conf" class="col-sm-4 col-form-label text-end">
+        <label for="pre_creative_confidence" class="col-sm-4 col-form-label text-end">
           How confident are you in your creative skills?
         </label>
         <div class="col-sm-8">
           <select
-            id="base_creativity_conf"
-            name="base_creativity_conf"
+            id="pre_creative_confidence"
+            name="pre_creative_confidence"
             class="form-select"
-            [(ngModel)]="base_creativity_conf"
+            [(ngModel)]="pre_creative_confidence"
+            required
           >
             <option value="" disabled selected>Select your confidence level</option>
             <option value="1">1 - Not confident at all</option>
@@ -52,15 +66,16 @@
 
       <!-- Creative activities frequency -->
       <div class="row mb-3">
-        <label for="base_creativity_freq" class="col-sm-4 col-form-label text-end">
-          How often do you engage in creative activities?
+        <label for="pre_creative_frequency" class="col-sm-4 col-form-label text-end">
+          How often do you engage in creative activities (e.g., sketching, design, writing)?
         </label>
         <div class="col-sm-8">
           <select
-            id="base_creativity_freq"
-            name="base_creativity_freq"
+            id="pre_creative_frequency"
+            name="pre_creative_frequency"
             class="form-select"
-            [(ngModel)]="base_creativity_freq"
+            [(ngModel)]="pre_creative_frequency"
+            required
           >
             <option value="" disabled selected>Select your frequency</option>
             <option value="1">1 - Rarely</option>
@@ -74,62 +89,78 @@
 
       <!-- What does creativity mean to you? -->
       <div class="row mb-3">
-        <label for="base_creativity_def" class="col-sm-4 col-form-label text-end">What does creativity mean to you?</label>
+        <label for="pre_creativity_meaning" class="col-sm-4 col-form-label text-end">What does creativity mean to you?</label>
         <div class="col-sm-8">
-          <textarea id="base_creativity_def" name="base_creativity_def" class="form-control" rows="3" [(ngModel)]="base_creativity_def"></textarea>
+          <select
+            id="pre_creativity_meaning"
+            name="pre_creativity_meaning"
+            class="form-select"
+            [(ngModel)]="pre_creativity_meaning"
+            required
+          >
+            <option value="" disabled selected>Select what creativity means to you</option>
+            <option value="Innovation">Innovation</option>
+            <option value="Expression">Expression</option>
+            <option value="Problem-solving">Problem-solving</option>
+            <option value="Collaboration">Collaboration</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
       </div>
 
-      <!-- Have you used generative AI tools before? -->
+      <!-- Have you used AI image generation tools before? -->
       <div class="row mb-3">
-        <label for="ai_used_before" class="col-sm-4 col-form-label text-end">
-          Have you used generative AI tools before?
+        <label for="pre_used_ai_tools" class="col-sm-4 col-form-label text-end">
+          Have you used AI image generation tools before?
         </label>
         <div class="col-sm-8 d-flex align-items-center">
           <div class="form-check me-3">
             <input
               type="radio"
-              id="ai_used_before_yes"
-              name="ai_used_before"
+              id="pre_used_ai_tools_yes"
+              name="pre_used_ai_tools"
               class="form-check-input"
-              [(ngModel)]="ai_used_before"
+              [(ngModel)]="pre_used_ai_tools"
               [value]="true"
+              required
             />
-            <label for="ai_used_before_yes" class="form-check-label">Yes</label>
+            <label for="pre_used_ai_tools_yes" class="form-check-label">Yes</label>
           </div>
           <div class="form-check">
             <input
               type="radio"
-              id="ai_used_before_no"
-              name="ai_used_before"
+              id="pre_used_ai_tools_no"
+              name="pre_used_ai_tools"
               class="form-check-input"
-              [(ngModel)]="ai_used_before"
+              [(ngModel)]="pre_used_ai_tools"
               [value]="false"
+              required
             />
-            <label for="ai_used_before_no" class="form-check-label">No</label>
+            <label for="pre_used_ai_tools_no" class="form-check-label">No</label>
           </div>
         </div>
       </div>
 
       <!-- If yes, which ones? -->
       <div class="row mb-3">
-        <label for="ai_tools_list" class="col-sm-4 col-form-label text-end">If yes, which ones?</label>
+        <label for="pre_ai_tools_used" class="col-sm-4 col-form-label text-end">If yes, which ones?</label>
         <div class="col-sm-8">
-          <textarea id="ai_tools_list" name="ai_tools_list" class="form-control" rows="2" [(ngModel)]="ai_tools_list"></textarea>
+          <textarea id="pre_ai_tools_used" name="pre_ai_tools_used" class="form-control" rows="2" [(ngModel)]="pre_ai_tools_used"></textarea>
         </div>
       </div>
 
       <!-- AI comfort -->
       <div class="row mb-3">
-        <label for="ai_comfort" class="col-sm-4 col-form-label text-end">
+        <label for="pre_ai_comfort" class="col-sm-4 col-form-label text-end">
           How comfortable are you with using AI tools for creative tasks?
         </label>
         <div class="col-sm-8">
           <select
-            id="ai_comfort"
-            name="ai_comfort"
+            id="pre_ai_comfort"
+            name="pre_ai_comfort"
             class="form-select"
-            [(ngModel)]="ai_comfort"
+            [(ngModel)]="pre_ai_comfort"
+            required
           >
             <option value="" disabled selected>Select your comfort level</option>
             <option value="1">1 - Not comfortable at all</option>
@@ -143,23 +174,37 @@
 
       <!-- AI expectations -->
       <div class="row mb-3">
-        <label for="ai_expectations" class="col-sm-4 col-form-label text-end">What are your expectations for how AI will assist your creativity in this exercise?</label>
+        <label for="pre_ai_expectations" class="col-sm-4 col-form-label text-end">What are your expectations for how AI will help in this exercise?</label>
         <div class="col-sm-8">
-          <textarea id="ai_expectations" name="ai_expectations" class="form-control" rows="3" [(ngModel)]="ai_expectations"></textarea>
+          <select
+            id="pre_ai_expectations"
+            name="pre_ai_expectations"
+            class="form-select"
+            [(ngModel)]="pre_ai_expectations"
+            required
+          >
+            <option value="" disabled selected>Select your expectations</option>
+            <option value="Provide inspiration">Provide inspiration</option>
+            <option value="Enhance efficiency">Enhance efficiency</option>
+            <option value="Offer visual suggestions">Offer visual suggestions</option>
+            <option value="Guide improvement">Guide improvement</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
       </div>
 
       <!-- Collaboration confidence -->
       <div class="row mb-3">
-        <label for="collab_conf" class="col-sm-4 col-form-label text-end">
-          How confident are you in collaborating with peers to generate ideas?
+        <label for="pre_collab_confidence" class="col-sm-4 col-form-label text-end">
+          How confident are you in collaborating with a teammate to develop design ideas?
         </label>
         <div class="col-sm-8">
           <select
-            id="collab_conf"
-            name="collab_conf"
+            id="pre_collab_confidence"
+            name="pre_collab_confidence"
             class="form-select"
-            [(ngModel)]="collab_conf"
+            [(ngModel)]="pre_collab_confidence"
+            required
           >
             <option value="" disabled selected>Select your confidence level</option>
             <option value="1">1 - Not confident at all</option>
@@ -173,15 +218,16 @@
 
       <!-- Group work role -->
       <div class="row mb-3">
-        <label for="collab_role" class="col-sm-4 col-form-label text-end">
-          What role do you typically take in group work?
+        <label for="pre_collab_role" class="col-sm-4 col-form-label text-end">
+          What role do you usually take in group work?
         </label>
         <div class="col-sm-8">
           <select
-            id="collab_role"
-            name="collab_role"
+            id="pre_collab_role"
+            name="pre_collab_role"
             class="form-select"
-            [(ngModel)]="collab_role"
+            [(ngModel)]="pre_collab_role"
+            required
           >
             <option value="" disabled selected>Select your role</option>
             <option value="Leader">Leader</option>
@@ -195,9 +241,22 @@
 
       <!-- Value of collaboration -->
       <div class="row mb-4">
-        <label for="collab_value" class="col-sm-4 col-form-label text-end">What do you find most valuable about working collaboratively?</label>
+        <label for="pre_collab_value" class="col-sm-4 col-form-label text-end">What do you find most valuable in collaboration?</label>
         <div class="col-sm-8">
-          <textarea id="collab_value" name="collab_value" class="form-control" rows="3" [(ngModel)]="collab_value"></textarea>
+          <select
+            id="pre_collab_value"
+            name="pre_collab_value"
+            class="form-select"
+            [(ngModel)]="pre_collab_value"
+            required
+          >
+            <option value="" disabled selected>Select what you value most</option>
+            <option value="Shared ideas">Shared ideas</option>
+            <option value="Diverse perspectives">Diverse perspectives</option>
+            <option value="Accountability">Accountability</option>
+            <option value="Increased motivation">Increased motivation</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
       </div>
 

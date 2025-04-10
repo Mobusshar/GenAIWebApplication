@@ -18,7 +18,13 @@ import { LayoutComponent } from './layout/layout.component';
 import { StoryBuildingComponent } from './story-building/story-building.component';
 import { ImageGenerator2Component } from './image-generator-2/image-generator-2.component';
 import { SubmitExercise2FinalComponent } from './submit-exercise2-final/submit-exercise2-final.component';
-import { GenerativeAiToolsComponent } from './generative-ai-tools/generative-ai-tools.component';
+import { TextSummarizerComponent } from './tools/text-summarizer/text-summarizer.component';
+import { CodeGeneratorComponent } from './tools/code-generator/code-generator.component';
+import { LanguageTranslatorComponent } from './tools/language-translator/language-translator.component';
+import { ChatbotAssistantComponent } from './tools/chatbot-assistant/chatbot-assistant.component';
+import { ContentGeneratorComponent } from './tools/content-generator/content-generator.component';
+import { SentimentAnalyzerComponent } from './tools/sentiment-analyzer/sentiment-analyzer.component';
+import { GenerativeAIToolsComponent } from './generative-ai-tools/generative-ai-tools.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +42,13 @@ import { GenerativeAiToolsComponent } from './generative-ai-tools/generative-ai-
     StoryBuildingComponent,
     ImageGenerator2Component,
     SubmitExercise2FinalComponent,
-    GenerativeAiToolsComponent
+    GenerativeAIToolsComponent,
+    TextSummarizerComponent,
+    CodeGeneratorComponent,
+    LanguageTranslatorComponent,
+    ChatbotAssistantComponent,
+    ContentGeneratorComponent,
+    SentimentAnalyzerComponent
   ],
   imports: [
     BrowserModule,

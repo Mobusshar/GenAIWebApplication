@@ -11,7 +11,13 @@ import { LayoutComponent } from './layout/layout.component';
 import { StoryBuildingComponent } from './story-building/story-building.component';
 import { ImageGenerator2Component } from './image-generator-2/image-generator-2.component';
 import { SubmitExercise2FinalComponent } from './submit-exercise2-final/submit-exercise2-final.component';
-import { GenerativeAiToolsComponent } from './generative-ai-tools/generative-ai-tools.component';
+import { GenerativeAIToolsComponent } from './generative-ai-tools/generative-ai-tools.component';
+import { TextSummarizerComponent } from './tools/text-summarizer/text-summarizer.component';
+import { CodeGeneratorComponent } from './tools/code-generator/code-generator.component';
+import { LanguageTranslatorComponent } from './tools/language-translator/language-translator.component';
+import { ChatbotAssistantComponent } from './tools/chatbot-assistant/chatbot-assistant.component';
+import { ContentGeneratorComponent } from './tools/content-generator/content-generator.component';
+import { SentimentAnalyzerComponent } from './tools/sentiment-analyzer/sentiment-analyzer.component';
 
 const routes: Routes = [
   {
@@ -28,7 +34,13 @@ const routes: Routes = [
       { path: 'image-generator-2/:id', component: ImageGenerator2Component },
       { path: 'submit-exercise2/:id', component: SubmitExercise2Component },
       { path: 'submit-exercise2-final/:id', component: SubmitExercise2FinalComponent },
-      { path: 'generative-ai-tools', component: GenerativeAiToolsComponent }
+      { path: 'generative-ai-tools', component: GenerativeAIToolsComponent },
+      { path: 'tools/text-summarizer', component: TextSummarizerComponent },
+      { path: 'tools/code-generator', component: CodeGeneratorComponent },
+      { path: 'tools/language-translator', component: LanguageTranslatorComponent },
+      { path: 'tools/chatbot-assistant', component: ChatbotAssistantComponent },
+      { path: 'tools/content-generator', component: ContentGeneratorComponent },
+      { path: 'tools/sentiment-analyzer', component: SentimentAnalyzerComponent }
       //{ path: '', redirectTo: '/image-generator', pathMatch: 'full' }
     ]
   }

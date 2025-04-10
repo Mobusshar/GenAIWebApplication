@@ -122,4 +122,12 @@ export class ImageGenerator2Component implements OnInit {
   navigateToSubmitExercise2(): void {
     this.router.navigate(['/submit-exercise2', this.id]);
   }
+
+  // Download an image
+  downloadImage(imageUrl: string, fileName: string): void {
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = fileName;
+    link.click();
+  }
 }

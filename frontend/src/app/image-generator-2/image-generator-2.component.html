@@ -2,104 +2,146 @@
 
   <!-- Section to Compare Uploaded and AI-Generated Data -->
   <div class="container mt-4">
-    <h3 class="text-center">Compare Uploaded and AI-Generated Data</h3>
+    <h3 class="text-center mb-4">Compare Uploaded and AI-Generated Data</h3>
     <div class="row">
       <!-- Left Side: Uploaded Data -->
       <div class="col-md-6">
-        <h4 class="text-center">Uploaded Data</h4>
-        <table class="table table-bordered">
-          <tr>
-            <th>Sketch</th>
-            <td>
-              <img *ngIf="uploadedImage" [src]="uploadedImage" alt="Uploaded Sketch" class="img-fluid" style="max-width: 100%;">
-            </td>
-          </tr>
-          <tr>
-            <th>Product 1 Name</th>
-            <td>{{ product1_name }}</td>
-          </tr>
-          <tr>
-            <th>Product 1 Description</th>
-            <td>{{ product1_description }}</td>
-          </tr>
-          <tr>
-            <th>Product 1 Suggested Euro</th>
-            <td>{{ product1_suggested_euro }}</td>
-          </tr>
-          <tr>
-            <th>Product 2 Name</th>
-            <td>{{ product2_name }}</td>
-          </tr>
-          <tr>
-            <th>Product 2 Description</th>
-            <td>{{ product2_description }}</td>
-          </tr>
-          <tr>
-            <th>Product 2 Suggested Euro</th>
-            <td>{{ product2_suggested_euro }}</td>
-          </tr>
-          <tr>
-            <th>Product 3 Name</th>
-            <td>{{ product3_name }}</td>
-          </tr>
-          <tr>
-            <th>Product 3 Description</th>
-            <td>{{ product3_description }}</td>
-          </tr>
-          <tr>
-            <th>Product 3 Suggested Euro</th>
-            <td>{{ product3_suggested_euro }}</td>
-          </tr>
-        </table>
+        <div class="card shadow-sm">
+          <div class="card-header text-center bg-primary text-white">
+            <h5>Uploaded Data</h5>
+          </div>
+          <div class="card-body">
+            <div class="text-center mb-3">
+              <img *ngIf="uploadedImage" [src]="uploadedImage" alt="Uploaded Sketch" class="img-fluid rounded" style="max-width: 500px; height: auto;">
+            </div>
+            <table class="table table-striped table-hover">
+              <tbody>
+                <tr>
+                  <td colspan="2" class="text-center">
+                    <a *ngIf="uploadedImage" [href]="uploadedImage" target="_blank" class="btn btn-outline-primary mt-2">
+                      View Uploaded Sketch
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <th colspan="2" class="text-center bg-light">Product 1</th>
+                </tr>
+                <tr>
+                  <th>Name</th>
+                  <td>{{ product1_name }}</td>
+                </tr>
+                <tr>
+                  <th>Description</th>
+                  <td>{{ product1_description }}</td>
+                </tr>
+                <tr>
+                  <th>Suggested Euro</th>
+                  <td>{{ product1_suggested_euro }}</td>
+                </tr>
+                <tr>
+                  <th colspan="2" class="text-center bg-light">Product 2</th>
+                </tr>
+                <tr>
+                  <th>Name</th>
+                  <td>{{ product2_name }}</td>
+                </tr>
+                <tr>
+                  <th>Description</th>
+                  <td>{{ product2_description }}</td>
+                </tr>
+                <tr>
+                  <th>Suggested Euro</th>
+                  <td>{{ product2_suggested_euro }}</td>
+                </tr>
+                <tr>
+                  <th colspan="2" class="text-center bg-light">Product 3</th>
+                </tr>
+                <tr>
+                  <th>Name</th>
+                  <td>{{ product3_name }}</td>
+                </tr>
+                <tr>
+                  <th>Description</th>
+                  <td>{{ product3_description }}</td>
+                </tr>
+                <tr>
+                  <th>Suggested Euro</th>
+                  <td>{{ product3_suggested_euro }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
       <!-- Right Side: AI-Generated Data -->
       <div class="col-md-6">
-        <h4 class="text-center">AI-Generated Data</h4>
-        <table class="table table-bordered">
-          <tr>
-            <th>Generated Image</th>
-            <td>
-              <img *ngIf="generatedImage" [src]="generatedImage" alt="Generated AI Image" class="img-fluid" style="max-width: 100%;">
-            </td>
-          </tr>
-          <tr>
-            <th>Product 1 AI Name</th>
-            <td>{{ product1_ai_name }}</td>
-          </tr>
-          <tr>
-            <th>Product 1 AI Description</th>
-            <td>{{ product1_ai_description }}</td>
-          </tr>
-          <tr>
-            <th>Product 1 AI Suggested Euro</th>
-            <td>{{ product1_ai_suggested_euro }}</td>
-          </tr>
-          <tr>
-            <th>Product 2 AI Name</th>
-            <td>{{ product2_ai_name }}</td>
-          </tr>
-          <tr>
-            <th>Product 2 AI Description</th>
-            <td>{{ product2_ai_description }}</td>
-          </tr>
-          <tr>
-            <th>Product 2 AI Suggested Euro</th>
-            <td>{{ product2_ai_suggested_euro }}</td>
-          </tr>
-          <tr>
-            <th>Product 3 AI Name</th>
-            <td>{{ product3_ai_name }}</td>
-          </tr>
-          <tr>
-            <th>Product 3 AI Description</th>
-            <td>{{ product3_ai_description }}</td>
-          </tr>
-          <tr>
-            <th>Product 3 AI Suggested Euro</th>
-            <td>{{ product3_ai_suggested_euro }}</td>
-          </tr>
-        </table>
+        <div class="card shadow-sm">
+          <div class="card-header text-center bg-success text-white">
+            <h5>AI-Generated Data</h5>
+          </div>
+          <div class="card-body">
+            <div class="text-center mb-3">
+              <img *ngIf="generatedImage" [src]="generatedImage" alt="Generated AI Image" class="img-fluid rounded" style="max-width: 500px; height: auto;">
+            </div>
+            <table class="table table-striped table-hover">
+              <tbody>
+                <tr>
+                  <td colspan="2" class="text-center">
+                    <a *ngIf="generatedImage" [href]="generatedImage" target="_blank" class="btn btn-outline-success mt-2">
+                      View Generated Image
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <th colspan="2" class="text-center bg-light">Product 1</th>
+                </tr>
+                <tr>
+                  <th>Name</th>
+                  <td>{{ product1_ai_name }}</td>
+                </tr>
+                <tr>
+                  <th>Description</th>
+                  <td>{{ product1_ai_description }}</td>
+                </tr>
+                <tr>
+                  <th>Suggested Euro</th>
+                  <td>{{ product1_ai_suggested_euro }}</td>
+                </tr>
+                <tr>
+                  <th colspan="2" class="text-center bg-light">Product 2</th>
+                </tr>
+                <tr>
+                  <th>Name</th>
+                  <td>{{ product2_ai_name }}</td>
+                </tr>
+                <tr>
+                  <th>Description</th>
+                  <td>{{ product2_ai_description }}</td>
+                </tr>
+                <tr>
+                  <th>Suggested Euro</th>
+                  <td>{{ product2_ai_suggested_euro }}</td>
+                </tr>
+                <tr>
+                  <th colspan="2" class="text-center bg-light">Product 3</th>
+                </tr>
+                <tr>
+                  <th>Name</th>
+                  <td>{{ product3_ai_name }}</td>
+                </tr>
+                <tr>
+                  <th>Description</th>
+                  <td>{{ product3_ai_description }}</td>
+                </tr>
+                <tr>
+                  <th>Suggested Euro</th>
+                  <td>{{ product3_ai_suggested_euro }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -126,7 +168,7 @@
     <p class="text-center">Review the details and submit your exercise.</p>
 
     <div class="text-center mt-4">
-        <button class="btn btn-primary" (click)="navigateToSubmitExercise2()">Proceed to Submit Exercise</button>
-      </div>
+      <button class="btn btn-primary" (click)="navigateToSubmitExercise2()">Proceed to Submit Exercise</button>
+    </div>
   </div>
 </div>

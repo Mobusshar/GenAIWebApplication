@@ -18,4 +18,8 @@ export class LandingPageComponent {
       alert('Exercise not implemented yet.');
     }
   }
+
+  navigateToGenerativeAITools(): void {
+    this.router.navigate(['/generative-ai-tools']); // Replace with the actual route for the Generative AI Tools page
+  }
 }

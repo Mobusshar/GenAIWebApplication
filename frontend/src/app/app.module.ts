@@ -18,6 +18,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { StoryBuildingComponent } from './story-building/story-building.component';
 import { ImageGenerator2Component } from './image-generator-2/image-generator-2.component';
 import { SubmitExercise2FinalComponent } from './submit-exercise2-final/submit-exercise2-final.component';
+import { GenerativeAiToolsComponent } from './generative-ai-tools/generative-ai-tools.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { SubmitExercise2FinalComponent } from './submit-exercise2-final/submit-e
     LayoutComponent,
     StoryBuildingComponent,
     ImageGenerator2Component,
-    SubmitExercise2FinalComponent
+    SubmitExercise2FinalComponent,
+    GenerativeAiToolsComponent
   ],
   imports: [
     BrowserModule,

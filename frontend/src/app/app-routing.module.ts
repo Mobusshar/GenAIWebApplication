@@ -10,6 +10,7 @@ import { PreImageGeneratorComponent } from './pre-image-generator/pre-image-gene
 import { LayoutComponent } from './layout/layout.component';
 import { StoryBuildingComponent } from './story-building/story-building.component';
 import { ImageGenerator2Component } from './image-generator-2/image-generator-2.component';
+import { SubmitExercise2FinalComponent } from './submit-exercise2-final/submit-exercise2-final.component';
 
 const routes: Routes = [
   {
@@ -24,7 +25,8 @@ const routes: Routes = [
       { path: 'submit-exercise1/:id', component: SubmitExercise1Component },
       { path: 'pre-image-generator', component: PreImageGeneratorComponent },
       { path: 'image-generator-2/:id', component: ImageGenerator2Component },
-      { path: 'submit-exercise2/:id', component: SubmitExercise2Component }
+      { path: 'submit-exercise2/:id', component: SubmitExercise2Component },
+      { path: 'submit-exercise2-final/:id', component: SubmitExercise2FinalComponent }
       //{ path: '', redirectTo: '/image-generator', pathMatch: 'full' }
     ]
   }

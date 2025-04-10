@@ -310,6 +310,62 @@ def serve_user_sketch_images(filename):
     return send_from_directory(sketch_image_dir, filename)
 
 
+@exercise2_bp.route("/post-exercise2-1/<int:id>", methods=["PUT"])
+def update_post_exercise1(id):
+    """
+    Update post-exercise fields for Exercise 2.
+    """
+    try:
+        data = request.json
+        entry = Exercise2.query.get(id)
+        if not entry:
+            return jsonify({"error": "Record not found"}), 404
+
+        # Update post-exercise fields
+        entry.post_challenges_faced = data.get("post_challenges_faced", entry.post_challenges_faced)
+        entry.post_most_engaging_part = data.get("post_most_engaging_part", entry.post_most_engaging_part)
+        entry.post_most_difficult_part = data.get("post_most_difficult_part", entry.post_most_difficult_part)
+        entry.post_ai_impact = data.get("post_ai_impact", entry.post_ai_impact)
+        entry.post_revised_after_ai = data.get("post_revised_after_ai", entry.post_revised_after_ai)
+        entry.post_revision_type = data.get("post_revision_type", entry.post_revision_type)
+        entry.post_influenced_by_group = data.get("post_influenced_by_group", entry.post_influenced_by_group)
+        entry.post_stuck_with_first_idea = data.get("post_stuck_with_first_idea", entry.post_stuck_with_first_idea)
+        entry.post_ai_feedback_response = data.get("post_ai_feedback_response", entry.post_ai_feedback_response)
+        entry.post_ai_made_more_appealing = data.get("post_ai_made_more_appealing", entry.post_ai_made_more_appealing)
+        entry.post_description_influence = data.get("post_description_influence", entry.post_description_influence)
+        entry.post_resistance_reason = data.get("post_resistance_reason", entry.post_resistance_reason)
+        entry.post_familiarity_vs_innovation = data.get("post_familiarity_vs_innovation", entry.post_familiarity_vs_innovation)
+        entry.post_ai_reinforce_or_challenge = data.get("post_ai_reinforce_or_challenge", entry.post_ai_reinforce_or_challenge)
+        entry.post_experience_satisfaction = data.get("post_experience_satisfaction", entry.post_experience_satisfaction)
+        entry.post_exercise_difficulty = data.get("post_exercise_difficulty", entry.post_exercise_difficulty)
+        entry.post_creativity_boosted = data.get("post_creativity_boosted", entry.post_creativity_boosted)
+        entry.post_exercise_enjoyment = data.get("post_exercise_enjoyment", entry.post_exercise_enjoyment)
+        entry.post_exercise_improvements = data.get("post_exercise_improvements", entry.post_exercise_improvements)
+        entry.post_ai_helpfulness = data.get("post_ai_helpfulness", entry.post_ai_helpfulness)
+        entry.post_ai_modification_count = data.get("post_ai_modification_count", entry.post_ai_modification_count)
+        entry.post_ai_refinement_strategy = data.get("post_ai_refinement_strategy", entry.post_ai_refinement_strategy)
+        entry.post_final_output_contribution = data.get("post_final_output_contribution", entry.post_final_output_contribution)
+        entry.post_ai_learning = data.get("post_ai_learning", entry.post_ai_learning)
+        entry.post_peer_collab_value = data.get("post_peer_collab_value", entry.post_peer_collab_value)
+        entry.post_peer_feedback_frequency = data.get("post_peer_feedback_frequency", entry.post_peer_feedback_frequency)
+        entry.post_peer_collab_insight = data.get("post_peer_collab_insight", entry.post_peer_collab_insight)
+        entry.post_confidence_after = data.get("post_confidence_after", entry.post_confidence_after)
+        entry.post_skills_gained = data.get("post_skills_gained", entry.post_skills_gained)
+        entry.post_future_ai_use_likelihood = data.get("post_future_ai_use_likelihood", entry.post_future_ai_use_likelihood)
+        entry.post_confidence_change = data.get("post_confidence_change", entry.post_confidence_change)
+        entry.post_ai_role = data.get("post_ai_role", entry.post_ai_role)
+        entry.post_creative_challenges_preparation = data.get("post_creative_challenges_preparation", entry.post_creative_challenges_preparation)
+
+        # Commit changes to the database
+        db.session.commit()
+
+        return jsonify({"message": "Post-exercise data updated successfully"}), 200
+
+    except Exception as e:
+        logging.error(f"Error updating post-exercise data: {str(e)}")
+        return jsonify({"error": "Internal Server Error"}), 500
+
+
 def generate_dalle_prompt_from_sketch(sketch_path):
     with open(sketch_path, "rb") as image_file:
         image_bytes = image_file.read()

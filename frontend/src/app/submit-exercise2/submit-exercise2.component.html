@@ -1,4 +1,267 @@
-<div class="container text-center">
-  <h1 class="mt-5">Submit Exercise 2</h1>
-  <button (click)="submitExercise2()" class="btn btn-primary btn-lg mt-3">Submit</button>
+<div class="container my-5">
+  <h1 class="text-center mb-4">Exercise 2 Reflection</h1>
+
+  <form (ngSubmit)="onSubmit()" #exerciseForm="ngForm" class="card p-4">
+    <!-- 1. Challenges faced -->
+    <div class="row mb-3">
+      <label for="post_challenges_faced" class="col-md-4 col-form-label text-end">What challenges did you face in this exercise?</label>
+      <div class="col-md-8">
+        <select id="post_challenges_faced" name="post_challenges_faced" class="form-select" [(ngModel)]="post_challenges_faced" required>
+          <option value="" disabled selected>Select a challenge</option>
+          <option value="Generating ideas">Generating ideas</option>
+          <option value="Aligning with the group">Aligning with the group</option>
+          <option value="Technical issues">Technical issues</option>
+          <option value="Time management">Time management</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 2. Most engaging part -->
+    <div class="row mb-3">
+      <label for="post_most_engaging_part" class="col-md-4 col-form-label text-end">Which part of the sketching task did you find most engaging?</label>
+      <div class="col-md-8">
+        <select id="post_most_engaging_part" name="post_most_engaging_part" class="form-select" [(ngModel)]="post_most_engaging_part" required>
+          <option value="" disabled selected>Select the most engaging part</option>
+          <option value="Brainstorming ideas">Brainstorming ideas</option>
+          <option value="Drawing the sketch">Drawing the sketch</option>
+          <option value="Collaborating">Collaborating</option>
+          <option value="Reviewing">Reviewing</option>
+          <option value="Using AI">Using AI</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 3. Most difficult part -->
+    <div class="row mb-3">
+      <label for="post_most_difficult_part" class="col-md-4 col-form-label text-end">What part of the process was most difficult?</label>
+      <div class="col-md-8">
+        <select id="post_most_difficult_part" name="post_most_difficult_part" class="form-select" [(ngModel)]="post_most_difficult_part" required>
+          <option value="" disabled selected>Select the most difficult part</option>
+          <option value="Coming up with ideas">Coming up with ideas</option>
+          <option value="Communicating with team">Communicating with team</option>
+          <option value="Interpreting AI feedback">Interpreting AI feedback</option>
+          <option value="Visualizing concepts">Visualizing concepts</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 4. AI impact -->
+    <div class="row mb-3">
+      <label for="post_ai_impact" class="col-md-4 col-form-label text-end">How did using AI impact your final sketch?</label>
+      <div class="col-md-8">
+        <select id="post_ai_impact" name="post_ai_impact" class="form-select" [(ngModel)]="post_ai_impact" required>
+          <option value="" disabled selected>Select the AI impact</option>
+          <option value="Inspired changes">Inspired changes</option>
+          <option value="Reinforced original idea">Reinforced original idea</option>
+          <option value="Offered new perspectives">Offered new perspectives</option>
+          <option value="No impact">No impact</option>
+          <option value="It challenged my assumptions">It challenged my assumptions</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 5. Revised after AI -->
+    <div class="row mb-3">
+      <label class="col-md-4 col-form-label text-end">Did you revise your sketch after viewing the AI-generated image?</label>
+      <div class="col-md-8">
+        <div class="form-check form-check-inline">
+          <input type="radio" id="revisedYes" name="post_revised_after_ai" class="form-check-input" [(ngModel)]="post_revised_after_ai" [value]="true" required>
+          <label class="form-check-label" for="revisedYes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input type="radio" id="revisedNo" name="post_revised_after_ai" class="form-check-input" [(ngModel)]="post_revised_after_ai" [value]="false">
+          <label class="form-check-label" for="revisedNo">No</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Revision type -->
+    <div class="row mb-3" *ngIf="post_revised_after_ai">
+      <label for="post_revision_type" class="col-md-4 col-form-label text-end">If yes, what kind of changes did you make?</label>
+      <div class="col-md-8">
+        <select id="post_revision_type" name="post_revision_type" class="form-select" [(ngModel)]="post_revision_type">
+          <option value="" disabled selected>Select the type of changes</option>
+          <option value="Design changes">Design changes</option>
+          <option value="Added features">Added features</option>
+          <option value="Simplified the sketch">Simplified the sketch</option>
+          <option value="Re-colored or styled">Re-colored or styled</option>
+          <option value="Other">Other</option>
+          <option value="Not applicable">Not applicable</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 7. Influenced by group -->
+    <div class="mb-3">
+      <label for="post_influenced_by_group" class="form-label">Did the sketching feel influenced by group preferences?</label>
+      <select id="post_influenced_by_group" name="post_influenced_by_group" class="form-select" [(ngModel)]="post_influenced_by_group" required>
+        <option value="" disabled selected>Select an option</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+        <option value="Not sure">Not sure</option>
+      </select>
+    </div>
+
+    <!-- 8. Stuck with first idea -->
+    <div class="mb-3">
+      <label for="post_stuck_with_first_idea" class="form-label">Did you stick with your first idea? Why or why not?</label>
+      <select id="post_stuck_with_first_idea" name="post_stuck_with_first_idea" class="form-select" [(ngModel)]="post_stuck_with_first_idea" required>
+        <option value="" disabled selected>Select an option</option>
+        <option value="Yes, I felt confident in it">Yes, I felt confident in it</option>
+        <option value="Yes, didn’t have time to revise">Yes, didn’t have time to revise</option>
+        <option value="No, I explored alternatives">No, I explored alternatives</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <!-- 9. AI feedback response -->
+    <div class="mb-3">
+      <label for="post_ai_feedback_response" class="form-label">Did AI feedback conflict with your vision? How did you respond?</label>
+      <select id="post_ai_feedback_response" name="post_ai_feedback_response" class="form-select" [(ngModel)]="post_ai_feedback_response" required>
+        <option value="" disabled selected>Select a response</option>
+        <option value="I accepted the suggestions and revised my design">I accepted the suggestions and revised my design</option>
+        <option value="I partially integrated the suggestions but kept my core idea">I partially integrated the suggestions but kept my core idea</option>
+        <option value="I rejected the suggestions and stayed with my original concept">I rejected the suggestions and stayed with my original concept</option>
+        <option value="I felt conflicted and wasn’t sure how to proceed">I felt conflicted and wasn’t sure how to proceed</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <!-- 10. AI made more appealing -->
+    <div class="mb-3">
+      <label for="post_ai_made_more_appealing" class="form-label">Did the AI image make your design look more appealing?</label>
+      <select id="post_ai_made_more_appealing" name="post_ai_made_more_appealing" class="form-select" [(ngModel)]="post_ai_made_more_appealing" required>
+        <option value="" disabled selected>Select an option</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+        <option value="Somewhat">Somewhat</option>
+        <option value="Not sure">Not sure</option>
+      </select>
+    </div>
+
+    <!-- 11. Description influence -->
+    <div class="mb-3">
+      <label for="post_description_influence" class="form-label">Did the product description influence your design choices?</label>
+      <select id="post_description_influence" name="post_description_influence" class="form-select" [(ngModel)]="post_description_influence" required>
+        <option value="" disabled selected>Select an option</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+        <option value="Uncertain">Uncertain</option>
+      </select>
+    </div>
+
+    <!-- 12. Resistance reason -->
+    <div class="mb-3">
+      <label for="post_resistance_reason" class="form-label">What made you resistant to change during design?</label>
+      <select id="post_resistance_reason" name="post_resistance_reason" class="form-select" [(ngModel)]="post_resistance_reason" required>
+        <option value="" disabled selected>Select a reason</option>
+        <option value="Emotional attachment">Emotional attachment</option>
+        <option value="Time constraints">Time constraints</option>
+        <option value="Group pressure">Group pressure</option>
+        <option value="AI disagreement">AI disagreement</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <!-- 13. Familiarity vs innovation -->
+    <div class="mb-3">
+      <label for="post_familiarity_vs_innovation" class="form-label">Looking back, did you prioritize familiarity or innovation?</label>
+      <select id="post_familiarity_vs_innovation" name="post_familiarity_vs_innovation" class="form-select" [(ngModel)]="post_familiarity_vs_innovation" required>
+        <option value="" disabled selected>Select an option</option>
+        <option value="Mostly familiar ideas – I relied on well-known products or features">Mostly familiar ideas – I relied on well-known products or features</option>
+        <option value="A balance of both – I explored some new concepts while keeping familiar elements">A balance of both – I explored some new concepts while keeping familiar elements</option>
+        <option value="Mostly innovative – I intentionally tried to push boundaries and explore new ground">Mostly innovative – I intentionally tried to push boundaries and explore new ground</option>
+        <option value="I’m not sure – My choices felt intuitive rather than strategic">I’m not sure – My choices felt intuitive rather than strategic</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <!-- 14. AI reinforce or challenge -->
+    <div class="mb-3">
+      <label for="post_ai_reinforce_or_challenge" class="form-label">Did AI outputs reinforce or challenge your ideas?</label>
+      <select id="post_ai_reinforce_or_challenge" name="post_ai_reinforce_or_challenge" class="form-select" [(ngModel)]="post_ai_reinforce_or_challenge" required>
+        <option value="" disabled selected>Select an option</option>
+        <option value="Reinforced">Reinforced</option>
+        <option value="Challenged">Challenged</option>
+        <option value="Mixed">Mixed</option>
+        <option value="Not sure">Not sure</option>
+      </select>
+    </div>
+
+    <!-- 15. Experience satisfaction -->
+    <div class="mb-3">
+      <label for="post_experience_satisfaction" class="form-label">How satisfied were you with the overall experience?</label>
+      <select id="post_experience_satisfaction" name="post_experience_satisfaction" class="form-select" [(ngModel)]="post_experience_satisfaction" required>
+        <option value="" disabled selected>Select your satisfaction level</option>
+        <option value="1">1 - Not satisfied at all</option>
+        <option value="2">2 - Slightly satisfied</option>
+        <option value="3">3 - Somewhat satisfied</option>
+        <option value="4">4 - Satisfied</option>
+        <option value="5">5 - Very satisfied</option>
+      </select>
+    </div>
+
+    <!-- 16. Exercise difficulty -->
+    <div class="mb-3">
+      <label for="post_exercise_difficulty" class="form-label">How challenging did you find this exercise?</label>
+      <select id="post_exercise_difficulty" name="post_exercise_difficulty" class="form-select" [(ngModel)]="post_exercise_difficulty" required>
+        <option value="" disabled selected>Select the difficulty level</option>
+        <option value="1">1 - Very easy</option>
+        <option value="2">2 - Somewhat easy</option>
+        <option value="3">3 - Neutral</option>
+        <option value="4">4 - Somewhat difficult</option>
+        <option value="5">5 - Very difficult</option>
+      </select>
+    </div>
+
+    <!-- 17. Creativity boosted -->
+    <div class="mb-3">
+      <label class="form-label">Did this exercise help you think more creatively?</label>
+      <div>
+        <div class="form-check form-check-inline">
+          <input type="radio" id="creativeYes" name="post_creativity_boosted" class="form-check-input" [(ngModel)]="post_creativity_boosted" [value]="true" required>
+          <label class="form-check-label" for="creativeYes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input type="radio" id="creativeNo" name="post_creativity_boosted" class="form-check-input" [(ngModel)]="post_creativity_boosted" [value]="false">
+          <label class="form-check-label" for="creativeNo">No</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 18. Exercise enjoyment -->
+    <div class="mb-3">
+      <label for="post_exercise_enjoyment" class="form-label">What did you enjoy most about this exercise?</label>
+      <select id="post_exercise_enjoyment" name="post_exercise_enjoyment" class="form-select" [(ngModel)]="post_exercise_enjoyment" required>
+        <option value="" disabled selected>Select an option</option>
+        <option value="The creative process">The creative process</option>
+        <option value="Peer collaboration">Peer collaboration</option>
+        <option value="Using AI tools">Using AI tools</option>
+        <option value="Learning new skills">Learning new skills</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <!-- 19. Exercise improvements -->
+    <div class="mb-3">
+      <label for="post_exercise_improvements" class="form-label">What would you improve about this exercise?</label>
+      <select id="post_exercise_improvements" name="post_exercise_improvements" class="form-select" [(ngModel)]="post_exercise_improvements" required>
+        <option value="" disabled selected>Select an option</option>
+        <option value="More time for discussion">More time for discussion</option>
+        <option value="More structured guidelines">More structured guidelines</option>
+        <option value="Better tool integration">Better tool integration</option>
+        <option value="Clearer instructions">Clearer instructions</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </div>
+
+  </form>
 </div>

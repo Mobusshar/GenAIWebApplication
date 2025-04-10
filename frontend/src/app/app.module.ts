@@ -17,6 +17,7 @@ import { FooterComponent } from './footer/footer.component';
 import { LayoutComponent } from './layout/layout.component';
 import { StoryBuildingComponent } from './story-building/story-building.component';
 import { ImageGenerator2Component } from './image-generator-2/image-generator-2.component';
+import { SubmitExercise2FinalComponent } from './submit-exercise2-final/submit-exercise2-final.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ImageGenerator2Component } from './image-generator-2/image-generator-2.
     FooterComponent,
     LayoutComponent,
     StoryBuildingComponent,
-    ImageGenerator2Component
+    ImageGenerator2Component,
+    SubmitExercise2FinalComponent
   ],
   imports: [
     BrowserModule,

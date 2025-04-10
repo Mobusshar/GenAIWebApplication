@@ -1,0 +1,218 @@
+<div class="container my-5">
+  <h1 class="text-center mb-4">Exercise 2 Final Reflection</h1>
+
+  <form (ngSubmit)="onSubmit()" #finalExerciseForm="ngForm" class="card p-4">
+    <!-- 1. AI tools helpfulness -->
+    <div class="row mb-3">
+      <label for="post_ai_helpfulness" class="col-md-4 col-form-label text-end">How helpful were AI tools in the creative process?</label>
+      <div class="col-md-8">
+        <select id="post_ai_helpfulness" name="post_ai_helpfulness" class="form-select" [(ngModel)]="post_ai_helpfulness" required>
+          <option value="" disabled selected>Select a level</option>
+          <option value="1">1 - Not helpful at all</option>
+          <option value="2">2 - Slightly helpful</option>
+          <option value="3">3 - Somewhat helpful</option>
+          <option value="4">4 - Helpful</option>
+          <option value="5">5 - Very helpful</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 2. AI modification count -->
+    <div class="row mb-3">
+      <label for="post_ai_modification_count" class="col-md-4 col-form-label text-end">How many times did you modify your idea based on AI outputs?</label>
+      <div class="col-md-8">
+        <select id="post_ai_modification_count" name="post_ai_modification_count" class="form-select" [(ngModel)]="post_ai_modification_count" required>
+          <option value="" disabled selected>Select a count</option>
+          <option value="1">1 - None</option>
+          <option value="2">2 - 1–2 times</option>
+          <option value="3">3 - 3–4 times</option>
+          <option value="4">4 - 5–6 times</option>
+          <option value="5">5 - More than 6 times</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 3. AI refinement strategy -->
+    <div class="row mb-3">
+      <label for="post_ai_refinement_strategy" class="col-md-4 col-form-label text-end">What strategy did you use to refine the AI-generated image?</label>
+      <div class="col-md-8">
+        <select id="post_ai_refinement_strategy" name="post_ai_refinement_strategy" class="form-select" [(ngModel)]="post_ai_refinement_strategy" required>
+          <option value="" disabled selected>Select a strategy</option>
+          <option value="Rewriting prompts">Rewriting prompts</option>
+          <option value="Editing manually">Editing manually</option>
+          <option value="Combining multiple outputs">Combining multiple outputs</option>
+          <option value="Peer feedback">Peer feedback</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 4. Final output contribution -->
+    <div class="row mb-3">
+      <label for="post_final_output_contribution" class="col-md-4 col-form-label text-end">Does the final output reflect your creativity, AI input, or both?</label>
+      <div class="col-md-8">
+        <select id="post_final_output_contribution" name="post_final_output_contribution" class="form-select" [(ngModel)]="post_final_output_contribution" required>
+          <option value="" disabled selected>Select an option</option>
+          <option value="Mostly my creative input">Mostly my creative input</option>
+          <option value="Mostly AI’s contribution">Mostly AI’s contribution</option>
+          <option value="Both equally">Both equally</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 5. AI learning -->
+    <div class="row mb-3">
+      <label for="post_ai_learning" class="col-md-4 col-form-label text-end">What did you learn about using AI for creative tasks?</label>
+      <div class="col-md-8">
+        <select id="post_ai_learning" name="post_ai_learning" class="form-select" [(ngModel)]="post_ai_learning" required>
+          <option value="" disabled selected>Select a learning</option>
+          <option value="It enhances creativity">It enhances creativity</option>
+          <option value="It speeds up work">It speeds up work</option>
+          <option value="It requires human input">It requires human input</option>
+          <option value="It has limitations">It has limitations</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 6. Peer collaboration value -->
+    <div class="row mb-3">
+      <label for="post_peer_collab_value" class="col-md-4 col-form-label text-end">How valuable was peer collaboration in this task?</label>
+      <div class="col-md-8">
+        <select id="post_peer_collab_value" name="post_peer_collab_value" class="form-select" [(ngModel)]="post_peer_collab_value" required>
+          <option value="" disabled selected>Select a value</option>
+          <option value="1">1 - Not valuable at all</option>
+          <option value="2">2 - Slightly valuable</option>
+          <option value="3">3 - Somewhat valuable</option>
+          <option value="4">4 - Valuable</option>
+          <option value="5">5 - Very valuable</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 7. Peer feedback frequency -->
+    <div class="row mb-3">
+      <label for="post_peer_feedback_frequency" class="col-md-4 col-form-label text-end">How often did you incorporate peer feedback?</label>
+      <div class="col-md-8">
+        <select id="post_peer_feedback_frequency" name="post_peer_feedback_frequency" class="form-select" [(ngModel)]="post_peer_feedback_frequency" required>
+          <option value="" disabled selected>Select a frequency</option>
+          <option value="1">1 - Rarely</option>
+          <option value="2">2 - Occasionally</option>
+          <option value="3">3 - Sometimes</option>
+          <option value="4">4 - Often</option>
+          <option value="5">5 - Very frequently</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 8. Peer collaboration insight -->
+    <div class="row mb-3">
+      <label for="post_peer_collab_insight" class="col-md-4 col-form-label text-end">Did collaborating with peers give you new ideas or perspectives?</label>
+      <div class="col-md-8">
+        <div class="form-check">
+          <input type="radio" id="peerCollabYes" name="post_peer_collab_insight" class="form-check-input" [(ngModel)]="post_peer_collab_insight" [value]="'Yes'" required>
+          <label for="peerCollabYes" class="form-check-label">Yes</label>
+        </div>
+        <div class="form-check">
+          <input type="radio" id="peerCollabNo" name="post_peer_collab_insight" class="form-check-input" [(ngModel)]="post_peer_collab_insight" [value]="'No'">
+          <label for="peerCollabNo" class="form-check-label">No</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. Confidence after task -->
+    <div class="row mb-3">
+      <label for="post_confidence_after" class="col-md-4 col-form-label text-end">How confident are you in your creative skills after this task?</label>
+      <div class="col-md-8">
+        <select id="post_confidence_after" name="post_confidence_after" class="form-select" [(ngModel)]="post_confidence_after" required>
+          <option value="" disabled selected>Select a confidence level</option>
+          <option value="1">1 - Not confident at all</option>
+          <option value="2">2 - Slightly confident</option>
+          <option value="3">3 - Somewhat confident</option>
+          <option value="4">4 - Confident</option>
+          <option value="5">5 - Very confident</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 10. Skills gained -->
+    <div class="row mb-3">
+      <label for="post_skills_gained" class="col-md-4 col-form-label text-end">What specific skills or insights did you gain?</label>
+      <div class="col-md-8">
+        <select id="post_skills_gained" name="post_skills_gained" class="form-select" [(ngModel)]="post_skills_gained" required>
+          <option value="" disabled selected>Select a skill</option>
+          <option value="Improved creativity">Improved creativity</option>
+          <option value="Better collaboration">Better collaboration</option>
+          <option value="Enhanced technical skills">Enhanced technical skills</option>
+          <option value="Deeper reflection">Deeper reflection</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 11. Future AI use likelihood -->
+    <div class="row mb-3">
+      <label for="post_future_ai_use_likelihood" class="col-md-4 col-form-label text-end">How likely are you to use AI tools in future creative tasks?</label>
+      <div class="col-md-8">
+        <select id="post_future_ai_use_likelihood" name="post_future_ai_use_likelihood" class="form-select" [(ngModel)]="post_future_ai_use_likelihood" required>
+          <option value="" disabled selected>Select a likelihood</option>
+          <option value="1">1 - Not likely at all</option>
+          <option value="2">2 - Slightly likely</option>
+          <option value="3">3 - Somewhat likely</option>
+          <option value="4">4 - Likely</option>
+          <option value="5">5 - Very likely</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 12. Confidence change -->
+    <div class="row mb-3">
+      <label for="post_confidence_change" class="col-md-4 col-form-label text-end">How did your creativity confidence change after the exercise?</label>
+      <div class="col-md-8">
+        <select id="post_confidence_change" name="post_confidence_change" class="form-select" [(ngModel)]="post_confidence_change" required>
+          <option value="" disabled selected>Select a change</option>
+          <option value="Increased significantly">Increased significantly</option>
+          <option value="Increased moderately">Increased moderately</option>
+          <option value="Stayed the same">Stayed the same</option>
+          <option value="Decreased moderately">Decreased moderately</option>
+          <option value="Decreased significantly">Decreased significantly</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 13. AI role -->
+    <div class="row mb-3">
+      <label for="post_ai_role" class="col-md-4 col-form-label text-end">What is the role of AI in creativity?</label>
+      <div class="col-md-8">
+        <select id="post_ai_role" name="post_ai_role" class="form-select" [(ngModel)]="post_ai_role" required>
+          <option value="" disabled selected>Select a role</option>
+          <option value="Humans lead; AI supports">Humans lead; AI supports</option>
+          <option value="AI leads; Humans support">AI leads; Humans support</option>
+          <option value="Both contribute equally">Both contribute equally</option>
+          <option value="Uncertain">Uncertain</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 14. Creative challenges preparation -->
+    <div class="row mb-3">
+      <label for="post_creative_challenges_preparation" class="col-md-4 col-form-label text-end">How does this help prepare for creative challenges?</label>
+      <div class="col-md-8">
+        <select id="post_creative_challenges_preparation" name="post_creative_challenges_preparation" class="form-select" [(ngModel)]="post_creative_challenges_preparation" required>
+          <option value="" disabled selected>Select a preparation</option>
+          <option value="Builds critical skills">Builds critical skills</option>
+          <option value="Improves teamwork">Improves teamwork</option>
+          <option value="Increases tech familiarity">Increases tech familiarity</option>
+          <option value="Encourages innovation">Encourages innovation</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </div>
+  </form>
+</div>

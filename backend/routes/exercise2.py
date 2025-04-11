@@ -1,7 +1,7 @@
+import logging
 from flask import Blueprint, request, jsonify, send_from_directory, current_app
 from models.db.exercise2 import db, Exercise2
 import os
-import logging
 import requests
 import json
 import re
@@ -9,6 +9,15 @@ import base64
 from dotenv import load_dotenv
 from openai import OpenAI
 from openai import OpenAIError
+
+# Configure logging
+logging.basicConfig(
+    level=logging.DEBUG,  # Set the log level to DEBUG to capture all logs
+    format="%(asctime)s - %(levelname)s - %(message)s",  # Format for log messages
+    handlers=[
+        logging.StreamHandler()  # Output logs to the terminal
+    ]
+)
 
 # Load environment variables from .env file
 load_dotenv()
@@ -299,18 +308,23 @@ def update_products(id):
         if not entry:
             return jsonify({"error": "Record not found"}), 404
 
-        # Update manual product fields
-        entry.product1_name = data.get("product1_name", entry.product1_name)
-        entry.product1_description = data.get("product1_description", entry.product1_description)
-        entry.product1_suggested_euro = data.get("product1_suggested_euro", entry.product1_suggested_euro)
-        entry.product2_name = data.get("product2_name", entry.product2_name)
-        entry.product2_description = data.get("product2_description", entry.product2_description)
-        entry.product2_suggested_euro = data.get("product2_suggested_euro", entry.product2_suggested_euro)
-        entry.product3_name = data.get("product3_name", entry.product3_name)
-        entry.product3_description = data.get("product3_description", entry.product3_description)
-        entry.product3_suggested_euro = data.get("product3_suggested_euro", entry.product3_suggested_euro)
+        # Step 1: Update manual product fields
+        try:
+            entry.product1_name = data.get("product1_name", entry.product1_name)
+            entry.product1_description = data.get("product1_description", entry.product1_description)
+            entry.product1_suggested_euro = data.get("product1_suggested_euro", entry.product1_suggested_euro)
+            entry.product2_name = data.get("product2_name", entry.product2_name)
+            entry.product2_description = data.get("product2_description", entry.product2_description)
+            entry.product2_suggested_euro = data.get("product2_suggested_euro", entry.product2_suggested_euro)
+            entry.product3_name = data.get("product3_name", entry.product3_name)
+            entry.product3_description = data.get("product3_description", entry.product3_description)
+            entry.product3_suggested_euro = data.get("product3_suggested_euro", entry.product3_suggested_euro)
+            db.session.commit()
+        except Exception as e:
+            logging.error(f"Error updating product fields: {str(e)}")
+            return jsonify({"error": "Failed to update product fields"}), 500
 
-        # Sketch path
+        # Step 2: Validate sketch path
         sketch_path = entry.sketch_upload_path_before
         if not sketch_path:
             return jsonify({"error": "Sketch not found"}), 400
@@ -319,37 +333,51 @@ def update_products(id):
         if not os.path.exists(full_sketch_path):
             return jsonify({"error": "Sketch file not found"}), 404
 
-        # Generate prompt from sketch using GPT-4 Vision
-        prompt = generate_dalle_prompt_from_sketch(full_sketch_path)
-        logging.info(f"Generated DALL·E prompt: {prompt}")
+        # Step 3: Generate prompt from sketch using GPT-4 Vision
+        try:
+            prompt = generate_dalle_prompt_from_sketch(full_sketch_path, entry)
+            logging.info(f"Generated DALL·E prompt: {prompt}")
+        except Exception as e:
+            logging.error(f"Error generating DALL·E prompt: {str(e)}")
+            return jsonify({"error": "Failed to generate DALL·E prompt"}), 500
 
-        # Generate AI image from prompt using DALL·E 3
-        ai_image_dir = os.path.join(current_app.root_path, "ai_sketch_images")
-        os.makedirs(ai_image_dir, exist_ok=True)
-        ai_image_path = os.path.join(ai_image_dir, f"{id}_ai_generated.jpg")
+        # Step 4: Generate AI image from prompt using DALL·E 3
+        try:
+            ai_image_dir = os.path.join(current_app.root_path, "ai_sketch_images")
+            os.makedirs(ai_image_dir, exist_ok=True)
+            ai_image_path = os.path.join(ai_image_dir, f"{id}_ai_generated.jpg")
+            generate_image_with_dalle(prompt, ai_image_path)
+            entry.ai_image_path = f"ai_sketch_images/{id}_ai_generated.jpg"
+        except Exception as e:
+            logging.error(f"Error generating AI image: {str(e)}")
+            return jsonify({"error": "Failed to generate AI image"}), 500
 
-        generate_image_with_dalle(prompt, ai_image_path)
+        # Step 5: Extract product details from AI image
+        try:
+            product_details = call_image_to_text_model(ai_image_path)
 
-        # Save the AI image path to DB
-        entry.ai_image_path = f"ai_sketch_images/{id}_ai_generated.jpg"
+            # Log the extracted product details
+            logging.info(f"Extracted Product Details: {json.dumps(product_details, indent=2)}")
 
-        # Optional: Use GPT-4 Vision again to extract product details from AI image
-        product_details = call_image_to_text_model(ai_image_path)
+            # Return product details in the response for debugging
+            return jsonify({"product_details": product_details}), 200
 
-        # Save AI-generated product details
-        entry.product1_ai_name = product_details["product1"]["name"]
-        entry.product1_ai_description = product_details["product1"]["description"]
-        entry.product1_ai_suggested_euro = product_details["product1"]["market_value_euro"]
+            # Save the extracted product details to the database
+            entry.product1_ai_name = product_details["product1"]["name"]
+            entry.product1_ai_description = product_details["product1"]["description"]
+            entry.product1_ai_suggested_euro = product_details["product1"]["market_value_euro"]
+            entry.product2_ai_name = product_details["product2"]["name"]
+            entry.product2_ai_description = product_details["product2"]["description"]
+            entry.product2_ai_suggested_euro = product_details["product2"]["market_value_euro"]
+            entry.product3_ai_name = product_details["product3"]["name"]
+            entry.product3_ai_description = product_details["product3"]["description"]
+            entry.product3_ai_suggested_euro = product_details["product3"]["market_value_euro"]
 
-        entry.product2_ai_name = product_details["product2"]["name"]
-        entry.product2_ai_description = product_details["product2"]["description"]
-        entry.product2_ai_suggested_euro = product_details["product2"]["market_value_euro"]
+            db.session.commit()
 
-        entry.product3_ai_name = product_details["product3"]["name"]
-        entry.product3_ai_description = product_details["product3"]["description"]
-        entry.product3_ai_suggested_euro = product_details["product3"]["market_value_euro"]
-
-        db.session.commit()
+        except Exception as e:
+            logging.error(f"Error extracting product details: {str(e)}")
+            return jsonify({"error": "Failed to extract product details"}), 500
 
         return jsonify({
             "generatedImageUrl": entry.ai_image_path,
@@ -369,10 +397,32 @@ def update_products(id):
         return jsonify({"error": "Internal Server Error"}), 500
 
 
-def generate_dalle_prompt_from_sketch(sketch_path):
+def generate_dalle_prompt_from_sketch(sketch_path, entry):
+    """
+    Generate a DALL·E prompt from a sketch and include product details from the database.
+    """
     with open(sketch_path, "rb") as image_file:
         image_bytes = image_file.read()
         image_base64 = base64.b64encode(image_bytes).decode("utf-8")
+
+    # Include product details in the prompt
+    product_details_text = (
+        f"Product 1: {entry.product1_name} - {entry.product1_description} (Suggested price: {entry.product1_suggested_euro} EUR)\n"
+        f"Product 2: {entry.product2_name} - {entry.product2_description} (Suggested price: {entry.product2_suggested_euro} EUR)\n"
+        f"Product 3: {entry.product3_name} - {entry.product3_description} (Suggested price: {entry.product3_suggested_euro} EUR)\n"
+    )
+
+    # Construct the prompt
+    prompt_text = (
+    "You are analyzing a sketch of a car interior that includes three distinct products. "
+    "Your task is to write a vivid, high-quality prompt for generating an AI image using DALL·E 3. "
+    "The generated image should be realistic, detailed, and match the perspective and point of view of the provided sketch. "
+    "Ensure the image does not contain any text or labels. "
+    "Focus on accurately representing the following three car interior products:\n"
+    f"{product_details_text}\n"
+    "Be creative and ensure the products are visually appealing and seamlessly integrated into the car interior design. "
+    "The final image should look like a professional concept design for a luxury car interior."
+    )
 
     response = client.chat.completions.create(
         model="gpt-4-turbo",
@@ -386,10 +436,7 @@ def generate_dalle_prompt_from_sketch(sketch_path):
                 "content": [
                     {
                         "type": "text",
-                        "text": (
-                            "Please look at this sketch and write a vivid, high-quality prompt "
-                            "for generating an AI image using DALL·E 3. Be creative and detailed."
-                        )
+                        "text": prompt_text
                     },
                     {
                         "type": "image_url",
@@ -401,11 +448,10 @@ def generate_dalle_prompt_from_sketch(sketch_path):
                 ]
             }
         ],
-        max_tokens=500
+        max_tokens=800
     )
 
     return response.choices[0].message.content.strip()
-
 
 
 def generate_image_with_dalle(prompt, output_path):
@@ -426,48 +472,65 @@ def generate_image_with_dalle(prompt, output_path):
         f.write(image_response.content)
 
 
-
 def call_image_to_text_model(image_path):
     """
     Use GPT-4 Vision to extract product details from an AI-generated image.
     """
-    with open(image_path, "rb") as image_file:
-        image_base64 = base64.b64encode(image_file.read()).decode("utf-8")
+    try:
+        with open(image_path, "rb") as image_file:
+            image_bytes = image_file.read()
+            image_base64 = base64.b64encode(image_bytes).decode("utf-8")
 
-    prompt = (
-        "You are analyzing an image of a conceptual AI-generated car. "
-        "Please extract and respond with a JSON object that includes three products "
-        "like this:\n"
-        "{\n"
-        "  \"product1\": {\"name\": \"...\", \"description\": \"...\", \"market_value_euro\": 100},\n"
-        "  \"product2\": {...},\n"
-        "  \"product3\": {...}\n"
-        "}"
-    )
+        # Log the base64 string length for debugging
+        logging.debug(f"Base64 image length: {len(image_base64)}")
 
-    response = client.chat.completions.create(
-        model="gpt-4-turbo",
-        messages=[
-            {
-                "role": "system",
-                "content": "You are an AI that analyzes images and extracts product data."
-            },
-            {
-                "role": "user",
-                "content": [
-                    {"type": "text", "text": prompt},
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:image/jpeg;base64,{image_base64}",
-                            "detail": "high"
+        prompt = (
+            "You are analyzing an image of a conceptual AI-generated car interior which has 3 products in it. "
+            "Please extract and respond with a JSON object that includes three products in the following format:\n"
+            "{\n"
+            "  \"product1\": {\"name\": \"...\", \"description\": \"...\", \"market_value_euro\": 100},\n"
+            "  \"product2\": {\"name\": \"...\", \"description\": \"...\", \"market_value_euro\": 200},\n"
+            "  \"product3\": {\"name\": \"...\", \"description\": \"...\", \"market_value_euro\": 300}\n"
+            "}\n"
+            "Ensure the response is a valid JSON object and does not include any additional text or explanation."
+        )
+
+        response = client.chat.completions.create(
+            model="gpt-4-turbo",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are an AI that analyzes images of a car interior and extracts product data."
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": prompt},
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/jpeg;base64,{image_base64}",
+                                "detail": "high"
+                            }
                         }
-                    }
-                ]
-            }
-        ],
-        max_tokens=1000
-    )
+                    ]
+                }
+            ],
+            max_tokens=1000
+        )
 
-    content = response.choices[0].message.content.strip()
-    return json.loads(content)
+        # Log the raw response for debugging
+        logging.debug(f"Raw OpenAI API response: {response}")
+
+        # Extract and parse the content
+        content = response.choices[0].message.content.strip()
+        logging.debug(f"Extracted content: {content}")
+        return json.loads(content)
+
+    except OpenAIError as e:
+        logging.error(f"OpenAI API error: {str(e)}")
+        raise
+
+    except json.JSONDecodeError as e:
+        logging.error(f"JSON decoding error: {str(e)}")
+        raise

@@ -96,7 +96,7 @@ export class ImageGeneratorComponent implements OnInit {
   // Method to generate AI image with product data and update the fields
   generateAIImageWithProducts(): void {
     const payload = {
-      id: this.id, // Include the ID to update the existing record
+      id: this.id,
       product1_name: this.product1_name,
       product1_description: this.product1_description,
       product1_suggested_euro: this.product1_suggested_euro,
@@ -108,7 +108,6 @@ export class ImageGeneratorComponent implements OnInit {
       product3_suggested_euro: this.product3_suggested_euro
     };
 
-    // Set loading state to true
     this.isLoading = true;
 
     this.http.put<{
@@ -142,19 +141,20 @@ export class ImageGeneratorComponent implements OnInit {
           this.product3_ai_description = response.product3_ai_description;
           this.product3_ai_suggested_euro = response.product3_ai_suggested_euro;
 
-          // Reset loading state and set generated state
           this.isLoading = false;
           this.isGenerated = true; // Show "View Results" button
-
           alert('AI image and product data updated successfully.');
         },
         (error) => {
-          console.error('Error updating AI image and product data:', error);
-
-          // Reset loading state
+          console.error('Error:', error);
           this.isLoading = false;
 
-          alert('Something went wrong while updating the AI image and product data.');
+          // Display specific error messages based on the backend response
+          if (error.error && error.error.error) {
+            alert(`Error: ${error.error.error}`);
+          } else {
+            alert('Something went wrong while updating the AI image and product data.');
+          }
         }
       );
   }

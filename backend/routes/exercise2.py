@@ -165,85 +165,7 @@ def upload_final_sketch(id):
         return jsonify({"error": "Internal Server Error"}), 500
 
 
-@exercise2_bp.route("/update-products/<int:id>", methods=["PUT"])
-def update_products(id):
-    """
-    Update product data and generate AI image using GPT-4 Vision and DALL·E 3 based on uploaded sketch.
-    """
-    try:
-        data = request.json
-        entry = Exercise2.query.get(id)
-        if not entry:
-            return jsonify({"error": "Record not found"}), 404
 
-        # Update manual product fields
-        entry.product1_name = data.get("product1_name", entry.product1_name)
-        entry.product1_description = data.get("product1_description", entry.product1_description)
-        entry.product1_suggested_euro = data.get("product1_suggested_euro", entry.product1_suggested_euro)
-        entry.product2_name = data.get("product2_name", entry.product2_name)
-        entry.product2_description = data.get("product2_description", entry.product2_description)
-        entry.product2_suggested_euro = data.get("product2_suggested_euro", entry.product2_suggested_euro)
-        entry.product3_name = data.get("product3_name", entry.product3_name)
-        entry.product3_description = data.get("product3_description", entry.product3_description)
-        entry.product3_suggested_euro = data.get("product3_suggested_euro", entry.product3_suggested_euro)
-
-        # Sketch path
-        sketch_path = entry.sketch_upload_path_before
-        if not sketch_path:
-            return jsonify({"error": "Sketch not found"}), 400
-
-        full_sketch_path = os.path.join(current_app.root_path, sketch_path)
-        if not os.path.exists(full_sketch_path):
-            return jsonify({"error": "Sketch file not found"}), 404
-
-        # Generate prompt from sketch using GPT-4 Vision
-        prompt = generate_dalle_prompt_from_sketch(full_sketch_path)
-        logging.info(f"Generated DALL·E prompt: {prompt}")
-
-        # Generate AI image from prompt using DALL·E 3
-        ai_image_dir = os.path.join(current_app.root_path, "ai_sketch_images")
-        os.makedirs(ai_image_dir, exist_ok=True)
-        ai_image_path = os.path.join(ai_image_dir, f"{id}_ai_generated.jpg")
-
-        generate_image_with_dalle(prompt, ai_image_path)
-
-        # Save the AI image path to DB
-        entry.ai_image_path = f"ai_sketch_images/{id}_ai_generated.jpg"
-
-        # Optional: Use GPT-4 Vision again to extract product details from AI image
-        product_details = call_image_to_text_model(ai_image_path)
-
-        # Save AI-generated product details
-        entry.product1_ai_name = product_details["product1"]["name"]
-        entry.product1_ai_description = product_details["product1"]["description"]
-        entry.product1_ai_suggested_euro = product_details["product1"]["market_value_euro"]
-
-        entry.product2_ai_name = product_details["product2"]["name"]
-        entry.product2_ai_description = product_details["product2"]["description"]
-        entry.product2_ai_suggested_euro = product_details["product2"]["market_value_euro"]
-
-        entry.product3_ai_name = product_details["product3"]["name"]
-        entry.product3_ai_description = product_details["product3"]["description"]
-        entry.product3_ai_suggested_euro = product_details["product3"]["market_value_euro"]
-
-        db.session.commit()
-
-        return jsonify({
-            "generatedImageUrl": entry.ai_image_path,
-            "product1_ai_name": entry.product1_ai_name,
-            "product1_ai_description": entry.product1_ai_description,
-            "product1_ai_suggested_euro": entry.product1_ai_suggested_euro,
-            "product2_ai_name": entry.product2_ai_name,
-            "product2_ai_description": entry.product2_ai_description,
-            "product2_ai_suggested_euro": entry.product2_ai_suggested_euro,
-            "product3_ai_name": entry.product3_ai_name,
-            "product3_ai_description": entry.product3_ai_description,
-            "product3_ai_suggested_euro": entry.product3_ai_suggested_euro
-        }), 200
-
-    except Exception as e:
-        logging.error(f"Error updating products: {str(e)}")
-        return jsonify({"error": "Internal Server Error"}), 500
 
 
 @exercise2_bp.route("/get-images-and-products/<int:id>", methods=["GET"])
@@ -363,6 +285,87 @@ def update_post_exercise1(id):
 
     except Exception as e:
         logging.error(f"Error updating post-exercise data: {str(e)}")
+        return jsonify({"error": "Internal Server Error"}), 500
+
+
+@exercise2_bp.route("/update-products/<int:id>", methods=["PUT"])
+def update_products(id):
+    """
+    Update product data and generate AI image using GPT-4 Vision and DALL·E 3 based on uploaded sketch.
+    """
+    try:
+        data = request.json
+        entry = Exercise2.query.get(id)
+        if not entry:
+            return jsonify({"error": "Record not found"}), 404
+
+        # Update manual product fields
+        entry.product1_name = data.get("product1_name", entry.product1_name)
+        entry.product1_description = data.get("product1_description", entry.product1_description)
+        entry.product1_suggested_euro = data.get("product1_suggested_euro", entry.product1_suggested_euro)
+        entry.product2_name = data.get("product2_name", entry.product2_name)
+        entry.product2_description = data.get("product2_description", entry.product2_description)
+        entry.product2_suggested_euro = data.get("product2_suggested_euro", entry.product2_suggested_euro)
+        entry.product3_name = data.get("product3_name", entry.product3_name)
+        entry.product3_description = data.get("product3_description", entry.product3_description)
+        entry.product3_suggested_euro = data.get("product3_suggested_euro", entry.product3_suggested_euro)
+
+        # Sketch path
+        sketch_path = entry.sketch_upload_path_before
+        if not sketch_path:
+            return jsonify({"error": "Sketch not found"}), 400
+
+        full_sketch_path = os.path.join(current_app.root_path, sketch_path)
+        if not os.path.exists(full_sketch_path):
+            return jsonify({"error": "Sketch file not found"}), 404
+
+        # Generate prompt from sketch using GPT-4 Vision
+        prompt = generate_dalle_prompt_from_sketch(full_sketch_path)
+        logging.info(f"Generated DALL·E prompt: {prompt}")
+
+        # Generate AI image from prompt using DALL·E 3
+        ai_image_dir = os.path.join(current_app.root_path, "ai_sketch_images")
+        os.makedirs(ai_image_dir, exist_ok=True)
+        ai_image_path = os.path.join(ai_image_dir, f"{id}_ai_generated.jpg")
+
+        generate_image_with_dalle(prompt, ai_image_path)
+
+        # Save the AI image path to DB
+        entry.ai_image_path = f"ai_sketch_images/{id}_ai_generated.jpg"
+
+        # Optional: Use GPT-4 Vision again to extract product details from AI image
+        product_details = call_image_to_text_model(ai_image_path)
+
+        # Save AI-generated product details
+        entry.product1_ai_name = product_details["product1"]["name"]
+        entry.product1_ai_description = product_details["product1"]["description"]
+        entry.product1_ai_suggested_euro = product_details["product1"]["market_value_euro"]
+
+        entry.product2_ai_name = product_details["product2"]["name"]
+        entry.product2_ai_description = product_details["product2"]["description"]
+        entry.product2_ai_suggested_euro = product_details["product2"]["market_value_euro"]
+
+        entry.product3_ai_name = product_details["product3"]["name"]
+        entry.product3_ai_description = product_details["product3"]["description"]
+        entry.product3_ai_suggested_euro = product_details["product3"]["market_value_euro"]
+
+        db.session.commit()
+
+        return jsonify({
+            "generatedImageUrl": entry.ai_image_path,
+            "product1_ai_name": entry.product1_ai_name,
+            "product1_ai_description": entry.product1_ai_description,
+            "product1_ai_suggested_euro": entry.product1_ai_suggested_euro,
+            "product2_ai_name": entry.product2_ai_name,
+            "product2_ai_description": entry.product2_ai_description,
+            "product2_ai_suggested_euro": entry.product2_ai_suggested_euro,
+            "product3_ai_name": entry.product3_ai_name,
+            "product3_ai_description": entry.product3_ai_description,
+            "product3_ai_suggested_euro": entry.product3_ai_suggested_euro
+        }), 200
+
+    except Exception as e:
+        logging.error(f"Error updating products: {str(e)}")
         return jsonify({"error": "Internal Server Error"}), 500
 
 

@@ -507,7 +507,7 @@ def generate_ai_story_without_id():
         else:
             try:
                 response = client.chat.completions.create(
-                    model="gpt-3.5-turbo",
+                    model="gpt-4-turbo",
                     messages=[
                         {"role": "system", "content": "You are a helpful assistant."},
                         {"role": "user", "content": chatgpt_prompt}

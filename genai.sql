@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS exercise1;
 
 CREATE TABLE exercise1 (
     id SERIAL PRIMARY KEY,
+
+    -- Demographics & Baseline
     demo_name VARCHAR(255),
     demo_email VARCHAR(255),
     demo_academic VARCHAR(255),
@@ -12,6 +14,8 @@ CREATE TABLE exercise1 (
     ai_tools_list TEXT,
     ai_comfort INT,
     ai_expectations TEXT,
+
+    -- Collaboration & Experience
     collab_conf INT,
     collab_role VARCHAR(50),
     collab_value TEXT,
@@ -29,20 +33,29 @@ CREATE TABLE exercise1 (
     exp_creativity_boost TEXT,
     exp_enjoyment TEXT,
     exp_improvements TEXT,
+
+    -- AI-Specific Reflection
     ai_helpfulness INT,
     ai_iterations INT,
     ai_strategies TEXT,
     ai_contribution VARCHAR(50),
     ai_learnings TEXT,
+
+    -- Post-Collab & Learning
     collab_value_post INT,
     collab_feedback VARCHAR(50),
     collab_new_ideas TEXT,
     learn_conf_post INT,
     learn_skills TEXT,
     learn_ai_future INT,
+
+    -- Reflections
     reflect_creativity_change TEXT,
     reflect_human_ai_role TEXT,
     reflect_future_prep TEXT,
+
+    -- Human Story Section
+    story TEXT,
     story_character VARCHAR(255),
     frustration TEXT,
     sadness TEXT,
@@ -60,6 +73,8 @@ CREATE TABLE exercise1 (
     self_reflection TEXT,
     inspiration TEXT,
     story_moral TEXT,
+
+    -- AI Story Section
     ai_story TEXT,
     ai_story_character VARCHAR(255),
     ai_frustration TEXT,
@@ -78,8 +93,11 @@ CREATE TABLE exercise1 (
     ai_self_reflection TEXT,
     ai_inspiration TEXT,
     ai_story_moral TEXT,
+
+    -- Timestamp
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 select * from exercise1;
 
@@ -190,4 +208,4 @@ CREATE TABLE exercise2 (
     product3_ai_suggested_euro VARCHAR(255)
 );
 
-select * from exercise2;
+select * from exercise2 where id=1;

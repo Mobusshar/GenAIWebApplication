@@ -356,12 +356,6 @@ def update_products(id):
         try:
             product_details = call_image_to_text_model(ai_image_path)
 
-            # Log the extracted product details
-            logging.info(f"Extracted Product Details: {json.dumps(product_details, indent=2)}")
-
-            # Return product details in the response for debugging
-            return jsonify({"product_details": product_details}), 200
-
             # Save the extracted product details to the database
             entry.product1_ai_name = product_details["product1"]["name"]
             entry.product1_ai_description = product_details["product1"]["description"]

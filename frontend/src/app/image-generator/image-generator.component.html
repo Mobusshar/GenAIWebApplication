@@ -1,84 +1,147 @@
 <div class="container my-5">
-  <h1 class="mt-5 text-center">AI Image Generator</h1>
-
-  <!-- Section to Download the Image -->
-  <div class="mt-4 text-center">
-    <h3>Step 1: Download the Image or ask for a printed image to the course teacher</h3>
-    <img src="assets/car_interior.jpg" alt="Car Interior" class="img-fluid mb-3" style="max-width: 700px;">
+  <h1 class="mt-5 text-center">Sketch Completions Phase</h1>
+  <div class="text-center text-muted mb-4" style="border: 2px solid #007bff; padding: 20px; border-radius: 10px; background-color: #f0f8ff;">
+    <h3 class="text-primary">🎨 Time to Innovate: Reimagine the Car Interior! 🚗</h3>
+    <p style="color: #333; font-weight: 500;">
+      You’re about to transform a simple sketch into a hub of futuristic ideas! In this activity, we challenge you and your teammate to think beyond the ordinary and come up with three unique product concepts that could live inside a car. These could be gadgets, features, design elements—anything that makes the car interior smarter, cooler, or more fun!
+    </p>
+    <h4 class="text-success">🖍️ Here’s what you need to do:</h4>
+    <ul style="text-align: left; color: #333; font-weight: 500;">
+      <li>Grab three different colored pens or pencils. Each color will represent one product idea.</li>
+      <li>Brainstorm together. Before touching the sketch, take a few minutes to discuss with your teammate. What problems could you solve? What futuristic features could you introduce? Be bold and creative!</li>
+      <li>Sketch your ideas directly onto the car interior template. Use each color to visually mark where your product fits in the design.</li>
+    </ul>
+    <p style="color: #333; font-weight: 500;">
+      For each product, you’ll also need to define in step 3:
+    </p>
+    <ul style="text-align: left; color: #333; font-weight: 500;">
+      <li><strong>Product Name</strong> – Give it a catchy or meaningful name.</li>
+      <li><strong>Estimated Market Cost</strong> – Think realistically or dream big—up to you!</li>
+      <li><strong>Description</strong> – Write a detailed explanation of what your product does, how it works, and why it matters. Don’t hold back—this is your pitch!</li>
+    </ul>
+    <p style="color: #333; font-weight: 500;">
+      📝 <strong>Annotations are your best friend!</strong> Clearly label features, functions, or interactions. The more detailed, the better.
+    </p>
+    <h4 class="text-warning">📤 Next Steps:</h4>
+    <ul style="text-align: left; color: #333; font-weight: 500;">
+      <li>Once you’re happy with your colorful, creative sketch, upload it in Step 2.</li>
+      <li>Then head over to Step 3 to fill in all the product details.</li>
+      <li>Hit <strong>Generate</strong> to let the AI bring your idea to life with a visual rendering.</li>
+      <li>Finally, click <strong>View Results</strong> to see your vision turned into an AI-generated image!</li>
+    </ul>
+    <p style="color: #333; font-weight: 500;">
+      💡 <strong>Remember:</strong> There’s no such thing as a bad idea—only unimagined possibilities. Have fun and design boldly!
+    </p>
   </div>
 
-  <div class="mt-4 text-center">
-    <a href="assets/car_interior.jpg" download="car_interior.jpg" class="btn btn-primary">Download Image</a>
-  </div>
-
-  <hr>
-
-  <!-- Section to Upload the Sketched Image -->
-  <div class="mt-4">
-    <h3>Step 2: Upload Your Hand Sketched Image Here</h3>
-    <div class="form-group mt-3">
-      <label for="sketch_upload_path_before">Upload your sketched image (Before AI):</label>
-      <input
-        type="file"
-        id="sketch_upload_path_before"
-        (change)="onFileSelected($event)"
-        class="form-control"
-        accept="image/*"
-        required
-      />
+  <!-- Step 1 -->
+  <div class="card mb-4" style="background-color: #f8f9fa; border-left: 5px solid #007bff;">
+    <div class="card-body">
+      <h3 class="card-title">Step 1: Download the Image</h3>
+      <p class="card-text">Download the image or ask for a printed image from the course teacher.</p>
+      <div class="text-center">
+        <img src="assets/car_interior.jpg" alt="Car Interior" class="img-fluid mb-3" style="max-width: 700px;">
+        <div class="mt-3">
+          <a href="assets/car_interior.jpg" download="car_interior.jpg" class="btn btn-primary">Download Image</a>
+        </div>
+      </div>
     </div>
   </div>
 
-  <hr>
+  <!-- Step 2 -->
+  <div class="card mb-4" style="background-color: #f8f9fa; border-left: 5px solid #28a745;">
+    <div class="card-body">
+      <h3 class="card-title">Step 2: Upload Your Hand Sketched Image</h3>
+      <p class="card-text">Upload your sketched image (Before AI).</p>
+      <div class="form-group mt-3">
+        <label for="sketch_upload_path_before">Upload your sketched image:</label>
+        <input
+          type="file"
+          id="sketch_upload_path_before"
+          (change)="onFileSelected($event)"
+          class="form-control"
+          accept="image/*"
+          required
+        />
+      </div>
+    </div>
+  </div>
 
-  <!-- Section to Describe Products -->
-  <div class="mt-4">
-    <h3>Step 3: Describe Your Products</h3>
-    <form #productDescriptionForm="ngForm">
-      <!-- Product 1 -->
-      <div class="form-group mb-3">
-        <label for="product1_description">Product 1 Description:</label>
-        <textarea id="product1_description" name="product1_description" class="form-control" rows="2" [(ngModel)]="product1_description" required></textarea>
-      </div>
-      <div class="form-group mb-3">
-        <label for="product1_name">Product 1 Name (or Pet Name):</label>
-        <input type="text" id="product1_name" name="product1_name" class="form-control" [(ngModel)]="product1_name" required />
-      </div>
-      <div class="form-group mb-3">
-        <label for="product1_suggested_euro">Product 1 Market Value (in Euro):</label>
-        <input type="text" id="product1_suggested_euro" name="product1_suggested_euro" class="form-control" [(ngModel)]="product1_suggested_euro" required />
-      </div>
+  <!-- Step 3 -->
+  <div class="card mb-4" style="background-color: #f8f9fa; border-left: 5px solid #ffc107;">
+    <div class="card-body">
+      <h3 class="card-title">Step 3: Describe Your Products</h3>
+      <p class="card-text">Fill in the details for your products below.</p>
+      <form #productDescriptionForm="ngForm">
+        <div class="row">
+          <!-- Product 1 -->
+          <div class="col-md-4">
+            <div class="card mb-3" style="min-height: 600px;">
+              <div class="card-body">
+                <h5 class="card-title">Product 1</h5>
+                <div class="form-group mb-3">
+                  <label for="product1_name">Name (or Pet Name):</label>
+                  <input type="text" id="product1_name" name="product1_name" class="form-control" [(ngModel)]="product1_name" required />
+                </div>
+                <div class="form-group mb-3">
+                  <label for="product1_suggested_euro">Estimated Market Value (in Euro):</label>
+                  <input type="text" id="product1_suggested_euro" name="product1_suggested_euro" class="form-control" [(ngModel)]="product1_suggested_euro" required />
+                </div>
+                <div class="form-group mb-3">
+                  <label for="product1_description">Description:</label>
+                  <textarea id="product1_description" name="product1_description" class="form-control" rows="15" [(ngModel)]="product1_description" required></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
 
-      <!-- Product 2 -->
-      <div class="form-group mb-3">
-        <label for="product2_description">Product 2 Description:</label>
-        <textarea id="product2_description" name="product2_description" class="form-control" rows="2" [(ngModel)]="product2_description" required></textarea>
-      </div>
-      <div class="form-group mb-3">
-        <label for="product2_name">Product 2 Name (or Pet Name):</label>
-        <input type="text" id="product2_name" name="product2_name" class="form-control" [(ngModel)]="product2_name" required />
-      </div>
-      <div class="form-group mb-3">
-        <label for="product2_suggested_euro">Product 2 Market Value (in Euro):</label>
-        <input type="text" id="product2_suggested_euro" name="product2_suggested_euro" class="form-control" [(ngModel)]="product2_suggested_euro" required />
-      </div>
+          <!-- Product 2 -->
+          <div class="col-md-4">
+            <div class="card mb-3" style="min-height: 600px;">
+              <div class="card-body">
+                <h5 class="card-title">Product 2</h5>
+                <div class="form-group mb-3">
+                  <label for="product2_name">Name (or Pet Name):</label>
+                  <input type="text" id="product2_name" name="product2_name" class="form-control" [(ngModel)]="product2_name" required />
+                </div>
+                <div class="form-group mb-3">
+                  <label for="product2_suggested_euro">Estimated Market Value (in Euro):</label>
+                  <input type="text" id="product2_suggested_euro" name="product2_suggested_euro" class="form-control" [(ngModel)]="product2_suggested_euro" required />
+                </div>
+                <div class="form-group mb-3">
+                  <label for="product2_description">Description:</label>
+                  <textarea id="product2_description" name="product2_description" class="form-control" rows="15" [(ngModel)]="product2_description" required></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
 
-      <!-- Product 3 -->
-      <div class="form-group mb-3">
-        <label for="product3_description">Product 3 Description:</label>
-        <textarea id="product3_description" name="product3_description" class="form-control" rows="2" [(ngModel)]="product3_description" required></textarea>
-      </div>
-      <div class="form-group mb-3">
-        <label for="product3_name">Product 3 Name (or Pet Name):</label>
-        <input type="text" id="product3_name" name="product3_name" class="form-control" [(ngModel)]="product3_name" required />
-      </div>
-      <div class="form-group mb-3">
-        <label for="product3_suggested_euro">Product 3 Market Value (in Euro):</label>
-        <input type="text" id="product3_suggested_euro" name="product3_suggested_euro" class="form-control" [(ngModel)]="product3_suggested_euro" required />
-      </div>
-    </form>
+          <!-- Product 3 -->
+          <div class="col-md-4">
+            <div class="card mb-3" style="min-height: 600px;">
+              <div class="card-body">
+                <h5 class="card-title">Product 3</h5>
+                <div class="form-group mb-3">
+                  <label for="product3_name">Name (or Pet Name):</label>
+                  <input type="text" id="product3_name" name="product3_name" class="form-control" [(ngModel)]="product3_name" required />
+                </div>
+                <div class="form-group mb-3">
+                  <label for="product3_suggested_euro">Estimated Market Value (in Euro):</label>
+                  <input type="text" id="product3_suggested_euro" name="product3_suggested_euro" class="form-control" [(ngModel)]="product3_suggested_euro" required />
+                </div>
+                <div class="form-group mb-3">
+                  <label for="product3_description">Description:</label>
+                  <textarea id="product3_description" name="product3_description" class="form-control" rows="15" [(ngModel)]="product3_description" required></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 
-    <!-- Loading Animation -->
+  <!-- Loading Animation -->
   <div *ngIf="isLoading" class="text-center mb-4">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -91,8 +154,6 @@
     <button class="btn btn-primary" (click)="generateAIImageWithProducts()" [disabled]="isLoading">
       Generate
     </button>
-  </div>
-
   </div>
 
   <hr>

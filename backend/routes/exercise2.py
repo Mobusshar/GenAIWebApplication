@@ -9,6 +9,7 @@ import base64
 from dotenv import load_dotenv
 from openai import OpenAI
 from openai import OpenAIError
+from jsonfinder import jsonfinder  # Import jsonfinder
 
 # Configure logging
 logging.basicConfig(
@@ -173,9 +174,111 @@ def upload_final_sketch(id):
         logging.error(f"Error uploading final sketch: {str(e)}")
         return jsonify({"error": "Internal Server Error"}), 500
 
+@exercise2_bp.route("/update-products/<int:id>", methods=["PUT"])
+def update_products(id):
+    """
+    Update product data and sketch path in the database.
+    """
+    try:
+        data = request.json
+        entry = Exercise2.query.get(id)
+        if not entry:
+            return jsonify({"error": "Record not found"}), 404
 
+        # Update product fields
+        entry.product1_name = data.get("product1_name", entry.product1_name)
+        entry.product1_description = data.get("product1_description", entry.product1_description)
+        entry.product1_suggested_euro = data.get("product1_suggested_euro", entry.product1_suggested_euro)
+        entry.product2_name = data.get("product2_name", entry.product2_name)
+        entry.product2_description = data.get("product2_description", entry.product2_description)
+        entry.product2_suggested_euro = data.get("product2_suggested_euro", entry.product2_suggested_euro)
+        entry.product3_name = data.get("product3_name", entry.product3_name)
+        entry.product3_description = data.get("product3_description", entry.product3_description)
+        entry.product3_suggested_euro = data.get("product3_suggested_euro", entry.product3_suggested_euro)
 
+        db.session.commit()
 
+        return jsonify({"message": "Product data and sketch updated successfully"}), 200
+
+    except Exception as e:
+        logging.error(f"Error updating product data: {str(e)}")
+        return jsonify({"error": "Internal Server Error"}), 500
+
+@exercise2_bp.route("/generate-ai-image/<int:id>", methods=["POST"])
+def generate_ai_image(id):
+    """
+    Generate AI image and extract product details based on the uploaded sketch.
+    """
+    try:
+        entry = Exercise2.query.get(id)
+        if not entry:
+            return jsonify({"error": "Record not found"}), 404
+
+        # Validate sketch path
+        sketch_path = entry.sketch_upload_path_before
+        if not sketch_path:
+            return jsonify({"error": "Sketch not found"}), 400
+
+        full_sketch_path = os.path.join(current_app.root_path, sketch_path)
+        if not os.path.exists(full_sketch_path):
+            return jsonify({"error": "Sketch file not found"}), 404
+
+        # Generate prompt from sketch using GPT-4 Vision
+        try:
+            prompt = generate_dalle_prompt_from_sketch(full_sketch_path, entry)
+            logging.info(f"Generated DALL·E prompt: {prompt}")
+        except Exception as e:
+            logging.error(f"Error generating DALL·E prompt: {str(e)}")
+            return jsonify({"error": "Failed to generate DALL·E prompt"}), 500
+
+        # Generate AI image from prompt using DALL·E 3
+        try:
+            ai_image_dir = os.path.join(current_app.root_path, "ai_sketch_images")
+            os.makedirs(ai_image_dir, exist_ok=True)
+            ai_image_path = os.path.join(ai_image_dir, f"{id}_ai_generated.jpg")
+            generate_image_with_dalle(prompt, ai_image_path)
+            entry.ai_image_path = f"ai_sketch_images/{id}_ai_generated.jpg"
+        except Exception as e:
+            logging.error(f"Error generating AI image: {str(e)}")
+            return jsonify({"error": "Failed to generate AI image"}), 500
+
+        # Extract product details from AI image
+        try:
+            product_details = call_image_to_text_model(ai_image_path)
+
+            # Save the extracted product details to the database
+            entry.product1_ai_name = product_details["product1"]["name"]
+            entry.product1_ai_description = product_details["product1"]["description"]
+            entry.product1_ai_suggested_euro = product_details["product1"]["market_value_euro"]
+            entry.product2_ai_name = product_details["product2"]["name"]
+            entry.product2_ai_description = product_details["product2"]["description"]
+            entry.product2_ai_suggested_euro = product_details["product2"]["market_value_euro"]
+            entry.product3_ai_name = product_details["product3"]["name"]
+            entry.product3_ai_description = product_details["product3"]["description"]
+            entry.product3_ai_suggested_euro = product_details["product3"]["market_value_euro"]
+
+            db.session.commit()
+
+        except Exception as e:
+            logging.error(f"Error extracting product details: {str(e)}")
+            return jsonify({"error": "Failed to extract product details"}), 500
+
+        return jsonify({
+            "generatedImageUrl": entry.ai_image_path,
+            "product1_ai_name": entry.product1_ai_name,
+            "product1_ai_description": entry.product1_ai_description,
+            "product1_ai_suggested_euro": entry.product1_ai_suggested_euro,
+            "product2_ai_name": entry.product2_ai_name,
+            "product2_ai_description": entry.product2_ai_description,
+            "product2_ai_suggested_euro": entry.product2_ai_suggested_euro,
+            "product3_ai_name": entry.product3_ai_name,
+            "product3_ai_description": entry.product3_ai_description,
+            "product3_ai_suggested_euro": entry.product3_ai_suggested_euro
+        }), 200
+
+    except Exception as e:
+        logging.error(f"Error generating AI image: {str(e)}")
+        return jsonify({"error": "Internal Server Error"}), 500
 
 @exercise2_bp.route("/get-images-and-products/<int:id>", methods=["GET"])
 def get_images_and_products(id):
@@ -194,6 +297,7 @@ def get_images_and_products(id):
         return jsonify({
             "uploaded": {
                 "sketch_upload_path_before": sketch_path,
+                "sketch_upload_path_after": entry.sketch_upload_path_after,
                 "product1_name": entry.product1_name,
                 "product1_description": entry.product1_description,
                 "product1_suggested_euro": entry.product1_suggested_euro,
@@ -238,6 +342,15 @@ def serve_user_sketch_images(filename):
     Serve user-uploaded sketch images from the user_sketch_images_before directory.
     """
     sketch_image_dir = os.path.join(current_app.root_path, 'user_sketch_images_before')
+    return send_from_directory(sketch_image_dir, filename)
+
+
+@exercise2_bp.route('/user_sketch_images_final/<path:filename>', methods=['GET'])
+def serve_user_sketch_images_final(filename):
+    """
+    Serve user-uploaded final sketch images from the user_sketch_images_final directory.
+    """
+    sketch_image_dir = os.path.join(current_app.root_path, 'user_sketch_images_final')
     return send_from_directory(sketch_image_dir, filename)
 
 
@@ -294,100 +407,6 @@ def update_post_exercise1(id):
 
     except Exception as e:
         logging.error(f"Error updating post-exercise data: {str(e)}")
-        return jsonify({"error": "Internal Server Error"}), 500
-
-
-@exercise2_bp.route("/update-products/<int:id>", methods=["PUT"])
-def update_products(id):
-    """
-    Update product data and generate AI image using GPT-4 Vision and DALL·E 3 based on uploaded sketch.
-    """
-    try:
-        data = request.json
-        entry = Exercise2.query.get(id)
-        if not entry:
-            return jsonify({"error": "Record not found"}), 404
-
-        # Step 1: Update manual product fields
-        try:
-            entry.product1_name = data.get("product1_name", entry.product1_name)
-            entry.product1_description = data.get("product1_description", entry.product1_description)
-            entry.product1_suggested_euro = data.get("product1_suggested_euro", entry.product1_suggested_euro)
-            entry.product2_name = data.get("product2_name", entry.product2_name)
-            entry.product2_description = data.get("product2_description", entry.product2_description)
-            entry.product2_suggested_euro = data.get("product2_suggested_euro", entry.product2_suggested_euro)
-            entry.product3_name = data.get("product3_name", entry.product3_name)
-            entry.product3_description = data.get("product3_description", entry.product3_description)
-            entry.product3_suggested_euro = data.get("product3_suggested_euro", entry.product3_suggested_euro)
-            db.session.commit()
-        except Exception as e:
-            logging.error(f"Error updating product fields: {str(e)}")
-            return jsonify({"error": "Failed to update product fields"}), 500
-
-        # Step 2: Validate sketch path
-        sketch_path = entry.sketch_upload_path_before
-        if not sketch_path:
-            return jsonify({"error": "Sketch not found"}), 400
-
-        full_sketch_path = os.path.join(current_app.root_path, sketch_path)
-        if not os.path.exists(full_sketch_path):
-            return jsonify({"error": "Sketch file not found"}), 404
-
-        # Step 3: Generate prompt from sketch using GPT-4 Vision
-        try:
-            prompt = generate_dalle_prompt_from_sketch(full_sketch_path, entry)
-            logging.info(f"Generated DALL·E prompt: {prompt}")
-        except Exception as e:
-            logging.error(f"Error generating DALL·E prompt: {str(e)}")
-            return jsonify({"error": "Failed to generate DALL·E prompt"}), 500
-
-        # Step 4: Generate AI image from prompt using DALL·E 3
-        try:
-            ai_image_dir = os.path.join(current_app.root_path, "ai_sketch_images")
-            os.makedirs(ai_image_dir, exist_ok=True)
-            ai_image_path = os.path.join(ai_image_dir, f"{id}_ai_generated.jpg")
-            generate_image_with_dalle(prompt, ai_image_path)
-            entry.ai_image_path = f"ai_sketch_images/{id}_ai_generated.jpg"
-        except Exception as e:
-            logging.error(f"Error generating AI image: {str(e)}")
-            return jsonify({"error": "Failed to generate AI image"}), 500
-
-        # Step 5: Extract product details from AI image
-        try:
-            product_details = call_image_to_text_model(ai_image_path)
-
-            # Save the extracted product details to the database
-            entry.product1_ai_name = product_details["product1"]["name"]
-            entry.product1_ai_description = product_details["product1"]["description"]
-            entry.product1_ai_suggested_euro = product_details["product1"]["market_value_euro"]
-            entry.product2_ai_name = product_details["product2"]["name"]
-            entry.product2_ai_description = product_details["product2"]["description"]
-            entry.product2_ai_suggested_euro = product_details["product2"]["market_value_euro"]
-            entry.product3_ai_name = product_details["product3"]["name"]
-            entry.product3_ai_description = product_details["product3"]["description"]
-            entry.product3_ai_suggested_euro = product_details["product3"]["market_value_euro"]
-
-            db.session.commit()
-
-        except Exception as e:
-            logging.error(f"Error extracting product details: {str(e)}")
-            return jsonify({"error": "Failed to extract product details"}), 500
-
-        return jsonify({
-            "generatedImageUrl": entry.ai_image_path,
-            "product1_ai_name": entry.product1_ai_name,
-            "product1_ai_description": entry.product1_ai_description,
-            "product1_ai_suggested_euro": entry.product1_ai_suggested_euro,
-            "product2_ai_name": entry.product2_ai_name,
-            "product2_ai_description": entry.product2_ai_description,
-            "product2_ai_suggested_euro": entry.product2_ai_suggested_euro,
-            "product3_ai_name": entry.product3_ai_name,
-            "product3_ai_description": entry.product3_ai_description,
-            "product3_ai_suggested_euro": entry.product3_ai_suggested_euro
-        }), 200
-
-    except Exception as e:
-        logging.error(f"Error updating products: {str(e)}")
         return jsonify({"error": "Internal Server Error"}), 500
 
 
@@ -519,12 +538,43 @@ def call_image_to_text_model(image_path):
         # Extract and parse the content
         content = response.choices[0].message.content.strip()
         logging.debug(f"Extracted content: {content}")
-        return json.loads(content)
+
+        # Validate and parse JSON
+        try:
+            parsed_content = json.loads(content)
+            # Ensure the parsed content matches the expected structure
+            if all(key in parsed_content for key in ["product1", "product2", "product3"]):
+                return parsed_content
+            else:
+                raise ValueError("Response JSON does not match the expected structure.")
+        except (json.JSONDecodeError, ValueError) as e:
+            logging.warning(f"Initial JSON validation/parsing error: {str(e)}")
+            # Attempt to find valid JSON using jsonfinder
+            logging.debug("Attempting to extract JSON using jsonfinder...")
+            matches = list(jsonfinder(content))
+            for match in matches:
+                try:
+                    parsed_content = json.loads(match.json)
+                    if all(key in parsed_content for key in ["product1", "product2", "product3"]):
+                        logging.info("Valid JSON found using jsonfinder.")
+                        return parsed_content
+                except (json.JSONDecodeError, ValueError):
+                    continue  # Try the next match
+
+            logging.error("No valid JSON found using jsonfinder.")
+            raise ValueError("No valid JSON found in the response.")
 
     except OpenAIError as e:
         logging.error(f"OpenAI API error: {str(e)}")
         raise
 
-    except json.JSONDecodeError as e:
-        logging.error(f"JSON decoding error: {str(e)}")
+    except Exception as e:
+        logging.error(f"Unexpected error: {str(e)}")
         raise
+
+    # Fallback to default JSON if all else fails
+    return {
+        "product1": {"name": "Unknown", "description": "Unknown", "market_value_euro": 0},
+        "product2": {"name": "Unknown", "description": "Unknown", "market_value_euro": 0},
+        "product3": {"name": "Unknown", "description": "Unknown", "market_value_euro": 0}
+    }

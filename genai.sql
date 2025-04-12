@@ -208,4 +208,4 @@ CREATE TABLE exercise2 (
     product3_ai_suggested_euro VARCHAR(255)
 );
 
-select * from exercise2 where id=1;
+select * from exercise2;

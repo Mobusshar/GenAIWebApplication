@@ -14,6 +14,7 @@ export class ImageGenerator2Component implements OnInit {
   // Image paths
   uploadedImage: string | null = null;
   generatedImage: string | null = null;
+  finalSketchImage: string | null = null;
 
   // Uploaded product details
   product1_name: string = '';
@@ -40,6 +41,9 @@ export class ImageGenerator2Component implements OnInit {
   // Final sketch file
   finalSketchFile: File | null = null;
   sketch_upload_path_after: string | null = null;
+
+  isLoading: boolean = false;
+  isGenerated: boolean = false;
 
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {}
 
@@ -76,8 +80,14 @@ export class ImageGenerator2Component implements OnInit {
         this.product3_ai_description = response.generated.product3_ai_description;
         this.product3_ai_suggested_euro = response.generated.product3_ai_suggested_euro;
 
+        // Final Sketch
+        if (response.uploaded.sketch_upload_path_after) {
+          this.finalSketchImage = `${environment.apiUrl}/exercise2/${response.uploaded.sketch_upload_path_after}`;
+        }
+
         console.log('Uploaded Image Path:', this.uploadedImage);
         console.log('Generated Image Path:', this.generatedImage);
+        console.log('Final Sketch Path:', this.finalSketchImage);
       },
       (error) => {
         console.error('Error fetching data:', error);
@@ -87,20 +97,16 @@ export class ImageGenerator2Component implements OnInit {
   }
 
   // Upload the final sketch
-  uploadFinalSketch(): void {
-    if (!this.finalSketchFile) {
-      alert('Please select a file to upload.');
-      return;
-    }
-
+  uploadFinalSketch(file: File): void {
     const formData = new FormData();
-    formData.append('file', this.finalSketchFile);
+    formData.append('file', file);
 
     // Use the `id` to specify which record to update
     this.http.put<{ filePath: string }>(`${environment.apiUrl}/exercise2/upload-final-sketch/${this.id}`, formData)
       .subscribe(
         (response) => {
           this.sketch_upload_path_after = response.filePath; // Save the file path returned by the backend
+          this.finalSketchImage = `${environment.apiUrl}/exercise2/${response.filePath}`; // Update the final sketch preview
           alert('Final sketch uploaded and updated successfully.');
         },
         (error) => {
@@ -115,6 +121,9 @@ export class ImageGenerator2Component implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       this.finalSketchFile = input.files[0];
+
+      // Automatically upload the selected file
+      this.uploadFinalSketch(this.finalSketchFile);
     }
   }
 
@@ -129,5 +138,50 @@ export class ImageGenerator2Component implements OnInit {
     link.href = imageUrl;
     link.download = fileName;
     link.click();
+  }
+
+  // Generate AI image and product data
+  generateAIImage(): void {
+    this.isLoading = true; // Show loading spinner
+
+    this.http.post<{
+      generatedImageUrl: string,
+      product1_ai_name: string,
+      product1_ai_description: string,
+      product1_ai_suggested_euro: string,
+      product2_ai_name: string,
+      product2_ai_description: string,
+      product2_ai_suggested_euro: string,
+      product3_ai_name: string,
+      product3_ai_description: string,
+      product3_ai_suggested_euro: string
+    }>(`${environment.apiUrl}/exercise2/generate-ai-image/${this.id}`, {})
+      .subscribe(
+        (response) => {
+          this.generatedImage = `${environment.apiUrl}/exercise2/${response.generatedImageUrl}`;
+          this.product1_ai_name = response.product1_ai_name;
+          this.product1_ai_description = response.product1_ai_description;
+          this.product1_ai_suggested_euro = response.product1_ai_suggested_euro;
+
+          this.product2_ai_name = response.product2_ai_name;
+          this.product2_ai_description = response.product2_ai_description;
+          this.product2_ai_suggested_euro = response.product2_ai_suggested_euro;
+
+          this.product3_ai_name = response.product3_ai_name;
+          this.product3_ai_description = response.product3_ai_description;
+          this.product3_ai_suggested_euro = response.product3_ai_suggested_euro;
+
+          this.isLoading = false; // Hide loading spinner
+          this.isGenerated = true;
+          
+          console.log('AI Image URL:', this.generatedImage);
+          alert('AI image and product data generated successfully.');
+        },
+        (error) => {
+          console.error('Error:', error);
+          this.isLoading = false; // Hide loading spinner
+          alert('Something went wrong while generating the AI image.');
+        }
+      );
   }
 }

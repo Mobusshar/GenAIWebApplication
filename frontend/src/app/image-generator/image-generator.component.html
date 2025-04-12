@@ -26,8 +26,7 @@
     <ul style="text-align: left; color: #333; font-weight: 500;">
       <li>Once you’re happy with your colorful, creative sketch, upload it in Step 2.</li>
       <li>Then head over to Step 3 to fill in all the product details.</li>
-      <li>Hit <strong>Generate</strong> to let the AI bring your idea to life with a visual rendering.</li>
-      <li>Finally, click <strong>View Results</strong> to see your vision turned into an AI-generated image!</li>
+      <li>Finally, click <strong>Next Step</strong> to proceed to the next step!</li>
     </ul>
     <p style="color: #333; font-weight: 500;">
       💡 <strong>Remember:</strong> There’s no such thing as a bad idea—only unimagined possibilities. Have fun and design boldly!
@@ -52,9 +51,8 @@
   <div class="card mb-4" style="background-color: #f8f9fa; border-left: 5px solid #28a745;">
     <div class="card-body">
       <h3 class="card-title">Step 2: Upload Your Hand Sketched Image</h3>
-      <p class="card-text">Upload your sketched image (Before AI).</p>
       <div class="form-group mt-3">
-        <label for="sketch_upload_path_before">Upload your sketched image:</label>
+        <label for="sketch_upload_path_before">Please upload in .jpg format</label>
         <input
           type="file"
           id="sketch_upload_path_before"
@@ -63,6 +61,16 @@
           accept="image/*"
           required
         />
+      </div>
+
+      <!-- Display Uploaded Image -->
+      <div class="mt-4 text-center" *ngIf="uploadedImage">
+        <h5>Your Sketch with 3 Products:</h5>
+        <img 
+          [src]="uploadedImage" 
+          alt="Uploaded Sketch" 
+          class="img-fluid rounded" 
+          style="max-width: 700px; height: auto; border: 2px solid #ddd; padding: 5px; border-radius: 10px;">
       </div>
     </div>
   </div>
@@ -141,27 +149,13 @@
     </div>
   </div>
 
-  <!-- Loading Animation -->
-  <div *ngIf="isLoading" class="text-center mb-4">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <p>Generating AI image and updating product data...</p>
-  </div>
-
-  <!-- Generate Button -->
-  <div class="text-center">
-    <button class="btn btn-primary" (click)="generateAIImageWithProducts()" [disabled]="isLoading">
-      Generate
-    </button>
-  </div>
-
   <hr>
 
-  <!-- View Results Button -->
-  <div class="text-center mt-4" *ngIf="isGenerated">
-    <p>Click the "View Results" button to proceed</p>
-    <button class="btn btn-success" (click)="navigateToImageGenerator2()">View Results</button>
-  </div>
+<!-- Next Step Button -->
+<div class="text-center mt-4">
+  <p>Click the "Next Step" button to update the products and proceed further.</p>
+  <button class="btn btn-primary" (click)="updateProducts()">Next Step</button>
+</div>
+
 </div>
 

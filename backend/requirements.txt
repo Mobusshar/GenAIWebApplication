@@ -11,3 +11,4 @@ numpy<2
 openai
 requests
 python-dotenv
+jsonfinder

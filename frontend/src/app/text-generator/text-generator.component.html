@@ -1,21 +1,46 @@
 <div class="container my-5">
-  <h1 class="text-center mb-4">Text Generator Page</h1>
+  <h2 class="text-center mb-4 text-uppercase text-primary">Text Generator Page</h2>
 
-  <div class="text-center my-4">
-    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#emotionModal">
-      View Emotion Descriptions
-    </button>
-  </div>
+<!-- Phase 2 Introduction -->
+<div class="text-center text-muted mb-4" style="border: 3px solid #007bff; padding: 25px; border-radius: 15px; background-color: #e6f0f8;">
+  <h3 class="text-primary">Welcome to the second stage of your emotional storytelling journey!</h3>
+  <p style="color: #333; font-weight: 500; font-size: 1.1rem;">
+    You’ve done the hard work—crafting a story rich with emotional depth, choosing a character, and identifying the moments that truly matter. Now, it’s time to see how Artificial Intelligence interprets your emotional arc and retells the story in its own unique voice.
+  </p>
+  <h4 class="text-success"> What You’ll Do in This Stage:</h4>
+  <ul style="text-align: left; color: #333; font-weight: 500; font-size: 1rem;">
+    <li><strong>Click the “Generate AI Version of the Story” button:</strong> This will activate the AI to create a reimagined version of your story, using the 15 emotions you selected. The AI will weave them together into a smooth, emotionally rich narrative—sometimes surprising, sometimes spot-on.</li>
+    <li><strong>Observe and reflect:</strong> Read through the AI-generated story with curiosity and care. Notice how the AI expresses the emotions—does it match your vision? Does it add something new? Use this as an opportunity for inspiration or creative insight!</li>
+    <li><strong>Want to make changes?</strong> If you find a section or emotion in the AI story that feels more accurate or expressive than what you initially wrote, click the “Back to Story Building” button to return to your previous input. You can revise any of the 15 emotional fields based on what the AI showed you. This is your story—make it as strong as it can be!</li>
+    <li><strong>Explore multiple versions:</strong> You’re not limited to just one version. If you’re curious or want a different tone or variation, feel free to click the Generate AI button again. You can try this as many times as you like until you find a version that inspires you or feels just right.</li>
+  </ul>
+  <h4 class="text-warning"> Once you’re satisfied...</h4>
+  <p style="color: #333; font-weight: 500; font-size: 1rem;">
+    When you’ve explored the AI versions, updated your story (if needed), and are ready to reflect:
+  </p>
+  <ul style="text-align: left; color: #333; font-weight: 500; font-size: 1rem;">
+    <li>👉 Click the “Go to Submit Exercise 1” button: This will take you to the post-exercise questions, where you’ll have a chance to reflect on your experience, your choices, and what you’ve learned about emotion and narrative building.</li>
+  </ul>
+</div>
   
   <div class="card p-4">
     <div class="card-body">
-      <!-- <div class="mb-3">
-        <input [(ngModel)]="prompt" placeholder="Ask me anything..." class="form-control mb-2" />
-        <button (click)="sendMessage()" class="btn btn-primary btn-lg mt-3">Generate</button>
-      </div>-->
-
-      <div class="text-center mb-4">
-        <button (click)="generateAIStory()" class="btn btn-secondary btn-sm mt-3">Generate AI Version of the Story</button>
+      <div class="text-center my-4" style="padding: 20px; border: 2px solid #51ff00; border-radius: 10px; background-color: #f0fff3;">
+        <h4 class="text-primary mb-3">Take the Next Step in Your Storytelling Journey</h4>
+        <p class="text-muted" style="font-size: 1.1rem; font-weight: 500;">
+          Choose an action below to continue your storytelling journey. You can view emotion descriptions, generate an AI version of your story, or go back to refine your emotional arc.
+        </p>
+        <div class="d-flex justify-content-center gap-3">
+          <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#emotionModal">
+            <i class="bi bi-book"></i> View Emotion Descriptions
+          </button>
+          <button (click)="generateAIStory()" class="btn btn-primary btn-lg">
+            <i class="bi bi-robot"></i> Generate AI Version of the Story
+          </button>
+          <button (click)="navigateBack()" class="btn btn-outline-secondary btn-lg">
+            <i class="bi bi-arrow-left"></i> Back to Story Building
+          </button>
+        </div>
       </div>
 
       <div class="story-container mt-3">
@@ -114,20 +139,6 @@
             </p>
           </div>
         </div>
-
-
-
-
-
-
-
-
-<!--        <div *ngIf="response" class="chat-container mt-3">
-          <h2>AI Generated Story</h2>
-          <div class="chat-message bot-message">
-            <div class="message-content">{{ response }}</div>
-          </div>
-        </div> -->
       </div>
     </div>
   </div>
@@ -237,15 +248,115 @@
     </div>
   </div>
 
-
-
-  <div class="text-center mt-5">
-    <p class="text-muted">
-      If you think any of the AI-generated content is better, please go back and add it to your story.
-    </p>
-    <button (click)="navigateBack()" class="btn btn-secondary btn-lg mb-5">Back to Story Building</button>
+  <div class="container my-5">
+    <h2 class="text-center text-primary mb-4">Story Emotions Overview</h2>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover text-center align-middle" style="background-color: #f3f1f1; border-radius: 10px; overflow: hidden;">
+        <thead class="table-primary">
+          <tr>
+            <th>Emotion</th>
+            <th>User Input</th>
+            <th>AI Generated</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Frustration 😤</strong></td>
+            <td>{{ frustration }}</td>
+            <td>{{ ai_frustration }}</td>
+          </tr>
+          <tr>
+            <td><strong>Sadness 😢</strong></td>
+            <td>{{ sadness }}</td>
+            <td>{{ ai_sadness }}</td>
+          </tr>
+          <tr>
+            <td><strong>Fear 😨</strong></td>
+            <td>{{ fear }}</td>
+            <td>{{ ai_fear }}</td>
+          </tr>
+          <tr>
+            <td><strong>Anger 😡</strong></td>
+            <td>{{ anger }}</td>
+            <td>{{ ai_anger }}</td>
+          </tr>
+          <tr>
+            <td><strong>Empathy 🧡</strong></td>
+            <td>{{ empathy }}</td>
+            <td>{{ ai_empathy }}</td>
+          </tr>
+          <tr>
+            <td><strong>Gratitude 🙏</strong></td>
+            <td>{{ gratitude }}</td>
+            <td>{{ ai_gratitude }}</td>
+          </tr>
+          <tr>
+            <td><strong>Protectiveness 🛡️</strong></td>
+            <td>{{ protectiveness }}</td>
+            <td>{{ ai_protectiveness }}</td>
+          </tr>
+          <tr>
+            <td><strong>Serenity 🌿</strong></td>
+            <td>{{ serenity }}</td>
+            <td>{{ ai_serenity }}</td>
+          </tr>
+          <tr>
+            <td><strong>Joy 😄</strong></td>
+            <td>{{ joy }}</td>
+            <td>{{ ai_joy }}</td>
+          </tr>
+          <tr>
+            <td><strong>Hope ✨</strong></td>
+            <td>{{ hope }}</td>
+            <td>{{ ai_hope }}</td>
+          </tr>
+          <tr>
+            <td><strong>Friendship 🤝</strong></td>
+            <td>{{ friendship }}</td>
+            <td>{{ ai_friendship }}</td>
+          </tr>
+          <tr>
+            <td><strong>Relief 😌</strong></td>
+            <td>{{ relief }}</td>
+            <td>{{ ai_relief }}</td>
+          </tr>
+          <tr>
+            <td><strong>Compassion 💞</strong></td>
+            <td>{{ compassion }}</td>
+            <td>{{ ai_compassion }}</td>
+          </tr>
+          <tr>
+            <td><strong>Self-Reflection 🤔</strong></td>
+            <td>{{ self_reflection }}</td>
+            <td>{{ ai_self_reflection }}</td>
+          </tr>
+          <tr>
+            <td><strong>Inspiration 🌟</strong></td>
+            <td>{{ inspiration }}</td>
+            <td>{{ ai_inspiration }}</td>
+          </tr>
+          <!-- Add a row for the moral -->
+          <tr class="table-warning">
+            <td><strong>Moral or Title 📜</strong></td>
+            <td>{{ story_moral }}</td>
+            <td>{{ ai_story_moral }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  <div class="text-center">
-    <button (click)="navigateToSubmitExercise1()" class="btn btn-success btn-lg mb-5">Go to Submit Exercise 1</button>
+
+  <div class="text-center mt-5" style="padding: 20px; border: 2px solid #6c757d; border-radius: 10px; background-color: #f8f9fa;">
+    <p class="text-muted" style="font-size: 1.1rem; font-weight: 500;">
+      If you think any of the AI-generated content is better, feel free to go back and update your story to make it even stronger.
+    </p>
+    <div class="d-flex justify-content-center gap-3">
+      <button (click)="navigateBack()" class="btn btn-outline-secondary btn-lg">
+        <i class="bi bi-arrow-left"></i> Back to Story Building
+      </button>
+      <button (click)="navigateToSubmitExercise1()" class="btn btn-success btn-lg">
+        <i class="bi bi-check-circle"></i> Go to Submit Exercise 1
+      </button>
+    </div>
   </div>
 </div>

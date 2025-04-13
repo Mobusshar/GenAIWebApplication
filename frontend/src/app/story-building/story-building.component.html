@@ -1,6 +1,38 @@
 <div class="container my-5">
-  <h1 class="text-center mb-4">Story Building</h1>
-  <h6 class="text-center mb-4">Please discuss with your teammate first and view the emotion description before writing</h6>
+  <h1 class="text-center mb-4">Story Completions Phase</h1>
+
+  <!-- Story Building Phase Introduction -->
+  <div class="text-center text-muted mb-4" style="border: 2px solid #28a745; padding: 20px; border-radius: 10px; background-color: #f9fdf9;">
+    <h3 class="text-success"> Task: Exploring Human Emotions Through Storytelling </h3>
+    <p style="color: #333; font-weight: 500;">
+      Welcome to this reflective and immersive exercise! Today, we’ll be diving deep into the complex world of human emotions—a rich and intricate landscape that shapes everything from our decisions to our dreams.
+    </p>
+    <h4 class="text-primary"> Did you know?</h4>
+    <p style="color: #333; font-weight: 500;">
+      Humans are capable of experiencing thousands of emotions, often blending together in subtle and unpredictable ways. Some are fleeting like a passing cloud, while others leave lasting imprints on our minds. From joy to jealousy, pride to panic—every emotion tells a story.
+    </p>
+    <h4 class="text-info"> In this activity:</h4>
+    <p style="color: #333; font-weight: 500;">
+      We’ll narrow our focus to 15 distinct emotions, each playing a unique role in shaping a narrative. Your task is to explore how these emotions unfold in the life of a character you create.
+    </p>
+    <h4 class="text-warning">🔧 What to Do:</h4>
+    <ul style="text-align: left; color: #333; font-weight: 500;">
+      <li><strong>Create a character:</strong> Begin by choosing a male character name—this will be the main figure navigating the emotional journey.</li>
+      <li><strong>Read the story passage carefully:</strong> Take your time and read the full narrative. This story is designed to show emotional transitions—pay close attention to how feelings shift throughout the events.</li>
+      <li><strong>Work with your teammate:</strong> Discuss how the character might be feeling in different parts of the story. Try to empathize with the character—put yourself in their shoes.</li>
+      <li><strong>Learn about the emotions:</strong> Click the “View Emotion Descriptions” button to read short explanations and examples of the 15 emotions. This will help guide your interpretations.</li>
+      <li><strong>Complete the story’s emotional arc:</strong> You'll find 15 empty fields, each representing a moment where the character experiences one of the identified emotions. For each field, write 1–2 sentences explaining how that emotion is expressed or felt in that part of the story. Don’t leave any field blank—each emotion plays an important role!</li>
+      <li><strong>Add a meaningful ending:</strong> After completing the emotional journey, give your story a final touch: Write a moral or title in a single sentence that reflects the message or essence of the story.</li>
+    </ul>
+    <h4 class="text-danger">Ready to move on?</h4>
+    <p style="color: #333; font-weight: 500;">
+      When everything is filled out, click “Update” to proceed to the next stage of the exercise.
+    </p>
+    <p style="color: #333; font-weight: 500;">
+      💡 <strong>Remember:</strong> This task isn’t just about filling blanks—it’s about understanding human emotion on a deeper level. The more you connect with the character, the more powerful your story will be.
+    </p>
+  </div>
+
 
   <div class="text-center my-4">
     <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#emotionModal">
@@ -116,7 +148,7 @@
     <form (ngSubmit)="onUpdate()" #updateForm="ngForm">
       <!-- Character Name -->
       <div class="row mb-3">
-        <label for="story_character" class="col-sm-4 col-form-label text-end">Character Name (Please choose a Male name)</label>
+        <label for="story_character" class="col-sm-4 col-form-label ">Character Name (Please choose a Male name)</label>
         <div class="col-sm-8">
           <input type="text" id="story_character" name="story_character" required #storyCharacter="ngModel" class="form-control" [(ngModel)]="story_character">
           <div *ngIf="storyCharacter.invalid && storyCharacter.touched" class="text-danger">

@@ -8,6 +8,8 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 from openai import OpenAIError
+from jsonfinder import jsonfinder  # Import jsonfinder for JSON extraction
+
 
 # Load environment variables from .env file
 load_dotenv()
@@ -291,7 +293,7 @@ def generate_ai_story(id):
             return jsonify({"error": "Entry not found"}), 404
         logging.info(f"Database entry found for ID: {id}")
 
-        # Step 2: Generate AI story using mock data or OpenAI API
+        # Step 2: Generate AI story using OpenAI API
         if USE_MOCK_DATA:
             logging.info("Using mock data instead of OpenAI API")
             data = {
@@ -337,9 +339,37 @@ def generate_ai_story(id):
                 data = json.loads(response_text)
                 logging.info("Successfully parsed AI story JSON")
             except json.JSONDecodeError as e:
-                logging.error(f"JSON parsing error: {e}")
-                logging.error(f"Raw response: {response_text}")
-                return jsonify({"error": "Failed to parse AI response as JSON"}), 500
+                logging.warning(f"JSON parsing error: {e}")
+                logging.warning("Attempting to extract JSON using jsonfinder...")
+                matches = list(jsonfinder(response_text))
+                for match in matches:
+                    try:
+                        data = json.loads(match.json)
+                        logging.info("Successfully extracted valid JSON using jsonfinder")
+                        break
+                    except json.JSONDecodeError:
+                        continue
+                else:
+                    logging.error("Failed to extract valid JSON using jsonfinder")
+                    data = {
+                        "ai_story_character": "John",
+                        "ai_frustration": "He felt frustrated by the constant setbacks.",
+                        "ai_sadness": "He was saddened by the lack of support.",
+                        "ai_fear": "He feared losing his job.",
+                        "ai_anger": "He was angry at the unfair treatment.",
+                        "ai_empathy": "He empathized with a struggling coworker.",
+                        "ai_gratitude": "He was grateful for a kind gesture.",
+                        "ai_protectiveness": "He felt protective of his team.",
+                        "ai_serenity": "He found peace in helping others.",
+                        "ai_joy": "He experienced joy in small victories.",
+                        "ai_hope": "He hoped for a better future.",
+                        "ai_friendship": "He built a strong friendship with a colleague.",
+                        "ai_relief": "He felt relieved after resolving a conflict.",
+                        "ai_compassion": "He showed compassion to those in need.",
+                        "ai_self_reflection": "He reflected on his actions and grew stronger.",
+                        "ai_inspiration": "He inspired others to persevere.",
+                        "ai_story_moral": "Kindness and perseverance can overcome any challenge."
+                    }
 
         # Step 4: Update the database entry
         logging.info(f"Updating database entry for ID: {id}")
@@ -406,145 +436,4 @@ def generate_ai_story(id):
 
     except Exception as e:
         logging.error(f"Unexpected error during AI story generation: {str(e)}")
-        return jsonify({"error": "Internal Server Error"}), 500
-
-@exercise1_bp.route('/generate-ai-story', methods=['GET', 'POST'])
-def generate_ai_story_without_id():
-    story_text = """
-        {{ ai_story_character }} was indeed a very hardworking man who put in all his efforts in all possible ways. Every morning he woke up early and got prepared for work meticulously to support his family most effectively. But unfortunately, things started going totally non-synchronized, one fine day.
-        This particular morning, the alarm failed to ring, and therefore {{ ai_story_character }} woke up late. In haste he got up and started living his daily life. He wore a shirt on which some coffee spilled and he got out just missing the usual bus. The rest of it was forced to be walked under a chilly and drizzling rain to get to work. {{ ai_story_character }} noted how the rain fell and continued to match his steadily growing exasperation and sense of unluckiness. {{ ai_frustration }}
-        
-        Thanks to the plethora of obstacles piling up in his life, he had exceeded that last point and went further. He had finally made it to work, only to continue discovering frustration. His computer failed him on an important assignment, and everyone else seemed too busy burning their bridges to offer assistance. Every tiny mishap continued accumulating, leaving him tired and muffling up the morale. {{ ai_story_character }} heaved a frustrated sigh, staring at his screen, feeling utterly defeated by everything around him. {{ ai_sadness }}
-        
-        Things couldn't get any worse, just as he thought. His boss calls him into the office. "{{ ai_story_character }}, your work has been sloppy lately," said the boss coldly. He added, "If this continues, we may need to reconsider your position here." A sudden wave of fear gripped him. He had worked tireless days; now, one bad day could cost him everything. His hands trembled leaving the office; his heart was pounding. {{ ai_fear }}
-        
-        At lunch hour, {{ ai_story_character }} sat there alone, gripping a sandwich with white knuckle fingers. One coworker bumped into him; his food hit the floor. "Hey, watch it {{ ai_story_character }}," the man dismissively muttered. That was the last straw. Anger erupted in {{ ai_story_character }}'s chest. "Are you kidding me?!," he snapped, standing abruptly. But when he saw both men's shocked look, he bit his tongue and stormed out to seethe. {{ ai_anger }}
-        
-        After a rough day at work, in busy streets {{ ai_story_character }} walked home. There were thousands of things racing through his mind: frustration, worry, exhaustion, and everything too. It was then that he saw an elderly lady standing at a very crowded sidewalk. Cars rushed past, and she looked like she didn't have the courage to cross such a busy road. Although he was so much into his own trouble, somehow there was that tug he could feel within him to help. {{ ai_empathy }}
-        
-        He did stop for a moment. "I am already having my worst day. Why even bother?" But this egoistic thought was removed from his mind. Something very deep was urging him forward. He went to her and said, "May I help you cross over the street?" The eyes of the woman brightened up instantaneously with an illumination associated with relief. "Oh, it would be a wonderful favor." He carefully took her across this street, protecting her from the flow of impatient rushing cars. When they reached just at the other side of the street, the woman squeezed his hand, saying, "You have a very kind heart, young man." {{ ai_gratitude }} {{ ai_protectiveness }}
-        
-        At that moment, for the first time in a long time, something inside {{ ai_story_character }} changed. He found peace in this simple act of kindness to a stranger that would have been missing from his life for a while now. {{ ai_serenity }}
-        
-        Later that night, {{ ai_story_character }} reached home only to find an unexpected surprise lying on his doorstep: a tiny little package along with a handwritten note. The note written by the elderly lady acknowledged her heartfelt gratitude. Within that package was a pair of gloves with a simple message inscribed, "Kindness is a reward." {{ ai_story_character }}'s eyes went wide as he read the note, and warmth began to swell in his chest. And for the first time that day, that was a smile of {{ ai_story_character }}'s that could be described as genuine. {{ ai_joy }}
-        
-        It has changed the entire scenario; most importantly, it brings some happiness and brightness. Even on a day that feels like it was filled with constant misfortunes, it feels great to have one's kindness appreciated and recognized. In the end, it just goes to show-and point out, really-that even on the worst days, such an act, no matter the proportion, can change everything. Inspired by the experience, he determined to keep helping others, though difficult his circumstances became. {{ ai_hope }}
-        
-        The next morning came into play with the strangest of happenings. As he entered his work, he saw the coworker whom he had snapped at yesterday. It would have been easy to ignore him, but instead {{ ai_story_character }} took a breath and said, "Hey... I'm sorry about yesterday." The man blinked at him in surprise, then laughed and said, "No worries, {{ ai_story_character }}. I was in a bad mood, too." Then they shook hands, and for the first time ever, {{ ai_story_character }} felt a sense of kinship with another human being in the workplace. {{ ai_friendship }}
-        
-        Thus, {{ ai_story_character }} was called again by his boss, only this time the tone was entirely different. "I've been watching you, {{ ai_story_character }}. I see improvement. Keep it up." Relief flooded {{ ai_story_character }}'s chest. He was convinced he might well be on the verge of losing everything; instead, there turned out to be a way forward. {{ ai_relief }}
-        
-        He could feel the care for others in him-from within. He now knew how much people's suffering mirrored his own, and for the first time, he felt other people's suffering with a weight never felt before. {{ ai_compassion }} He reflected on how he had judged people too early, not understanding that they had unseen burdens much like himself.
-        
-        He sat in silent deliberation, understanding what this harsh day really meant for him. He had thought that suffering hardship meant only pain but had now discovered the hidden meaning within. {{ ai_self_reflection }} It had brought him under fire and had helped him to discover more deeply his understanding of himself and his environment.
-        
-        As a bright candle of hope, his story spread all over the community. People started thinking that no matter how wrong life seems at times, small acts of generosity and care could create ripples of change. The unlucky day for {{ ai_story_character }} became a historic day-proving that every challenge has a chance to make this world a bit brighter. {{ ai_inspiration }}
-        """
-    
-    try:
-        if request.method == 'GET':
-            prompt = "Generate an AI story"
-        else:
-            data = request.json
-            prompt = data.get("prompt", "").strip()
-
-        if not prompt:
-            return jsonify({"error": "Prompt is required"}), 400
-
-        chatgpt_prompt = f"""
-        Analyze the following story first and generate a JSON object with the following keys, each filled with one or two sentences extending the story:
-        - ai_story_moral (one sentence only)
-        - ai_story_character (ensure this is a **male** name)
-        - ai_frustration 
-        - ai_sadness 
-        - ai_fear 
-        - ai_anger 
-        - ai_empathy 
-        - ai_gratitude 
-        - ai_protectiveness 
-        - ai_serenity 
-        - ai_joy
-        - ai_hope 
-        - ai_friendship 
-        - ai_relief 
-        - ai_compassion 
-        - ai_self_reflection 
-        - ai_inspiration
-
-        Only return the JSON object. 
-        Do not repeat anything from the story but only extend the feels in the key options.
-        Try to be expressive with one or two long sentences and creative in the JSON object.
-        Do not include any explanations or markdown formatting.
-        Use pronouns as he/him in the outputs only. 
-        Only use the name in the ai_story_character. 
-        Do not use any other names in the JSON object.
-
-        STORY:
-        {story_text}
-        """
-
-        if USE_MOCK_DATA:
-            logging.info("Using mock data instead of OpenAI API")
-            response_text = json.dumps({
-                "ai_story_moral": "Believe in yourself.",
-                "ai_story_character": "A clever fox named Felix.",
-                "ai_frustration": "Felix couldn’t outsmart a hunter.",
-                "ai_sadness": "He lost his favorite hiding spot.",
-                "ai_fear": "He feared being caught.",
-                "ai_anger": "He was angry at his own mistake.",
-                "ai_empathy": "He helped a scared rabbit.",
-                "ai_gratitude": "He was grateful for his friend’s help.",
-                "ai_protectiveness": "He guarded the forest animals.",
-                "ai_serenity": "He meditated under the stars.",
-                "ai_joy": "He played in the meadow.",
-                "ai_hope": "He hoped for a safer forest.",
-                "ai_friendship": "He bonded with a wise owl.",
-                "ai_relief": "He narrowly escaped danger.",
-                "ai_compassion": "He forgave the hunter.",
-                "ai_self_reflection": "He realized he’s stronger with others.",
-                "ai_inspiration": "He inspired animals to stand together."
-            })
-        else:
-            try:
-                response = client.chat.completions.create(
-                    model="gpt-4-turbo",
-                    messages=[
-                        {"role": "system", "content": "You are a helpful assistant."},
-                        {"role": "user", "content": chatgpt_prompt}
-                    ],
-                    max_tokens=900,
-                    temperature=0.7
-                )
-            except OpenAIError as api_error:
-                logging.error(f"OpenAI API error: {api_error}")
-                return jsonify({"error": "Failed to generate story: OpenAI quota or API error"}), 502
-
-            response_text = response.choices[0].message.content.strip()
-            logging.debug(f"Raw OpenAI response: {repr(response_text)}")
-
-            if not response_text:
-                logging.error("Empty response from OpenAI")
-                return jsonify({"error": "Empty response from OpenAI"}), 502
-
-        try:
-            # Attempt to extract JSON from markdown code block
-            json_match = re.search(r'```json\s*(\{.*?\})\s*```', response_text, re.DOTALL)
-            if json_match:
-                json_str = json_match.group(1)
-            else:
-                json_str = response_text  # Try full text if no markdown found
-
-            ai_story = json.loads(json_str)
-        except json.JSONDecodeError as e:
-            logging.error(f"JSON parsing error: {e}")
-            logging.error(f"Raw response that caused error: {repr(response_text)}")
-            return jsonify({
-                "error": "Failed to parse AI response as JSON",
-                "raw_response": response_text
-            }), 500
-
-        return jsonify(ai_story), 200
-
-    except Exception as e:
-        logging.error(f"Error generating AI story: {str(e)}")
         return jsonify({"error": "Internal Server Error"}), 500

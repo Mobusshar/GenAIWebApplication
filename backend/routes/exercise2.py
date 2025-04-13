@@ -413,76 +413,117 @@ def update_post_exercise1(id):
 def generate_dalle_prompt_from_sketch(sketch_path, entry):
     """
     Generate a DALL·E prompt from a sketch and include product details from the database.
+    If the API call fails, return a fallback prompt constructed from the product details.
     """
-    with open(sketch_path, "rb") as image_file:
-        image_bytes = image_file.read()
-        image_base64 = base64.b64encode(image_bytes).decode("utf-8")
+    try:
+        # Read the sketch file and encode it as base64
+        with open(sketch_path, "rb") as image_file:
+            image_bytes = image_file.read()
+            image_base64 = base64.b64encode(image_bytes).decode("utf-8")
 
-    # Include product details in the prompt
-    product_details_text = (
-        f"Product 1: {entry.product1_name} - {entry.product1_description} (Suggested price: {entry.product1_suggested_euro} EUR)\n"
-        f"Product 2: {entry.product2_name} - {entry.product2_description} (Suggested price: {entry.product2_suggested_euro} EUR)\n"
-        f"Product 3: {entry.product3_name} - {entry.product3_description} (Suggested price: {entry.product3_suggested_euro} EUR)\n"
-    )
+        # Include product details in the prompt
+        product_details_text = (
+            f"Product 1: {entry.product1_name} - {entry.product1_description} (Suggested price: {entry.product1_suggested_euro} EUR)\n"
+            f"Product 2: {entry.product2_name} - {entry.product2_description} (Suggested price: {entry.product2_suggested_euro} EUR)\n"
+            f"Product 3: {entry.product3_name} - {entry.product3_description} (Suggested price: {entry.product3_suggested_euro} EUR)\n"
+        )
 
-    # Construct the prompt
-    prompt_text = (
-    "You are analyzing a sketch of a car interior that includes three distinct products. "
-    "Your task is to write a vivid, high-quality prompt for generating an AI image using DALL·E 3. "
-    "The generated image should be realistic, detailed, and match the perspective and point of view of the provided sketch. "
-    "Ensure the image does not contain any text or labels. "
-    "Focus on accurately representing the following three car interior products:\n"
-    f"{product_details_text}\n"
-    "Be creative and ensure the products are visually appealing and seamlessly integrated into the car interior design. "
-    "The final image should look like a professional concept design for a luxury car interior."
-    )
+        # Construct the primary prompt
+        prompt_text = (
+            "You are analyzing a sketch of a car interior that includes three distinct products. "
+            "Your task is to write a vivid, high-quality prompt for generating an AI image using DALL·E 3. "
+            "The generated image should be realistic, detailed, and match the perspective and point of view of the provided sketch. "
+            "Ensure the image does not contain any text or labels. "
+            "Focus on accurately representing the following three car interior products:\n"
+            f"{product_details_text}\n"
+            "Be creative and ensure the products are visually appealing and seamlessly integrated into the car interior design. "
+            "The final image should look like a professional concept design for a luxury car interior."
+        )
 
-    response = client.chat.completions.create(
-        model="gpt-4-turbo",
-        messages=[
-            {
-                "role": "system",
-                "content": "You are an expert at creating DALL·E prompts from sketches."
-            },
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": prompt_text
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:image/jpeg;base64,{image_base64}",
-                            "detail": "high"
+        # Attempt to generate the DALL·E prompt using GPT-4 Vision
+        response = client.chat.completions.create(
+            model="gpt-4-turbo",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are an expert at creating DALL·E prompts from sketches."
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": prompt_text
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/jpeg;base64,{image_base64}",
+                                "detail": "high"
+                            }
                         }
-                    }
-                ]
-            }
-        ],
-        max_tokens=800
-    )
+                    ]
+                }
+            ],
+            max_tokens=800
+        )
 
-    return response.choices[0].message.content.strip()
+        # Return the generated prompt
+        return response.choices[0].message.content.strip()
+
+    except Exception as e:
+        # Log the error and return the fallback prompt
+        logging.error(f"Error generating DALL·E prompt: {str(e)}")
+        logging.info("Returning fallback prompt.")
+
+        # Construct the fallback prompt
+        fallback_prompt = (
+            "Fallback Prompt: Generate an AI image of a car interior based on the following product details:\n"
+            f"{product_details_text}\n"
+            "Ensure the image is realistic, detailed, and visually appealing, matching the perspective of a luxury car interior."
+        )
+
+        return fallback_prompt
 
 
 def generate_image_with_dalle(prompt, output_path):
-    response = client.images.generate(
-        model="dall-e-3",
-        prompt=prompt,
-        size="1024x1024",
-        quality="standard",
-        n=1
-    )
+    """
+    Generate an image using DALL·E 3. If the generation fails, serve a static fallback image.
+    """
+    try:
+        # Attempt to generate the image using DALL·E
+        response = client.images.generate(
+            model="dall-e-3",
+            prompt=prompt,
+            size="1024x1024",
+            quality="standard",
+            n=1
+        )
 
-    image_url = response.data[0].url
-    if not image_url:
-        raise Exception("No image URL returned from DALL·E")
+        # Extract the image URL from the response
+        image_url = response.data[0].url
+        if not image_url:
+            raise Exception("No image URL returned from DALL·E")
 
-    image_response = requests.get(image_url)
-    with open(output_path, "wb") as f:
-        f.write(image_response.content)
+        # Download the generated image
+        image_response = requests.get(image_url)
+        with open(output_path, "wb") as f:
+            f.write(image_response.content)
+
+    except Exception as e:
+        logging.error(f"Error generating image with DALL·E: {str(e)}")
+
+        # Serve a static fallback image
+        static_fallback_path = os.path.join(current_app.root_path, "static", "DallEImages", "fallback_image.jpg")
+        if not os.path.exists(static_fallback_path):
+            logging.error("Fallback image not found. Please ensure 'fallback_image.jpg' exists in the 'static/DallEImages' directory.")
+            raise Exception("Fallback image not found.")
+
+        # Copy the fallback image to the output path
+        with open(static_fallback_path, "rb") as fallback_file:
+            with open(output_path, "wb") as output_file:
+                output_file.write(fallback_file.read())
+        logging.info(f"Served fallback image: {static_fallback_path}")
 
 
 def call_image_to_text_model(image_path):
@@ -574,7 +615,7 @@ def call_image_to_text_model(image_path):
 
     # Fallback to default JSON if all else fails
     return {
-        "product1": {"name": "Unknown", "description": "Unknown", "market_value_euro": 0},
-        "product2": {"name": "Unknown", "description": "Unknown", "market_value_euro": 0},
-        "product3": {"name": "Unknown", "description": "Unknown", "market_value_euro": 0}
+        "product1": {"name": "Futuristic Steering Wheel", "description": "A high-tech steering wheel with integrated control systems and holographic displays", "market_value_euro": 450},
+        "product2": {"name": "Interactive Dashboard Display", "description": "Advanced display with real-time vehicle analytics, navigation, and entertainment interfaces", "market_value_euro": 600},
+        "product3": {"name": "Center Console Control Unit", "description": "Sophisticated center console featuring touch-sensitive controls and dynamic user interface for vehicle settings", "market_value_euro": 500}
     }

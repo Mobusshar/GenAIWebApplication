@@ -30,13 +30,20 @@
         <p class="text-muted" style="font-size: 1.1rem; font-weight: 500;">
           Choose an action below to continue your storytelling journey. You can view emotion descriptions, generate an AI version of your story, or go back to refine your emotional arc.
         </p>
+          <!-- Loading Spinner -->
+          <div *ngIf="isLoading" class="loading-overlay">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
         <div class="d-flex justify-content-center gap-3">
+          
           <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#emotionModal">
             <i class="bi bi-book"></i> View Emotion Descriptions
           </button>
-          <button (click)="generateAIStory()" class="btn btn-primary btn-lg">
+          <button (click)="generateAIStory()" class="btn btn-primary btn-lg" [disabled]="isLoading">
             <i class="bi bi-robot"></i> Generate AI Version of the Story
-          </button>
+        </button>
           <button (click)="navigateBack()" class="btn btn-outline-secondary btn-lg">
             <i class="bi bi-arrow-left"></i> Back to Story Building
           </button>

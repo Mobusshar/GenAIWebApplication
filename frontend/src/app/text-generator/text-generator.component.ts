@@ -53,6 +53,7 @@ export class TextGeneratorComponent implements OnInit {
   story_moral: string = '';
   story: string = '';
   private apiUrl = environment.apiUrl;
+  isLoading: boolean = false;
 
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {}
 
@@ -118,49 +119,50 @@ export class TextGeneratorComponent implements OnInit {
   // Method to generate AI story
   generateAIStory() {
     if (!this.id) {
-      alert("Invalid ID. Please ensure the ID is provided.");
-      return;
+        alert("Invalid ID. Please ensure the ID is provided.");
+        return;
     }
 
+    this.isLoading = true; // Set loading state to true
     this.http.post<any>(`${this.apiUrl}/exercise1/generate-ai-story/${this.id}`, {}).subscribe(
-      (response) => {
-        // Log the entire response for debugging
-        console.log("Generated AI Story Response:", response);
+        (response) => {
+            console.log("Generated AI Story Response:", response);
 
-        // Check if the response contains the 'ai_story' object
-        if (response && response.data) {
-          const aiStory = response.data;
+            if (response && response.data) {
+                const aiStory = response.data;
 
-          // Update AI story variables with the response
-          this.ai_story_moral = aiStory.ai_story_moral;
-          this.ai_story_character = aiStory.ai_story_character;
-          this.ai_frustration = aiStory.ai_frustration;
-          this.ai_sadness = aiStory.ai_sadness;
-          this.ai_fear = aiStory.ai_fear;
-          this.ai_anger = aiStory.ai_anger;
-          this.ai_empathy = aiStory.ai_empathy;
-          this.ai_gratitude = aiStory.ai_gratitude;
-          this.ai_protectiveness = aiStory.ai_protectiveness;
-          this.ai_serenity = aiStory.ai_serenity;
-          this.ai_joy = aiStory.ai_joy;
-          this.ai_hope = aiStory.ai_hope;
-          this.ai_friendship = aiStory.ai_friendship;
-          this.ai_relief = aiStory.ai_relief;
-          this.ai_compassion = aiStory.ai_compassion;
-          this.ai_self_reflection = aiStory.ai_self_reflection;
-          this.ai_inspiration = aiStory.ai_inspiration;
-          this.ai_story = aiStory.ai_story;
+                // Update AI story variables with the response
+                this.ai_story_moral = aiStory.ai_story_moral;
+                this.ai_story_character = aiStory.ai_story_character;
+                this.ai_frustration = aiStory.ai_frustration;
+                this.ai_sadness = aiStory.ai_sadness;
+                this.ai_fear = aiStory.ai_fear;
+                this.ai_anger = aiStory.ai_anger;
+                this.ai_empathy = aiStory.ai_empathy;
+                this.ai_gratitude = aiStory.ai_gratitude;
+                this.ai_protectiveness = aiStory.ai_protectiveness;
+                this.ai_serenity = aiStory.ai_serenity;
+                this.ai_joy = aiStory.ai_joy;
+                this.ai_hope = aiStory.ai_hope;
+                this.ai_friendship = aiStory.ai_friendship;
+                this.ai_relief = aiStory.ai_relief;
+                this.ai_compassion = aiStory.ai_compassion;
+                this.ai_self_reflection = aiStory.ai_self_reflection;
+                this.ai_inspiration = aiStory.ai_inspiration;
+                this.ai_story = aiStory.ai_story;
 
-          alert("AI story generated and saved successfully!");
-        } else {
-          console.error("Invalid response structure:", response);
-          alert("Error: Invalid response structure from the server.");
+                alert("AI story generated and saved successfully!");
+            } else {
+                console.error("Invalid response structure:", response);
+                alert("Error: Invalid response structure from the server.");
+            }
+            this.isLoading = false; // Reset loading state
+        },
+        (error) => {
+            console.error("Error generating AI story:", error);
+            alert(`Error: ${error?.error?.error || 'Something went wrong while generating the AI story'}`);
+            this.isLoading = false; // Reset loading state
         }
-      },
-      (error) => {
-        console.error("Error generating AI story:", error);
-        alert(`Error: ${error?.error?.error || 'Something went wrong while generating the AI story'}`);
-      }
     );
   }
 

@@ -4,8 +4,12 @@ from models.db.exercise1 import db, Exercise1
 from models.db.exercise2 import db, Exercise2
 from models.db import db, create_exercise1_table, create_exercise2_table
 from config import Config
+from dotenv import load_dotenv
+
+import os
 
 def create_app():
+    load_dotenv()  
     app = Flask(__name__)
     app.config.from_object(Config)
     CORS(app)

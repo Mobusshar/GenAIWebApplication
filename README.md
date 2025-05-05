@@ -1,5 +1,15 @@
 # GenAIWebApplication
 
+![GitHub commit activity](https://img.shields.io/github/commit-activity/t/Mobusshar/GenAIWebApplication)
+![GitHub last commit](https://img.shields.io/github/last-commit/Mobusshar/GenAIWebApplication)
+![GitHub top language](https://img.shields.io/github/languages/top/Mobusshar/GenAIWebApplication)
+![GitHub language count](https://img.shields.io/github/languages/count/Mobusshar/GenAIWebApplication)
+![GitHub License](https://img.shields.io/github/license/Mobusshar/GenAIWebApplication)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Mobusshar/GenAIWebApplication)
+![GitHub repo size](https://img.shields.io/github/repo-size/Mobusshar/GenAIWebApplication)
+![GitHub forks](https://img.shields.io/github/forks/Mobusshar/GenAIWebApplication)
+![GitHub Repo stars](https://img.shields.io/github/stars/Mobusshar/GenAIWebApplication)
+
 GenAIWebApplication is a full-stack web application designed to support collaborative sketching and AI-assisted design learning activities. The system includes:
 
 - **Frontend**: Developed using Angular
